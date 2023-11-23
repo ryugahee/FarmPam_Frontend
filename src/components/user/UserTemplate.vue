@@ -3,11 +3,22 @@
     <router-view></router-view>
   </div>
 </template>
-
 <script>
+
 export default {
-  name: "UserTemplate"
-}
+  name: "UserTemplate",
+  components: {},
+  data() {
+    return {
+    }
+  },
+  methods: {
+  },
+  mounted() {
+  },
+  beforeUnmount() {
+  },
+};
 </script>
 
 <style>
@@ -16,4 +27,5 @@ export default {
   width: 390px;
   height: 844px;
 }
+
 </style>
