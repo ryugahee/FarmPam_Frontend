@@ -54,5 +54,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/itempost.css";
+@import "../../../public/assets/css/item-post-component.css";
 </style>

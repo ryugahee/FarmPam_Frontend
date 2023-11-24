@@ -33,5 +33,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/profileitempost.css";
+@import "../../../public/assets/css/profile-item-post-component.css";
 </style>

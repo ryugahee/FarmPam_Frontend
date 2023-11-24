@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <row>
 
         <div class="advice" >
             회원가입
@@ -49,9 +48,6 @@
 
 
 <button>회원가입 하기</button>
-
-
-        </row>
     </div>
 </template>
 
@@ -64,5 +60,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/register.css";
+@import "../../../public/assets/css/register-page.css";
 </style>

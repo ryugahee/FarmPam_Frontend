@@ -45,6 +45,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/login.css";
+@import "../../../public/assets/css/login-page.css";
 
 </style>
