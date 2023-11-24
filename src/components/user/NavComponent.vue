@@ -48,5 +48,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/nav.css";
+@import "../../../public/assets/css/nav-component.css";
 </style>

@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <row>
 
             <div class="advice" >
             아이디 찾기
@@ -15,9 +14,6 @@
 
 
 <button>전화번호 인증하기</button>
-
-
-        </row>
     </div>
 </template>
 
@@ -30,6 +26,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/findIdView.css";
+@import "../../../public/assets/css/find-id-page.css";
 
 </style>

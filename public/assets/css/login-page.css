@@ -83,8 +83,8 @@
     margin: 0 16px;
     background: #C0C0C0;
     height: 1px;
-    font-size: 0px;
-    line-height: 0px;
+    font-size: 0;
+    line-height: 0;
 }
 
 .line::after{
@@ -93,8 +93,8 @@
     margin: 0 16px;
     background: #C0C0C0;
     height: 1px;
-    font-size: 0px;
-    line-height: 0px;
+    font-size: 0;
+    line-height: 0;
 }
 
 .easyLogin img {

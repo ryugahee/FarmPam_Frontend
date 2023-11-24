@@ -11,6 +11,7 @@ import ItemsView from "@/view/auction/ItemsView.vue";
 import ProfileView from "@/view/user/ProfileView.vue";
 import FailView from "@/view/pay/FailView.vue";
 import HomeView from "@/view/user/HomeView.vue";
+import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import MainView from '@/view/main/MainView.vue';
 
 const routes = [
@@ -69,6 +70,13 @@ const routes = [
                     path: "/home",
                     name: "home",
                     component: HomeView
+                },
+                // TODO : 식별 번호 수정 사항
+                {
+                    path: "/items/detail",
+                    name: "detail",
+                    component: ItemDetailView
+                }
                 },
                 {
                     path: "/main",
