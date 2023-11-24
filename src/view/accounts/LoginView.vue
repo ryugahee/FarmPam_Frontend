@@ -2,7 +2,7 @@
     <div class="container">
         <row>
             <div class="logo">
-            <img src="../../public/assets/img/Logo.png" />
+            <img src="../../../public/assets/img/Logo.png" />
         </div>
 
         <div class="loginForm">
@@ -27,11 +27,11 @@
         </div>
 
         <div class="easyLogin">
-            <img src="../../public/assets/img/kakao.png" />
+            <img src="../../../public/assets/img/kakao.png" />
             <br />
-            <img src="../../public/assets/img/google.png" />
+            <img src="../../../public/assets/img/google.png" />
             <br />
-            <img src="../../public/assets/img/naver.png" />
+            <img src="../../../public/assets/img/naver.png" />
         </div>
 
         </row>
@@ -49,6 +49,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../public/assets/css/login.css";
+@import "../../../public/assets/css/login.css";
 
 </style>

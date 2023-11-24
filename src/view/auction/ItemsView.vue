@@ -1,9 +1,7 @@
 <template>
   <div>
     <LOGO />
-    <div class="search-bar">
-      <input class="search-box" placeholder="검색할 물품을 입력하세요." />
-    </div>
+    <SearchBar />
     <div class="select-box">
       <select class="select">
         <option value="join" selected>참여순</option>
@@ -22,17 +20,15 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import ItemPost from "@/components/item/ItemPostComponent.vue";
 import NavBar from "@/components/user/NavComponent.vue";
+import SearchBar from "@/components/user/SearchBarComponent.vue";
 
 export default {
   name: "ItemView",
   components: {
+    SearchBar,
     LOGO,
     ItemPost,
     NavBar
-  },
-  data() {
-    return {
-    }
   }
 }
 </script>
