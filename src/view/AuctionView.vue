@@ -1,3 +1,7 @@
+<template>
+  <router-view></router-view>
+</template>
+
 <script>
 export default {
   name:"AuctionView",
@@ -14,10 +18,6 @@ export default {
   }
 }
 </script>
-
-<template>
-
-</template>
 
 <style>
 

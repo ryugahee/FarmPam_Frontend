@@ -1,13 +1,24 @@
 import {createRouter, createWebHistory} from "vue-router";
 
-import AuctionView from '@/view/AuctionView.vue'
+import UserTemplate from '@/components/user/UserTemplate.vue'
+import ItemsView from "@/view/auction/ItemsView.vue";
+import ProfileView from "@/view/user/ProfileView.vue";
 
 const routes = [
     {
-
         path: '/',
-        redirect: '/auction',
-        component: AuctionView,
+        redirect:'/login',
+        component: UserTemplate,
+        children: [
+            {
+                path: '/items',
+                component: ItemsView
+            },
+            {
+                path: '/profile',
+                component: ProfileView
+            }
+        ]
     }
 ];
 

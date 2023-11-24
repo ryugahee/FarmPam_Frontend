@@ -5,8 +5,9 @@
 .search-box {
     padding-left: 5px;
     width: 350px;
-    height: 30px;
-    box-shadow: 2px 2px 5px 1px #98BC98;
+    height: 40px;
+    font-size: 20px;
+    box-shadow: 2px 2px 5px 1px #98CB98;
     border-radius: 5px;
     border: none;
     background-image: url("../../../public/assets/img/search-green.png");
@@ -17,5 +18,17 @@
 .select-box {
     margin-top: 10px;
     margin-left: 290px;
+}
+
+.select-box .select {
+    padding: 3px;
+    width: 95px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid #98CB98;
+}
+
+.select-box .select:focus {
+    border: 1px solid #90EE90;
 }
 
