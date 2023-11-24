@@ -76,7 +76,6 @@ const routes = [
                     path: "/items/detail",
                     name: "detail",
                     component: ItemDetailView
-                }
                 },
                 {
                     path: "/main",
