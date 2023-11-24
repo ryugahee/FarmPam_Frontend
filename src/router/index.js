@@ -9,49 +9,63 @@ import RegisterView from "@/view/accounts/RegisterView.vue";
 import PayView from "@/view/pay/PayView.vue";
 import SuccessView from "@/view/pay/SuccessView.vue";
 import FailView from "@/view/pay/FailView.vue";
+import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 
 const routes = [
   {
     path: "/",
     redirect: "/auction/bid",
     component: UserTemplate,
-    children: [{ path: "auction/bid", component: LoginView }],
+    children: [
+        {
+            path: "auction/bid",
+            component: LoginView },
+        {
+            path: "/login",
+            component: Login,
+        },
+        {
+            path: "/easyLogin",
+            component: EasyLogin,
+        },
+        {
+            path: "/findIdView",
+            component: FindIdView,
+        },
+        {
+            path: "/findPwView",
+            component: FindPwView,
+        },
+        {
+            path: "/registerView",
+            component: RegisterView,
+        },
+        {
+            path: "/pay",
+            name: "pay",
+            component: PayView,
+        },
+        {
+            path: "/success",
+            name: "success",
+            component: SuccessView,
+        },
+        {
+            path: "/fail",
+            name: "fail",
+            component: FailView,
+        },
+        {
+            path:'/auction/register',
+            component: AuctionRegisterView
+        },
+
+    ],
   },
-  {
-    path: "/login",
-    component: Login,
-  },
-  {
-    path: "/easyLogin",
-    component: EasyLogin,
-  },
-  {
-    path: "/findIdView",
-    component: FindIdView,
-  },
-  {
-    path: "/findPwView",
-    component: FindPwView,
-  },
-  {
-    path: "/registerView",
-    component: RegisterView,
-  },
-  {
-    path: "/pay",
-    name: "pay",
-    component: PayView,
-  },
-  {
-    path: "/success",
-    name: "success",
-    component: SuccessView,
-  },
-  {
-    path: "/fail",
-    name: "fail",
-    component: FailView,
-  },
+
+
+
+
 ];
 
 const router = createRouter({
