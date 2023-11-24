@@ -11,5 +11,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/searchBar.css";
+@import "../../../public/assets/css/search-bar-component.css";
 </style>
