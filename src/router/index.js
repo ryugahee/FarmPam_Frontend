@@ -9,6 +9,7 @@ import RegisterView from "@/view/accounts/RegisterView.vue";
 import PayView from "@/view/pay/PayView.vue";
 import SuccessView from "@/view/pay/SuccessView.vue";
 import FailView from "@/view/pay/FailView.vue";
+import ChatListView from "@/view/chat/ChatListView.vue";
 
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
     path: "/fail",
     name: "fail",
     component: FailView,
+  },
+  {
+    path: "/chats",
+    name: "chats",
+    component: ChatListView,
   },
 ];
 

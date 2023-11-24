@@ -1,0 +1,16 @@
+.title_header {
+  display: flex;
+  justify-content: space-between;
+  max-height: 50px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.title_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chats_container {
+  border-bottom: 1px solid #d9d9d9;
+}
