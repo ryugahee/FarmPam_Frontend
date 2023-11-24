@@ -53,6 +53,7 @@ const routes = [
     name: "fail",
     component: FailView,
   },
+
 ];
 
 const router = createRouter({
