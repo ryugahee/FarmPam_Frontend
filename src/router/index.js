@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
 import LoginView from "@/view/accounts/LoginView.vue";
-
 import UserTemplate from "@/components/user/UserTemplate.vue";
 import EasyLogin from "@/view/accounts/EasyLoginView.vue";
 import FindIdView from "@/view/accounts/FindIDView.vue";
