@@ -30,6 +30,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/findIdView.css";
+@import "../../../public/assets/css/find-id-page.css";
 
 </style>

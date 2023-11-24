@@ -210,6 +210,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/auctionRegister-page.css";
+@import "../../../public/assets/css/auction-register-page.css";
 
 </style>

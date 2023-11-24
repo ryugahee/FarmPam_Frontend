@@ -64,5 +64,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/register.css";
+@import "../../../public/assets/css/register-page.css";
 </style>

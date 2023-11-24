@@ -36,5 +36,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/findPwView.css";
+@import "../../../public/assets/css/find-pw-page.css";
 </style>
