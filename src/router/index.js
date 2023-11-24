@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
-import LoginView from "@/view/AuctionView.vue";
+import LoginView from "@/view/auction/AuctionView.vue";
 import UserTemplate from "@/components/user/UserTemplate.vue";
 
 const routes = [
