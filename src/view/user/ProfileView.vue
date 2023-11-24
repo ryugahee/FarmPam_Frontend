@@ -1,20 +1,20 @@
 <template>
   <div>
-    <LogoView/>
+    <LOGO />
     <div class="profile">
-      <img src="../../assets/img/profile1.png" alt=""/>
+      <img src="../../../public/assets/img/profile1.png" alt="" />
       <h3> {{ username }} </h3>
       <p> {{ Introduction }} </p>
     </div>
     <div class="pam-index">
       <span>팜 지수</span>
-      <img class="sprout" src="../../assets/img/sprout.png" alt=""/>
+      <img class="sprout" src="../../../public/assets/img/sprout.png" alt="" />
       <div class="stars">
-        <img src="../../assets/img/filled-star.png" alt=""/>
-        <img src="../../assets/img/filled-star.png" alt=""/>
-        <img src="../../assets/img/filled-star.png" alt=""/>
-        <img src="../../assets/img/filled-star.png" alt=""/>
-        <img src="../../assets/img/filled-star.png" alt=""/>
+        <img src="../../../public/assets/img/filled-star.png" alt="" />
+        <img src="../../../public/assets/img/filled-star.png" alt="" />
+        <img src="../../../public/assets/img/filled-star.png" alt="" />
+        <img src="../../../public/assets/img/filled-star.png" alt="" />
+        <img src="../../../public/assets/img/filled-star.png" alt="" />
       </div>
     </div>
     <div class="tab">
@@ -23,21 +23,21 @@
         <div class="review" @click="reviewClick" :class="{ active: review }"><p>판매 후기</p></div>
       </div>
       <div class="tab-content" v-if="bid">
-        <ProfileItemPost/>
+        <ProfileItemPost />
       </div>
       <div class="tab-content" v-if="review">
-        <ReviewPost/>
+        <ReviewPost />
       </div>
     </div>
-    <NavComponent/>
+    <NavBar />
   </div>
 </template>
 
 <script>
-import LogoView from "@/components/user/LogoComponent.vue";
-import NavComponent from "@/components/user/NavComponent.vue";
+import LOGO from "@/components/user/LogoComponent.vue";
 import ProfileItemPost from "@/components/item/ProfileItemPostComponent.vue";
 import ReviewPost from "@/components/item/ReviewViewComponent.vue";
+import NavBar from "@/components/user/NavComponent.vue";
 
 export default {
   name: "ProfileView",
@@ -53,7 +53,12 @@ export default {
       price: 40000
     }
   },
-  components: {ReviewPost, ProfileItemPost, NavComponent, LogoView},
+  components: {
+    LOGO,
+    ProfileItemPost,
+    ReviewPost,
+    NavBar
+  },
   methods: {
     bidClick() {
       this.bid = true;
