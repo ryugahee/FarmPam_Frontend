@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <row>
 
         <div class="advice" >
             비밀번호 찾기
@@ -21,9 +20,6 @@
 
 
 <button>인증하기</button>
-
-
-        </row>
     </div>
 </template>
 

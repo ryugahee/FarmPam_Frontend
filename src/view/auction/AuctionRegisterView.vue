@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="header">
       <div>
-        <button class="btn-left"><img src="../../../public/assets/img/left%202.png"></button>
+        <button class="btn-left"><img src="../../../public/assets/img/left%202.png" alt="" /></button>
       </div>
       <div class="register">
         <p>경매 등록</p>
@@ -19,11 +19,11 @@
               @click="imageDeleteButton(index)">
             x
           </div>
-          <img :src="file.preview" class="preview"/>
+          <img :src="file.preview" class="preview" alt="" />
         </div>
         <!--     사진 추가       -->
         <div v-if="!files.length">
-          <label for="file" class="filelabel"><img src="../../../public/assets/img/camera%201.png" class="icon-camera"></label>
+          <label for="file" class="filelabel"><img src="../../../public/assets/img/camera%201.png" class="icon-camera" alt="" ></label>
           <input
               type="file"
               id="file"
@@ -33,7 +33,7 @@
               style="display: none"/>
         </div>
         <div v-else>
-          <label for="file" class="filelabel"><img src="../../../public/assets/img/add.png" class="icon"></label>
+          <label for="file" class="filelabel"><img src="../../../public/assets/img/add.png" class="icon" alt="" ></label>
           <input
               type="file"
               id="file"

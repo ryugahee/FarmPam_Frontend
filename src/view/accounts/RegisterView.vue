@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <row>
 
         <div class="advice" >
             회원가입
@@ -49,9 +48,6 @@
 
 
 <button>회원가입 하기</button>
-
-
-        </row>
     </div>
 </template>
 
