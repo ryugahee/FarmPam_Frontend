@@ -23,9 +23,9 @@ export default {
 
 <style>
 #user_app {
-  margin: auto;
+  margin: 0 auto;
   width: 390px;
   height: 844px;
+  overflow: hidden;
 }
-
 </style>
