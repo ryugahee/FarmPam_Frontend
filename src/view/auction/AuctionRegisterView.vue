@@ -1,10 +1,11 @@
 <template>
   <div class="wrapper">
+    <LOGO />
     <div class="header">
       <div>
-        <button class="btn-left"><img src="../../../public/assets/img/left%202.png"></button>
+        <button class="btn-left"><img src="../../../public/assets/img/left%202.png" alt="" /></button>
       </div>
-      <div class="register">
+      <div class="page-name">
         <p>경매 등록</p>
       </div>
     </div>
@@ -19,11 +20,11 @@
               @click="imageDeleteButton(index)">
             x
           </div>
-          <img :src="file.preview" class="preview"/>
+          <img :src="file.preview" class="preview" alt="" />
         </div>
         <!--     사진 추가       -->
         <div v-if="!files.length">
-          <label for="file" class="filelabel"><img src="../../../public/assets/img/camera%201.png" class="icon-camera"></label>
+          <label for="file" class="filelabel"><img src="../../../public/assets/img/camera%201.png" class="icon-camera" alt="" ></label>
           <input
               type="file"
               id="file"
@@ -33,7 +34,7 @@
               style="display: none"/>
         </div>
         <div v-else>
-          <label for="file" class="filelabel"><img src="../../../public/assets/img/add.png" class="icon"></label>
+          <label for="file" class="filelabel"><img src="../../../public/assets/img/add.png" class="icon" alt="" ></label>
           <input
               type="file"
               id="file"
@@ -46,15 +47,15 @@
     </div>
     <div class="main">
       <div>
-        <input class="title-box" type="text" v-model="itemTitle" placeholder=" 제목">
+        <input class="title-box" type="text" v-model="itemTitle" placeholder=" 제목" required>
       </div>
       <div>
-        <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격"> 원
+        <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
       </div>
       <div>
-        <select class="time-box">
+        <select v-model="time" class="time-box" required>
           <option>시간</option>
-          <option>30분</option>
+          <option value="30">30분</option>
           <option>1시간</option>
           <option>2시간</option>
           <option>3시간</option>
@@ -66,20 +67,27 @@
       <div class="content">
       <textarea class="itemDetail-box"
           type="text"
-                v-model="itemDetail" placeholder=" 상품 설명"></textarea>
+                v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
       </div>
       <!--     태그 추가       -->
-      <div>
-        <input type="text"
-               v-model="itemTag" class="tag-box" placeholder=" 품목명 태그">
-        <button class="btn-add-tag" type="button" @click="addTag">태그 추가</button>
-        <div class="selected-tag" v-for="(a, i) in itemTags" :key="i" @click="removeTag(a)" :itemTag="a">
-          {{itemTag}}
-          <div class="closeBtn">X</div>
+      <div class="tag-box">
+        <div>
+          <input type="text"
+                 v-model="tag" class="add-tag" @keyup.enter="addTag"  placeholder=" 품목명 태그">
+          <button class="btn-add-tag" type="button" @click="addTag">태그 추가</button>
         </div>
+        <div class="selected-tag-box-flex">
+          <div class="selected-tag-box" v-for="(tag, i) in tags" :key="i" @click="removeTag(tag)" :tag="tag" required>
+            <div class="selected-tag">
+              {{tag}}
+            </div>
+            <div class="closeBtn">X</div>
+          </div>
+        </div>
+
       </div>
       <div>
-        <select v-model="itemType" class="type-box">
+        <select v-model="itemType" class="type-box" required>
           <option>대분류</option>
           <option>딸기</option>
           <option>수박</option>
@@ -87,7 +95,7 @@
         </select>
       </div>
       <div>
-        <input v-model="weight" class="weight-box" type="text" placeholder=" 무게"> kg
+        <input v-model="weight" class="weight-box" type="text" placeholder=" 무게" required> kg
       </div>
     </div>
     <div class="btn-container">
@@ -100,22 +108,27 @@
 
 <script>
 import axios from "axios";
+import LOGO from "@/components/user/LogoComponent.vue";
 
 export default {
   name: "AuctionRegisterView",
+  components: {LOGO},
   data() {
     return {
       itemTitle: "",
       minPrice: "",
+      time: "",
       itemDetail: "",
-      itemTag: "",
+      tag: "",
       itemType: "",
       weight: "",
-      itemTags: [],
+      tags: [],
 
       files: [],
       filesPreview: [],
       uploadImageIndex: 0,
+
+
     };
   },
 
@@ -154,20 +167,16 @@ export default {
       formData.append("itemTitle", this.itemTitle);
       formData.append("minPrice", this.minPrice);
       formData.append("itemDetail", this.itemDetail);
-      formData.append("itemTag", this.itemTag);
       formData.append("itemType", this.itemType);
       formData.append("weight", this.weight);
 
       for (let i = 0; i < this.files.length; i++) {
         formData.append("files", this.files[i].file);
       }
-/*
-      const myArray = this.itemTags;
+
+      const myArray = this.tags;
       const arrayAsString = myArray.join(',');
-      formData.append("itemTags",arrayAsString);
-
-      console.log("이거 확인해보자: " + this.arrayAsString);*/
-
+      formData.append("tagNames",arrayAsString);
 
       await axios
           .post("/api/item/new", formData, {
@@ -188,28 +197,30 @@ export default {
 
     },
 
-  /*  addTag() {
-      if (this.itemTag == " " || this.itemTag == "") {
+    addTag() {
+      if (this.tag == " " || this.tag == "") {
         return;
       }
-      if (this.itemTags.indexOf(this.itemTag) != -1) {
+      if (this.tags.indexOf(this.tag) != -1) {
         return;
       }
-      this.itemTags.push(this.itemTag);
-      // this.itemTag = '';
+      this.tags.push(this.tag);
+      this.tag = '';
+
     },
-    removeTag(a) {
-      let index = this.itemTags.indexOf(a);
+    removeTag(tag) {
+      let index = this.tags.indexOf(tag);
       if (index !== -1) {
-        this.itemTags.splice(index, 1);
+        this.tags.splice(index, 1);
       }
-    },*/
+    },
 
   },
 };
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/auctionRegister-page.css";
+@import "../../../public/assets/css/logo-component.css";
+@import "../../../public/assets/css/auction-register-page.css";
 
 </style>

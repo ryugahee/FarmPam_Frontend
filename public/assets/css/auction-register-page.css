@@ -1,25 +1,19 @@
-.wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-
-}
 .header {
-    width: 90%;
-    height: 50px;
     display: flex;
     justify-content: flex-start;
-    padding-top: 20px;
-}
-.register {
-    margin-left: 10px;
-    font-weight: bold;
-}
-.btn-left {
-    border: none;
     background-color: white;
 }
+.btn-left {
+    width: 30px;
+    height: 30px;
+    margin: 10px 135px 10px 0;
+    background-color: white;
+}
+.page-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+
 /* 상품 이미지 */
 
 .filelabel {
@@ -40,7 +34,8 @@
 
 .img-upload {
     width: 100%;
-    padding: 5% 5% 0% 5%;
+    height: 110px;
+    padding: 15px 15px 0 15px;
     display: flex;
     border-top: solid 1px #d9d9d9;
     white-space:nowrap;
@@ -60,6 +55,7 @@
 }
 
 .img-file {
+    position: relative;
     margin: 5px;
 }
 
@@ -76,7 +72,7 @@
 
 .main {
     width: 100%;
-    padding: 5%;
+    padding: 10px 20px 0px 20px;
 }
 .title-box, .time-box, .type-box{
     width: 100%;
@@ -99,12 +95,19 @@
     border-radius: 5px;
     margin-bottom: 15px;
 }
+
+/* 태그 박스 */
 .tag-box {
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+}
+.add-tag {
     width: 70%;
     height: 40px;
     border: solid #98CB98 1px;
     border-radius: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .btn-add-tag {
     width: 90px;
@@ -113,18 +116,36 @@
     background-color: #98CB98;
     border: none;
     border-radius: 5px;
-    margin-left: 12px;
+    margin: 0px 0px 0px 12px;
+}
+.selected-tag-box-flex {
+    display: flex;
+    width: 100%;
+    white-space:nowrap;
+    overflow: auto;
+}
+.selected-tag-box {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    font-size: small;
+    margin-right: 10px;
+}
+.closeBtn {
+    margin-left: 5px;
+    color: #98CB98;
 }
 
 /* 경매 버튼 */
 
 .btn-container {
-    width: 100%;
+    width: 390px;
     height: 50px;
-    background-color: #98CB98;
+    z-index: 3;
     display: flex;
     justify-content: center;
-
+    position: fixed;
+    background-color: #98CB98;
 }
 .btn-start {
     border: none;
@@ -132,4 +153,5 @@
     font-weight: bold;
     font-size: larger;
     background-color: #98CB98;
+    margin: auto;
 }
