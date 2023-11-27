@@ -13,6 +13,7 @@ import FailView from "@/view/pay/FailView.vue";
 import HomeView from "@/view/user/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import MainView from '@/view/main/MainView.vue';
+import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 
 const routes = [
     {
@@ -81,6 +82,10 @@ const routes = [
                     path: "/main",
                     name: "main",
                     component: MainView,
+                },
+                {
+                    path: "/auction/register",
+                    component: AuctionRegisterView,
                 },
             ],
     },
