@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "@/view/accounts/LoginView.vue";
 import UserTemplate from "@/components/user/UserTemplate.vue";
 import EasyLogin from "@/view/accounts/EasyLoginView.vue";
@@ -12,6 +12,8 @@ import ProfileView from "@/view/user/ProfileView.vue";
 import FailView from "@/view/pay/FailView.vue";
 import HomeView from "@/view/user/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
+import MainView from '@/view/main/MainView.vue';
+import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 
 const routes = [
     {
@@ -75,7 +77,16 @@ const routes = [
                     path: "/detail",
                     name: "detail",
                     component: ItemDetailView
-                }
+                },
+                {
+                    path: "/main",
+                    name: "main",
+                    component: MainView,
+                },
+                {
+                    path: "/auction/register",
+                    component: AuctionRegisterView,
+                },
             ],
     },
 ];
