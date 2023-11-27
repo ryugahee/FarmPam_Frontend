@@ -52,8 +52,8 @@
       <div>
         <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
       </div>
-      <div>
-        <select v-model="time" class="time-box" required>
+      <div class="ss">
+        <select class="time-box" required>
           <option>시간</option>
           <option value="30">30분</option>
           <option>1시간</option>
@@ -87,7 +87,7 @@
 
       </div>
       <div>
-        <select v-model="itemType" class="type-box" required>
+        <select class="type-box" required>
           <option>대분류</option>
           <option>딸기</option>
           <option>수박</option>
@@ -133,8 +133,9 @@ export default {
   },
 
   methods: {
-    imageAddUpload() {
 
+
+    imageAddUpload() {
       let num = -1;
       for (let i = 0; i < this.$refs.files.files.length; i++) {
 
