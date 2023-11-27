@@ -1,7 +1,7 @@
 ![header](https://capsule-render.vercel.app/api?type=soft&text=Front%20end)
 
-![로그인.png](..%2F..%2F%EB%A1%9C%EA%B7%B8%EC%9D%B8.png)
-![메인 페이지.png](..%2F..%2F%EB%A9%94%EC%9D%B8%20%ED%8E%98%EC%9D%B4%EC%A7%80.png)
+![Login.png](..%2F..%2FLogin.png)
+![Home.png](..%2F..%2FHome.png)
 
 ## Project setup
 ```
