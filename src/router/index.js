@@ -14,6 +14,7 @@ import HomeView from "@/view/user/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import MainView from '@/view/main/MainView.vue';
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
+import TimerComponent from "@/components/item/TimerComponent.vue";
 
 const routes = [
     {
@@ -86,6 +87,10 @@ const routes = [
                 {
                     path: "/auction/register",
                     component: AuctionRegisterView,
+                },
+                {
+                    path: "/t",
+                    component: TimerComponent,
                 },
             ],
     },

@@ -41,6 +41,7 @@
               ref="files"
               multiple
               @change="imageAddUpload"
+              v-if="uploadReady"
               style="display: none"/>
         </div>
       </div>
@@ -67,7 +68,7 @@
       <div class="content">
       <textarea class="itemDetail-box"
           type="text"
-                v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
+                v-model="itemDetail" placeholder=" &#10; 상품 설명" required></textarea>
       </div>
       <!--     태그 추가       -->
       <div class="tag-box">
@@ -127,6 +128,7 @@ export default {
       files: [],
       filesPreview: [],
       uploadImageIndex: 0,
+      uploadReady: true
 
 
     };
@@ -159,8 +161,15 @@ export default {
     },
     imageDeleteButton(index) {
       this.files = this.files.filter((data, i) => i !== index);
-      console.log(this.files);
+      this.clearImage()
     },
+    clearImage() {
+      this.uploadReady = false
+      this.$nextTick(() => {
+        this.uploadReady = true
+      })
+    },
+
     async submitPost() {
 
       const formData = new FormData();

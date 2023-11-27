@@ -83,6 +83,7 @@
     border: solid #98CB98 1px;
     border-radius: 5px;
     margin-bottom: 15px;
+    font-size: small;
 }
 .time-box, .type-box {
     width: 350px;
@@ -90,6 +91,7 @@
     border: solid #98CB98 1px;
     border-radius: 5px;
     margin-bottom: 15px;
+    font-size: small;
 }
 .itemDetail-box {
     width: 100%;
@@ -97,6 +99,7 @@
     border: solid #98CB98 1px;
     border-radius: 5px;
     margin-bottom: 15px;
+    font-size: medium;
 }
 .price-box, .weight-box {
     width: 90%;
@@ -104,6 +107,7 @@
     border: solid #98CB98 1px;
     border-radius: 5px;
     margin-bottom: 15px;
+    font-size: small;
 }
 
 /* 태그 박스 */
@@ -117,6 +121,7 @@
     border: solid #98CB98 1px;
     border-radius: 5px;
     margin-bottom: 15px;
+    font-size: small;
 }
 .btn-add-tag {
     width: 90px;
@@ -165,4 +170,11 @@
     font-size: larger;
     background-color: #98CB98;
     margin: auto;
+}
+div input::placeholder {
+    font-size: small;
+}
+div textarea::placeholder {
+    color: #d9d9d9;
+    font-size: 14px;
 }
