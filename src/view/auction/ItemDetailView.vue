@@ -2,7 +2,7 @@
   <div>
     <LOGO/>
     <div class="detail-profile">
-      <div class="detail-profile-box">
+      <div class="detail-profile-box" @click="profile">
         <img :src="profileImg" alt="profileImg" />
         <h3> {{ nickName }} </h3>
         <div class="review-avg">
@@ -53,6 +53,11 @@ export default {
   },
   components: {
     LOGO
+  },
+  methods: {
+    profile() {
+      this.$router.push("/profile")
+    }
   }
 }
 </script>

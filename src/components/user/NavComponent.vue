@@ -16,7 +16,7 @@
       <img @click="home" src="../../../public/assets/img/home.png" alt="" />
       <img src="../../../public/assets/img/add_box.png" alt="" />
       <img src="../../../public/assets/img/chat.png" alt="" />
-      <img @click="profile" src="../../../public/assets/img/person.png" alt="" />
+      <img @click="user" src="../../../public/assets/img/person.png" alt="" />
     </div>
   </div>
 </template>
@@ -40,8 +40,8 @@ export default {
     home() {
       this.$router.push("/home");
     },
-    profile() {
-      this.$router.push("/profile")
+    user() {
+      this.$router.push("/user");
     }
   }
 }

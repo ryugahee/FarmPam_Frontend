@@ -12,8 +12,9 @@ import ProfileView from "@/view/user/ProfileView.vue";
 import FailView from "@/view/pay/FailView.vue";
 import HomeView from "@/view/user/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
-import MainView from '@/view/main/MainView.vue';
+import MainView from '@/view/home/HomeView.vue';
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
+import MyPageView from "@/view/mypage/MyPageView.vue";
 
 const routes = [
     {
@@ -24,38 +25,38 @@ const routes = [
             [
                 {
                     path: "/login",
-                    component: LoginView,
+                    component: LoginView
                 },
                 {
                     path: "/easyLogin",
-                    component: EasyLogin,
+                    component: EasyLogin
                 },
                 {
                     path: "/findId",
-                    component: FindIdView,
+                    component: FindIdView
                 },
                 {
                     path: "/findPw",
-                    component: FindPwView,
+                    component: FindPwView
                 },
                 {
                     path: "/register",
-                    component: RegisterView,
+                    component: RegisterView
                 },
                 {
                     path: "/pay",
                     name: "pay",
-                    component: PayView,
+                    component: PayView
                 },
                 {
                     path: "/success",
                     name: "success",
-                    component: SuccessView,
+                    component: SuccessView
                 },
                 {
                     path: "/fail",
                     name: "fail",
-                    component: FailView,
+                    component: FailView
                 },
                 {
                     path: "/items",
@@ -79,14 +80,19 @@ const routes = [
                     component: ItemDetailView
                 },
                 {
-                    path: "/main",
-                    name: "main",
+                    path: "/home",
+                    name: "home",
                     component: MainView,
                 },
                 {
                     path: "/auction/register",
-                    component: AuctionRegisterView,
+                    component: AuctionRegisterView
                 },
+                {
+                    path: "/user",
+                    name: "user",
+                    component: MyPageView
+                }
             ],
     },
 ];
