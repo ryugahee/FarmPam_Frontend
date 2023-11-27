@@ -24,7 +24,7 @@ npm run lint
 ```
 
 <br />
-<a href="https://www.figma.com/file/oB29rX95Y7tzQf6Rv1sGNZ/Farm%ED%8C%9C?type=design&node-id=0%3A1&mode=design&t=U0vQhWKwmEDnngaS-1"><img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=Figma&logoColor=white"/></a>
+<a href="https://www.figma.com/file/oB29rX95Y7tzQf6Rv1sGNZ/Farm%ED%8C%9C?type=design&node-id=0%3A1&mode=design&t=U0vQhWKwmEDnngaS-1"><img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=Figma&logoColor=white" alt="" /></a>
 <br />
 
 ![IntelliJ](https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
