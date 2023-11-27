@@ -1,7 +1,6 @@
 ![header](https://capsule-render.vercel.app/api?type=soft&text=Front%20end)
 
 ![Login](https://github.com/KiWiKiWi-Bird/FarmPam_Frontend/assets/130267954/b86a294f-9422-44da-a758-17661281e6a3)
-![Home](https://github.com/KiWiKiWi-Bird/FarmPam_Frontend/assets/130267954/e8e1d8ae-8331-42e7-88b3-66eaca25159a))
 
 ## Project setup
 ```
