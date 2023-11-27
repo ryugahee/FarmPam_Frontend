@@ -5,7 +5,7 @@
       <transition name="slide-up">
         <div class="modal" v-if="!modal">
           <SearchBar class="search"/>
-          <div class="item-post">
+          <div class="nav-item-post">
             <ItemPost v-for="post in 10" :key="post" />
           </div>
         </div>

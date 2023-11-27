@@ -29,15 +29,15 @@ const routes = [
                     component: EasyLogin,
                 },
                 {
-                    path: "/findIdView",
+                    path: "/findId",
                     component: FindIdView,
                 },
                 {
-                    path: "/findPwView",
+                    path: "/findPw",
                     component: FindPwView,
                 },
                 {
-                    path: "/registerView",
+                    path: "/register",
                     component: RegisterView,
                 },
                 {
@@ -72,7 +72,7 @@ const routes = [
                 },
                 // TODO : 식별 번호 수정 사항
                 {
-                    path: "/items/detail",
+                    path: "/detail",
                     name: "detail",
                     component: ItemDetailView
                 }

@@ -37,10 +37,6 @@
     top: 0;
 }
 
-.modal .item-post {
-    margin-top: 10px;
-}
-
 .slide-up-enter-active,
 .slide-up-leave-active {
     transition: transform 0.3s ease-in-out;
