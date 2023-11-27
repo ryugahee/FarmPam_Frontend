@@ -31,7 +31,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-1
 
-      # vue 빌드한 /build를 s3로 업로드
+      # vue 빌드한 build를 s3로 업로드
       - name: Upload /build to S3
         run: aws s3 cp --recursive --region us-west-1 dist s3://farmpam-dara-e
 
