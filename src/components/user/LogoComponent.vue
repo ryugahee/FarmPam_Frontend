@@ -7,10 +7,10 @@
 
 <script>
 export default {
-
+  name: "LOGO"
 }
 </script>
 
 <style>
-@import "../../../public/assets/css/logo.css";
+@import "../../../public/assets/css/logo-component.css";
 </style>

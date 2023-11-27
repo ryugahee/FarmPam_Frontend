@@ -1,7 +1,7 @@
 <template>
   <div class="profile-post">
     <div class="profile-post-img">
-      <img class="profile-thumbnail-img" src="../../../public/assets/img/thumbnail1.png" alt=""/>
+      <img class="profile-thumbnail-img" src="../../../public/assets/img/thumbnail1.png" alt="" />
       <div class="profile-remaining-time">
         <div class="profile-time-bg">
           <p> {{ time }} 남음</p>
@@ -10,7 +10,7 @@
     </div>
     <div class="profile-post-content">
       <h5> {{ title }} </h5>
-      <h4 class="price"> {{ price }}원 </h4>
+      <h4 class="price"> {{ price.toLocaleString() }}원</h4>
     </div>
     <div class="profile-state">
       <h4> {{ state[0] }} </h4>
@@ -33,5 +33,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/profileitempost.css";
+@import "../../../public/assets/css/profile-item-post-component.css";
 </style>
