@@ -221,6 +221,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/mainView.css";
+@import "../../../public/assets/css/home-page.css";
 @import "../../../public/assets/css/items-page.css";
 </style>
