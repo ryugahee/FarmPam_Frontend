@@ -6,7 +6,7 @@
         <img :src="profileImg" alt="profileImg" />
         <h3> {{ nickName }} </h3>
         <div class="review-avg">
-          <img src="../../../public/assets/img/filled-star.png" alt="" />
+          <img src="../../../public/assets/img/filled-star.png" alt="star" />
           <span> {{ review }} </span>
         </div>
       </div>
@@ -27,10 +27,16 @@
         <span>내 입찰가</span>
         <span> {{ myPrice.toLocaleString() }}원 </span>
       </div>
-      <button class="make-a-bid">
-        <p> {{ time }} </p>
+      <div class="bid-bg" v-if="!bidModal">
+        <div class="bid-btn">
+          <p class="bidding">입찰하기</p>
+          <p> {{ time }} </p>
+        </div>
+      </div>
+      <div class="make-a-bid" v-if="bidModal" @click="bidModal=!bidModal">
+        <p class="bid-time"> {{ time }} </p>
         <p>입찰하기</p>
-      </button>
+      </div>
     </div>
   </div>
 </template>
@@ -48,7 +54,8 @@ export default {
       itemImg: require("../../../public/assets/img/apple.png"),
       currentPrice: 10000,
       myPrice: 9000,
-      time: "14:31:29"
+      time: "14:31:29",
+      bidModal: true
     }
   },
   components: {
