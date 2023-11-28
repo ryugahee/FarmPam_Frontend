@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LogoView />
+    <Logo />
     <div class="title_header">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -20,36 +20,34 @@
       <div style="width: 48px; height: 48px"></div>
     </div>
     <div class="chats_container">
-      <ChatPreview v-for="chatPreview in 10" :key="chatPreview" />
+      <ChatPreview v-for="chatId in chatIds" :key="chatId" :chatId="chatId" />
     </div>
     <NavComponent />
   </div>
 </template>
 <script>
-import LogoView from "@/components/user/LogoComponent.vue";
-import ChatPreview from "@/components/chat/ChatPreview.vue";
+import Logo from "@/components/user/LogoComponent.vue";
+import ChatPreview from "@/components/chat/ChatPreviewComponent.vue";
 import NavComponent from "@/components/user/NavComponent.vue";
 
 export default {
   name: "ChatListView",
-  components: { LogoView, ChatPreview, NavComponent },
+  components: { Logo, ChatPreview, NavComponent },
   data() {
     return {
       title: "대화 내역",
-      username: "그랜드팜",
-      time: "오전 09:30",
-      chat: "개맛도링",
+      chatIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     };
   },
-  beforeCreate() {},
-  created() {},
-  beforeMount() {},
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  beforeUnmount() {},
-  unmounted() {},
-  methods: {},
+  created() {
+    this.getChats;
+  },
+  methods: {
+    async getChats() {
+      this.chats - (await this.$api("/chats", {}));
+      console.log(this.chats);
+    },
+  },
 };
 </script>
 

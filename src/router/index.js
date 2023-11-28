@@ -13,6 +13,8 @@ import FailView from "@/view/pay/FailView.vue";
 import HomeView from "@/view/user/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import MainView from "@/view/main/MainView.vue";
+import ChatListView from "@/view/chat/ChatListView.vue";
+import ChatDetailView from "@/view/chat/ChatDetailView.vue";
 
 const routes = [
   {
@@ -80,6 +82,17 @@ const routes = [
         path: "/main",
         name: "main",
         component: MainView,
+      },
+      {
+        path: "/chats",
+        name: "chats",
+        component: ChatListView,
+      },
+      {
+        path: "/chats/:id",
+        name: "chat",
+        component: ChatDetailView,
+        props: true,
       },
     ],
   },

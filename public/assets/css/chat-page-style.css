@@ -1,0 +1,23 @@
+.chat-header {
+  display: flex;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 20px;
+  position: sticky;
+  top: 55px;
+  background: #ffffff;
+}
+
+.item-img-div {
+  margin-right: 10px;
+}
+
+.item-img {
+  width: 60px;
+  height: 60px;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

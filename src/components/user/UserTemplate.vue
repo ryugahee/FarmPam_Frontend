@@ -4,20 +4,15 @@
   </div>
 </template>
 <script>
-
 export default {
   name: "UserTemplate",
   components: {},
   data() {
-    return {
-    }
+    return {};
   },
-  methods: {
-  },
-  mounted() {
-  },
-  beforeUnmount() {
-  },
+  methods: {},
+  mounted() {},
+  beforeUnmount() {},
 };
 </script>
 
@@ -26,6 +21,6 @@ export default {
   margin: 0 auto;
   width: 390px;
   height: 844px;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 </style>

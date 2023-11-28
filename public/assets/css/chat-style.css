@@ -1,0 +1,66 @@
+.chat-box {
+  padding-top: 20px;
+  overflow-y: scroll;
+  max-height: 604px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.chat-box::-webkit-scrollbar {
+  display: none;
+}
+
+.message-input-div {
+  position: fixed;
+  z-index: 3;
+  bottom: 0;
+  width: 390px;
+  height: 80px;
+  background: #ffffff;
+  max-height: 120px;
+}
+
+.message-bar {
+  width: 310px;
+  border-radius: 10px;
+  background: #f3f3f3;
+  text-indent: 10px;
+  font-size: 15px;
+  resize: none;
+  overflow-y: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+  transition: height 0.2s ease;
+  bottom: 0;
+  position: absolute;
+  bottom: 20px;
+  left: 15px;
+  max-height: 80px;
+}
+
+.send-button {
+  position: absolute;
+  right: 15px;
+  bottom: 20px;
+}
+
+.message {
+  height: 50px;
+}
+
+.me {
+  padding: 10px;
+  border-radius: 15px 0px 15px 15px;
+  background: #98cb98;
+  float: right;
+}
+
+.you {
+  padding: 10px;
+  border-radius: 0px 15px 15px 15px;
+  background: #ddd;
+}
+
+svg {
+  align-items: center;
+}
