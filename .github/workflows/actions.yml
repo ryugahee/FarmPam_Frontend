@@ -20,7 +20,7 @@ jobs:
       - name: Package Install
         run: npm ci
 
-      - name: Proejct Build
+      - name: Project Build
         run: npm run build
 
       # GitHub Actions CLI 환경에서 S3 사용자 권한의 aws 접속
@@ -31,7 +31,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-1
 
-      # vue 빌드한 /build를 s3로 업로드
+      # vue 빌드한 build를 s3로 업로드
       - name: Upload /build to S3
         run: aws s3 cp --recursive --region us-west-1 dist s3://farmpam-dara-e
 

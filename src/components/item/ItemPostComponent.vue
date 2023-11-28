@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="post" v-for="(post, i) in posts" :key="i">
+  <div class="post" @click="detail">
+    <div class="post-img-box" v-for="(post, i) in posts" :key="i">
       <div class="post-img">
         <img class="thumbnail-img" :src="post.image" alt=""/>
         <div class="remaining-time">
@@ -48,6 +48,11 @@ export default {
           price: 51000
         },
       ]
+    }
+  },
+  methods: {
+    detail() {
+      this.$router.push("/detail")
     }
   }
 }

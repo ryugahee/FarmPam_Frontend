@@ -1,13 +1,18 @@
 <template>
   <div class="logo">
-    <img class="logo-img" src="../../../public/assets/img/Logo.png" alt=""/>
-    <img class="dehaze" src="../../../public/assets/img/dehaze.png" alt=""/>
+    <img @click="home" class="logo-img" src="../../../public/assets/img/Logo.png" alt="" />
+    <img class="dehaze" src="../../../public/assets/img/dehaze.png" alt="" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "LOGO"
+  name: "LOGO",
+  methods: {
+    home() {
+      this.$router.push("/home");
+    }
+  }
 }
 </script>
 

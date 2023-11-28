@@ -12,7 +12,9 @@ import ProfileView from "@/view/user/ProfileView.vue";
 import FailView from "@/view/pay/FailView.vue";
 import HomeView from "@/view/user/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
-import MainView from "@/view/main/MainView.vue";
+import MainView from "@/view/home/HomeView.vue";
+import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
+import MyPageView from "@/view/mypage/MyPageView.vue";
 import ChatListView from "@/view/chat/ChatListView.vue";
 import ChatDetailView from "@/view/chat/ChatDetailView.vue";
 
@@ -31,15 +33,15 @@ const routes = [
         component: EasyLogin,
       },
       {
-        path: "/findIdView",
+        path: "/findId",
         component: FindIdView,
       },
       {
-        path: "/findPwView",
+        path: "/findPw",
         component: FindPwView,
       },
       {
-        path: "/registerView",
+        path: "/register",
         component: RegisterView,
       },
       {
@@ -74,14 +76,23 @@ const routes = [
       },
       // TODO : 식별 번호 수정 사항
       {
-        path: "/items/detail",
+        path: "/detail",
         name: "detail",
         component: ItemDetailView,
       },
       {
-        path: "/main",
-        name: "main",
+        path: "/home",
+        name: "home",
         component: MainView,
+      },
+      {
+        path: "/auction/register",
+        component: AuctionRegisterView,
+      },
+      {
+        path: "/user",
+        name: "user",
+        component: MyPageView,
       },
       {
         path: "/chats",
