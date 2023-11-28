@@ -1,0 +1,21 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-bottom: solid 1px #d9d9d9;
+}
+.btn-left {
+    width: 30px;
+    height: 30px;
+    margin: 10px 0 10px 10px;
+    background-color: white;
+}
+.page-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+.none {
+    width: 30px;
+    height: 30px;
+    visibility: hidden
+}
