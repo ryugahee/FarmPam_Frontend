@@ -15,7 +15,5 @@
     font-size: 20px;
 }
 .none {
-    width: 30px;
-    height: 30px;
-    visibility: hidden
+    visibility: hidden;
 }

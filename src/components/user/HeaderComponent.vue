@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div>
-      <button class="btn-left"><img src="../../../public/assets/img/left%202.png" alt="" /></button>
+      <button class="btn-left" @click="goBack"><img src="../../../public/assets/img/left%202.png" alt="" /></button>
     </div>
     <div class="page-name">
       <slot></slot>
@@ -16,7 +16,9 @@
 export default {
   name: "HeaderComponent",
   methods: {
-
+    goBack(){
+      this.$router.go(-1);
+    },
   }
 }
 </script>
