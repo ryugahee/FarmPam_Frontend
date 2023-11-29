@@ -207,6 +207,7 @@ export default {
       this.tags.push(this.tag);
       this.tag = '';
 
+      console.log("태그: " + this.tags);
     },
     removeTag(tag) {
       let index = this.tags.indexOf(tag);

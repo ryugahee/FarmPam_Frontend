@@ -4,7 +4,7 @@
     <div class="user-info">
       <div class="img-profile"><img src="../../../public/assets/img/person2.png" class="person-icon"></div>
       <div class="user-nickname"><p>팜파미</p></div>
-      <div><button class="btn-user-info" @click="userInfo">프로필 수정</button></div>
+      <div><button class="btn-user-info" @click="goUserInfo">프로필 수정</button></div>
     </div>
 
     <div class="container-pay">
@@ -19,7 +19,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="container-list">
       <div class="list">
@@ -38,7 +37,6 @@
         <div class="icons"><img src="../../../public/assets/img/inquiry.png"></div>
         <div>문의 하기</div>
       </div>
-
       <NavComponent />
     </div>
   </div>
@@ -53,7 +51,7 @@ export default {
   components: {NavComponent, LOGO},
 
   methods: {
-    userInfo() {
+    goUserInfo() {
       router.push({ path: "/user/info" });
     }
   }
