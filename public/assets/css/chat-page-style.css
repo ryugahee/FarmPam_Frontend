@@ -21,3 +21,12 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+.item-info .item-title {
+  font-size: 20px;
+}
+
+.item-info .item-price {
+  color: #e12905;
+  font-size: 20px;
+}
