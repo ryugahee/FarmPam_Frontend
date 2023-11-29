@@ -15,14 +15,16 @@ import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import MainView from '@/view/home/HomeView.vue';
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
+import AuctionView from "@/view/AuctionView.vue";
 
 const routes = [
     {
         path: "/",
-        redirect: "/auction/bid",
+        redirect: "/login",
         component: UserTemplate,
         children:
             [
+
                 {
                     path: "/login",
                     component: LoginView
@@ -87,6 +89,10 @@ const routes = [
                 {
                     path: "/auction/register",
                     component: AuctionRegisterView
+                },
+                {
+                    path: "/auction/bid",
+                    component: AuctionView,
                 },
                 {
                     path: "/user",

@@ -1,6 +1,8 @@
 <template>
   <div class="input-box">
-    <input v-model="bid" class="custom-input inputs" type="text" placeholder="입찰가 입력.">
+    <input v-model="id" class="custom-input inputs" type="text" placeholder="ID 입력.">
+    <input v-model="userName" class="custom-input inputs" type="text" placeholder="유저 이름 입력.">
+    <input v-model="bidPrice" class="custom-input inputs" type="text" placeholder="입찰가 입력.">
     <button @click="auction" class="custom-button inputs">입찰</button>
   </div>
 </template>
@@ -10,8 +12,9 @@ export default {
   name:"AuctionView",
   data(){
     return{
-      bid:"",
-      userId:"chan",
+      id:"",
+      userName:"",
+      bidPrice:""
 
     }
   },
@@ -21,8 +24,9 @@ export default {
   methods:{
     async auction(){
       let data = {};
-      data.bid = this.bid;
-      data.userId = this.userId;
+      data.id = this.id;
+      data.userName = this.userName;
+      data.bidPrice = this.bidPrice;
       this.$http.post('/auction/bid', data).then(res =>{
         console.log(res.data);
       }).catch(err =>{
