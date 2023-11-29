@@ -1,9 +1,9 @@
 .chat-header {
   display: flex;
   border-bottom: 1px solid #d9d9d9;
-  padding: 20px;
+  padding: 10px;
   position: sticky;
-  top: 55px;
+  top: 99px;
   background: #ffffff;
 }
 

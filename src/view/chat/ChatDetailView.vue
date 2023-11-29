@@ -1,6 +1,9 @@
 <template>
   <div>
     <logo />
+    <Header>
+      <p>{{ username }}</p>
+    </Header>
     <div class="chat-header">
       <div class="item-img-div">
         <img
@@ -20,12 +23,14 @@
 <script>
 import Logo from "@/components/user/LogoComponent.vue";
 import Chat from "@/components/chat/ChatComponent.vue";
+import Header from "@/components/user/HeaderComponent.vue";
 
 export default {
   name: "ChatDetailView",
-  components: { Logo, Chat },
+  components: { Logo, Chat, Header },
   data() {
     return {
+      username: "그랜드팜",
       itemTitle: "가희네 고당도 샤인머스켓 4kg",
       price: 40000,
     };
