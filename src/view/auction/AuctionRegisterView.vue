@@ -1,14 +1,9 @@
 <template>
   <div class="wrapper">
     <LOGO />
-    <div class="header">
-      <div>
-        <button class="btn-left"><img src="../../../public/assets/img/left%202.png" alt="" /></button>
-      </div>
-      <div class="page-name">
-        <p>경매 등록</p>
-      </div>
-    </div>
+    <HeaderComponent>
+      <p>경매 등록</p>
+    </HeaderComponent>
     <div class="img-upload">
       <!--     미리보기       -->
       <div class="img-preview">
@@ -109,10 +104,14 @@
 <script>
 import axios from "axios";
 import LOGO from "@/components/user/LogoComponent.vue";
+import HeaderComponent from "@/components/user/HeaderComponent.vue";
 
 export default {
   name: "AuctionRegisterView",
-  components: {LOGO},
+  components: {
+    LOGO,
+    HeaderComponent
+  },
   data() {
     return {
       itemTitle: "",
@@ -208,6 +207,7 @@ export default {
       this.tags.push(this.tag);
       this.tag = '';
 
+      console.log("태그: " + this.tags);
     },
     removeTag(tag) {
       let index = this.tags.indexOf(tag);
@@ -221,7 +221,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/logo-component.css";
 @import "../../../public/assets/css/auction-register-page.css";
 
 </style>

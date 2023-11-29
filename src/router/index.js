@@ -15,6 +15,7 @@ import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import MainView from '@/view/home/HomeView.vue';
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
+import UserInfoView from "@/view/mypage/UserInfoView.vue";
 
 const routes = [
     {
@@ -92,7 +93,11 @@ const routes = [
                     path: "/user",
                     name: "user",
                     component: MyPageView
-                }
+                },
+                {
+                    path: "/user/info",
+                    component: UserInfoView
+                },
             ],
     },
 ];
