@@ -29,6 +29,11 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  name: "FailView"
+}
+</script>
 <style>
 @import "../../../public/assets/css/tosspayments-style.css";
 </style>
