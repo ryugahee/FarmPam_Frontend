@@ -10,10 +10,14 @@ import SuccessView from "@/view/pay/SuccessView.vue";
 import ItemsView from "@/view/auction/ItemsView.vue";
 import ProfileView from "@/view/user/ProfileView.vue";
 import FailView from "@/view/pay/FailView.vue";
+import HomeView from "@/view/user/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
-import HomeView from "@/view/home/HomeView.vue";
+import UserInfoView from "@/view/mypage/UserInfoView.vue";
+import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
+import SalesHistory from "@/view/mypage/SalesHistory.vue";
+
 
 const routes = [
     {
@@ -86,7 +90,19 @@ const routes = [
                     path: "/user",
                     name: "user",
                     component: MyPageView
-                }
+                },
+                {
+                    path: "/user/info",
+                    component: UserInfoView
+                },
+                {
+                    path: "/user/history/purchase",
+                    component: PurchaseHistory
+                },
+                {
+                    path: "/user/history/sales",
+                    component: SalesHistory
+                },
             ],
     },
 ];
