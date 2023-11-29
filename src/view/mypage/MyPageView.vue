@@ -23,11 +23,11 @@
     <div class="container-list">
       <div class="list">
         <div class="icons"><img src="../../../public/assets/img/shopping-bag%201.png"></div>
-        <div>구매내역</div>
+        <div @click="goPurchaseHistory">구매내역</div>
       </div>
       <div class="list">
         <div class="icons"><img src="../../../public/assets/img/sale%201.png"></div>
-        <div>판매 내역</div>
+        <div @click="goSalesHistory">판매 내역</div>
       </div>
       <div class="list">
         <div class="icons"><img src="../../../public/assets/img/receipt.png"></div>
@@ -46,14 +46,30 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import NavComponent from "@/components/user/NavComponent.vue";
 import router from "@/router";
+import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
+import SalesHistory from "@/view/mypage/SalesHistory.vue";
 
 export default {
+  computed: {
+    SalesHistory() {
+      return SalesHistory
+    },
+    PurchaseHistory() {
+      return PurchaseHistory
+    }
+  },
   components: {NavComponent, LOGO},
 
   methods: {
     goUserInfo() {
       router.push({ path: "/user/info" });
-    }
+    },
+    goPurchaseHistory() {
+      router.push({ path: "/user/history/purchase" });
+    },
+    goSalesHistory() {
+      router.push({ path: "/user/history/sales" });
+    },
   }
 
 }

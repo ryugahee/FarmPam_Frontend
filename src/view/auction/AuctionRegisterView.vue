@@ -62,7 +62,7 @@
       <div class="content">
       <textarea class="itemDetail-box"
           type="text"
-                v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
+                v-model="itemDetail" placeholder="&#10; 상품 설명" required></textarea>
       </div>
       <!--     태그 추가       -->
       <div class="tag-box">
