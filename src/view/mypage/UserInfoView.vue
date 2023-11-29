@@ -67,9 +67,9 @@
       </dl>
       <dl class="flex">
         <dt>상점소개</dt>
-        <dd>상점 소개를 적어주세요</dd>
+        <dd></dd>
       </dl>
-      <textarea class="store-Intro" type="text"></textarea>
+      <textarea class="store-Intro" type="text" placeholder="&#10; 상점 소개를 적어주세요"></textarea>
     </div>
 
 
