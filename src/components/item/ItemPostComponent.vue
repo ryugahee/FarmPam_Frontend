@@ -39,12 +39,13 @@ export default {
 
     loadItemList() {
       axios.get("api/item/list").then((res) => {
-        console.log("res데이터: " + res);
-        this.itemTitle = res.data.itemTitle;
-        this.weight = res.data.weight;
+        console.log("res데이터: " + res.data);
+        this.items = res.data;
+        this.weight = this.items[0].weight;
+        this.itemTitle = this.items[0].itemTitle;
+        // this.weight = res.data.weight;
       })
 
-      console.log("데이터: " +this.weight )
     },
 
     detail() {
