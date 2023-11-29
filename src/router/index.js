@@ -16,6 +16,8 @@ import MainView from "@/view/home/HomeView.vue";
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
 import UserInfoView from "@/view/mypage/UserInfoView.vue";
+import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
+import SalesHistory from "@/view/mypage/SalesHistory.vue";
 import ChatListView from "@/view/chat/ChatListView.vue";
 import ChatDetailView from "@/view/chat/ChatDetailView.vue";
 
@@ -98,6 +100,14 @@ const routes = [
       {
         path: "/user/info",
         component: UserInfoView,
+      },
+      {
+        path: "/user/history/purchase",
+        component: PurchaseHistory,
+      },
+      {
+        path: "/user/history/sales",
+        component: SalesHistory,
       },
       {
         path: "/chats",
