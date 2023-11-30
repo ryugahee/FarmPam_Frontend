@@ -17,18 +17,18 @@
         </div>
         <div class="pay-charge">
           <div class="charge">충전하기</div>
-          <div><img src="../../../public/assets/img/left.png" alt="" class="right"/></div>
+          <div><img src="../../../public/assets/img/left2.png" alt="" class="right"/></div>
         </div>
       </div>
     </div>
 
     <div class="container-list">
       <div class="list">
-        <div class="icons"><img src="../../../public/assets/img/shopping-bag.png" alt=""/></div>
+        <div class="icons"><img src="../../../public/assets/img/shopping-bag1.png" alt=""/></div>
         <div @click="goPurchaseHistory">구매 내역</div>
       </div>
       <div class="list">
-        <div class="icons"><img src="../../../public/assets/img/sale.png" alt=""/></div>
+        <div class="icons"><img src="../../../public/assets/img/sale1.png" alt=""/></div>
         <div @click="goSalesHistory">판매 내역</div>
       </div>
       <div class="list">
