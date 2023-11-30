@@ -14,7 +14,7 @@
     <div class="nav-menu">
       <img @click="modal=!modal" src="../../../public/assets/img/search.png" alt="" />
       <img @click="home" src="../../../public/assets/img/home.png" alt="" />
-      <img src="../../../public/assets/img/add_box.png" alt="" />
+      <img @click="auctionRegister" src="../../../public/assets/img/add_box.png" alt="" />
       <img src="../../../public/assets/img/chat.png" alt="" />
       <img @click="user" src="../../../public/assets/img/person.png" alt="" />
     </div>
@@ -42,6 +42,9 @@ export default {
     },
     user() {
       this.$router.push("/user");
+    },
+    auctionRegister() {
+      this.$router.push("/auction/register");
     }
   }
 }
