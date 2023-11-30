@@ -1,7 +1,7 @@
 <template>
   <div>
-    <LOGO />
-    <SearchBar />
+    <LOGO/>
+    <SearchBar/>
     <div class="select-box">
       <select class="select">
         <option value="join" selected>참여순</option>
@@ -10,9 +10,9 @@
       </select>
     </div>
     <div>
-      <ItemPost v-for="post in 10" :key="post" />
+      <ItemPost v-for="post in 10" :key="post"/>
     </div>
-    <NavBar />
+    <NavBar/>
   </div>
 </template>
 

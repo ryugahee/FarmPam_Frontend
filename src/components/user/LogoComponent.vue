@@ -1,7 +1,6 @@
 <template>
   <div class="logo">
-    <img @click="home" class="logo-img" src="../../../public/assets/img/Logo.png" alt="" />
-    <img class="dehaze" src="../../../public/assets/img/dehaze.png" alt="" />
+    <img @click="home" class="logo-img" src="../../../public/assets/img/Logo.png" alt=""/>
   </div>
 </template>
 

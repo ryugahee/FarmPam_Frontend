@@ -9,20 +9,20 @@ import PayView from "@/view/pay/PayView.vue";
 import SuccessView from "@/view/pay/SuccessView.vue";
 import ItemsView from "@/view/auction/ItemsView.vue";
 import ProfileView from "@/view/user/ProfileView.vue";
-import FailView from "@/view/pay/FailView.vue";
-import HomeView from "@/view/user/HomeView.vue";
+import HomeView from "@/view/home/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
-import MainView from '@/view/home/HomeView.vue';
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
 import UserInfoView from "@/view/mypage/UserInfoView.vue";
 import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
 import SalesHistory from "@/view/mypage/SalesHistory.vue";
+import FailView from "@/view/pay/FailView.vue";
+
 
 const routes = [
     {
         path: "/",
-        redirect: "/auction/bid",
+        redirect: "/home",
         component: UserTemplate,
         children:
             [
@@ -81,11 +81,6 @@ const routes = [
                     path: "/detail",
                     name: "detail",
                     component: ItemDetailView
-                },
-                {
-                    path: "/home",
-                    name: "home",
-                    component: MainView,
                 },
                 {
                     path: "/auction/register",
