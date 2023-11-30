@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LOGO/>
+    <LOGO />
     <SearchBar/>
     <div class="header-title">
       <h1>HOT</h1>
