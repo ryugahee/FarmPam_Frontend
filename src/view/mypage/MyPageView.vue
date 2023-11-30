@@ -75,7 +75,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 @import "../../../public/assets/css/mypage.css";
 
 
