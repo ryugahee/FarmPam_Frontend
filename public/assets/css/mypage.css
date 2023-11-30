@@ -1,0 +1,86 @@
+/* 유저 프로필 */
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 30px 10px 30px;
+}
+.img-profile {
+    background-color: #D9D9D9;
+    border-radius: 75px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.person-icon {
+    width: 40px;
+    height: 40px;
+}
+.btn-user-info {
+    background-color: #D9D9D9;
+    width: 75px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: small;
+    margin: auto;
+}
+.user-nickname {
+    font-size: larger;
+    margin-right: 110px;
+}
+
+/* 팜페이 충전 */
+.container-pay {
+    margin-top: 30px;
+}
+.pay-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid #98CB98 2px;
+    border-radius: 10px;
+    width: 340px;
+    height: 80px;
+    margin: auto;
+}
+.pay-money {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+}
+
+.pay-charge {
+    display: flex;
+    align-items: center;
+}
+.right {
+    transform: rotate(180deg);
+    margin-right: 20px;
+    margin-left: 10px;
+}
+.charge {
+    font-size: larger;
+}
+.farmpay {
+    font-size: larger;
+    margin-bottom: 25px;
+}
+
+
+/* 리스트 */
+.container-list {
+    border-top: solid 1px #D9D9D9;
+    margin-top: 30px;
+}
+.list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 30px;
+    font-size: larger;
+}
+.icons {
+    margin-right: 20px;
+}

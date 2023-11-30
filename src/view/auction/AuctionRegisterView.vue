@@ -1,14 +1,9 @@
 <template>
   <div class="wrapper">
     <LOGO />
-    <div class="header">
-      <div>
-        <button class="btn-left"><img src="../../../public/assets/img/left%202.png" alt="" /></button>
-      </div>
-      <div class="page-name">
-        <p>경매 등록</p>
-      </div>
-    </div>
+    <HeaderComponent>
+      <p>경매 등록</p>
+    </HeaderComponent>
     <div class="img-upload">
       <!--     미리보기       -->
       <div class="img-preview">
@@ -52,8 +47,8 @@
       <div>
         <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
       </div>
-      <div>
-        <select v-model="time" class="time-box" required>
+      <div class="ss">
+        <select class="time-box" required>
           <option>시간</option>
           <option value="30">30분</option>
           <option>1시간</option>
@@ -87,7 +82,7 @@
 
       </div>
       <div>
-        <select v-model="itemType" class="type-box" required>
+        <select class="type-box" required>
           <option>대분류</option>
           <option>딸기</option>
           <option>수박</option>
@@ -109,10 +104,14 @@
 <script>
 import axios from "axios";
 import LOGO from "@/components/user/LogoComponent.vue";
+import HeaderComponent from "@/components/user/HeaderComponent.vue";
 
 export default {
   name: "AuctionRegisterView",
-  components: {LOGO},
+  components: {
+    LOGO,
+    HeaderComponent
+  },
   data() {
     return {
       itemTitle: "",
@@ -133,8 +132,9 @@ export default {
   },
 
   methods: {
-    imageAddUpload() {
 
+
+    imageAddUpload() {
       let num = -1;
       for (let i = 0; i < this.$refs.files.files.length; i++) {
 
@@ -207,6 +207,7 @@ export default {
       this.tags.push(this.tag);
       this.tag = '';
 
+      console.log("태그: " + this.tags);
     },
     removeTag(tag) {
       let index = this.tags.indexOf(tag);
@@ -220,7 +221,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/logo-component.css";
 @import "../../../public/assets/css/auction-register-page.css";
 
 </style>
