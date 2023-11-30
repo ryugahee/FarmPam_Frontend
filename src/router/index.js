@@ -17,98 +17,109 @@ import UserInfoView from "@/view/mypage/UserInfoView.vue";
 import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
 import SalesHistory from "@/view/mypage/SalesHistory.vue";
 import FailView from "@/view/pay/FailView.vue";
-
+import ChatListView from "@/view/chat/ChatListView.vue";
+import ChatDetailView from "@/view/chat/ChatDetailView.vue";
 
 const routes = [
-    {
-        path: "/",
-        redirect: "/home",
-        component: UserTemplate,
-        children:
-            [
-                {
-                    path: "/login",
-                    component: LoginView
-                },
-                {
-                    path: "/easyLogin",
-                    component: EasyLogin
-                },
-                {
-                    path: "/findId",
-                    component: FindIdView
-                },
-                {
-                    path: "/findPw",
-                    component: FindPwView
-                },
-                {
-                    path: "/register",
-                    component: RegisterView
-                },
-                {
-                    path: "/pay",
-                    name: "pay",
-                    component: PayView
-                },
-                {
-                    path: "/success",
-                    name: "success",
-                    component: SuccessView
-                },
-                {
-                    path: "/fail",
-                    name: "fail",
-                    component: FailView
-                },
-                {
-                    path: "/items",
-                    name: "items",
-                    component: ItemsView
-                },
-                {
-                    path: "/profile",
-                    name: "profile",
-                    component: ProfileView
-                },
-                {
-                    path: "/home",
-                    name: "home",
-                    component: HomeView
-                },
-                // TODO : 식별 번호 수정 사항
-                {
-                    path: "/detail",
-                    name: "detail",
-                    component: ItemDetailView
-                },
-                {
-                    path: "/auction/register",
-                    component: AuctionRegisterView
-                },
-                {
-                    path: "/user",
-                    name: "user",
-                    component: MyPageView
-                },
-                {
-                    path: "/user/info",
-                    component: UserInfoView
-                },
-                {
-                    path: "/user/history/purchase",
-                    component: PurchaseHistory
-                },
-                {
-                    path: "/user/history/sales",
-                    component: SalesHistory
-                },
-            ],
-    },
+  {
+    path: "/",
+    redirect: "/home",
+    component: UserTemplate,
+    children: [
+      {
+        path: "/login",
+        component: LoginView,
+      },
+      {
+        path: "/easyLogin",
+        component: EasyLogin,
+      },
+      {
+        path: "/findId",
+        component: FindIdView,
+      },
+      {
+        path: "/findPw",
+        component: FindPwView,
+      },
+      {
+        path: "/register",
+        component: RegisterView,
+      },
+      {
+        path: "/pay",
+        name: "pay",
+        component: PayView,
+      },
+      {
+        path: "/success",
+        name: "success",
+        component: SuccessView,
+      },
+      {
+        path: "/fail",
+        name: "fail",
+        component: FailView,
+      },
+      {
+        path: "/items",
+        name: "items",
+        component: ItemsView,
+      },
+      {
+        path: "/profile",
+        name: "profile",
+        component: ProfileView,
+      },
+      {
+        path: "/home",
+        name: "home",
+        component: HomeView,
+      },
+      // TODO : 식별 번호 수정 사항
+      {
+        path: "/detail",
+        name: "detail",
+        component: ItemDetailView,
+      },
+      {
+        path: "/auction/register",
+        component: AuctionRegisterView,
+      },
+      {
+        path: "/user",
+        name: "user",
+        component: MyPageView,
+      },
+      {
+        path: "/user/info",
+        component: UserInfoView,
+      },
+      {
+        path: "/user/history/purchase",
+        component: PurchaseHistory,
+      },
+      {
+        path: "/user/history/sales",
+        component: SalesHistory,
+      },
+      {
+        path: "/chats",
+        name: "chats",
+        component: ChatListView,
+      },
+      {
+        path: "/chats/:id",
+        name: "chat",
+        component: ChatDetailView,
+        props: true,
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes,
 });
 export default router;
