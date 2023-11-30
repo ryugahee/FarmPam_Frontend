@@ -6,13 +6,22 @@
       </div>
 
       <div class="loginForm">
-        <input placeholder="아이디" />
+        <input 
+          placeholder="아이디" 
+          v-model="state.form.username"
+          @keyup.enter="submit()"
+
+        />
         <br />
-        <input placeholder="비밀번호" />
+        <input 
+          placeholder="비밀번호" 
+          v-model="state.form.password"
+          @keyup.enter="submit()"
+        />
       </div>
 
       <div class="bottons">
-        <button>로그인</button>
+        <button @click="submit()">로그인</button>
         <br />
         <button>회원가입</button>
       </div>
@@ -38,11 +47,34 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
+import axios from 'axios';
 
 export default {
   setup() {
+        const state = reactive({
+            form: {
+                username: "",
+                password: ""
+            }
+        });
 
-  }
+        const submit = () => {
+            axios.post("/api/login", state.form).then(() => {
+
+                alert("로그인 완료");
+
+            }).catch((err) => {
+                console.log(err);
+                window.alert("로그인 정보가 존재하지 않습니다.");
+            });
+        }
+
+        return{
+            state,
+            submit
+        }
+    }
 }
 </script>
 

@@ -58,10 +58,10 @@
 
 }
 .user-info-main dl dt {
-    font-size: x-large;
+    font-size: 22px;
 }
 .user-info-main dl dd {
-    font-size: larger;
+    font-size: large;
     color: #888888;
 }
 .store-Intro {

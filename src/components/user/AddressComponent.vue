@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <row>
-      <button @click="search()">우편번호 찾기</button>
+      <button @click="search">우편번호 찾기</button>
       <div class="easyLoginForm">
         <label for="itemnew"><span>* </span>우편번호</label>
         <input type="text" class="txt-input" id="itemnew" v-model="zipcode">

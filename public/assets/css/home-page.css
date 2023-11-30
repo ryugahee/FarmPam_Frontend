@@ -1,296 +1,390 @@
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: pink;
-}
-
-.menu-button {
-  width: 30px;
-  height: 30px;
-}
-
-.main-frame {
-  width: 390px;
-  height: 844px;
-  border: 1px solid red;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-}
-
-.search-div {
-  width: 350px;
-  height: 40px;
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid greenyellow;
-  border-radius: 5px;
-}
-
-.search-div .search-box {
-  width: 310px;
-  height: 100%;
-  border: none;
-}
-
-.search-div img {
-  width: 35px;
-  height: 35px;
-  align-items: center;
-}
-
-.carousel img {
-  width: 50px;
-  height: 200px;
-}
-
-.carousel-hot {
-  color: red;
-  font-weight: bolder;
+.header-title h1 {
   margin-left: 20px;
-  margin-top: 15px;
-  font-size: 30px;
+  color: #FF0000;
 }
 
-.carousel-div {
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
+.image-slider {
+  margin: 0 auto;
   width: 350px;
-  height: 194px;
-  border: 1px solid red;
+  height: 200px;
+  position: relative;
+  border-radius: 10px;
   overflow: hidden;
 }
 
-.carousel-div img {
-  width: 100%;
-  height: 100%;
-}
-
-.slide-container {
-  width: 100%;
-  height: 100%;
-}
-
-.text-over-image {
-  position: absolute;
-  transform: translate(10%, -250%);
-  z-index: 0;
-}
-
-.text-over-image p {
-  width: 100%;
-  height: 30px;
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.classification {
-  width: 100%;
+.image-slider .image-container {
   display: flex;
+  transition: transform 0.5s ease;
 }
 
-.classification div {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+.image-slider .image-container .image-slide img {
+  width: 350px;
+  height: 250px;
+  border-radius: 10px;
 }
 
-.classification img {
-  width: 60px;
-  height: 60px;
+/*.image-slider .image-container .image-slide p {*/
+/*  font-size: 25px;*/
+/*  color: #FFFFFF;*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*  left: 50%;*/
+/*  transform: translateX(-50%);*/
+/*}*/
+
+.month-farmer {
+  margin: 20px;
 }
 
-.classification p {
-  font-weight: bold;
-}
-
-.title-of-the-month {
-  margin-left: 20px;
-  margin-top: 20px;
+.month-farmer h2 {
   margin-bottom: 10px;
-  height: 24px;
-  font-weight: 500;
 }
 
-.farmer-of-the-month {
-  width: 100%;
+.farmer-profile-wrapper {
+  margin: 0 auto;
+  width: 350px;
   display: flex;
 }
 
-.farmer-of-the-month div {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-#medal {
-  height: 1em;
-  width: 1em;
-}
-
-.farmer-of-the-month img {
-  width: 60px;
-  height: 60px;
-}
-
-.sale-of-the-month {
-  width: 100%;
-  display: flex;
-}
-
-.sale-of-the-month div {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.sale-of-the-month img {
-  width: 60px;
-  height: 60px;
-}
-
-.farmer-of-the-month p {
-  font-weight: bold;
-}
-
-.sale-of-the-month p {
-  font-weight: bold;
-}
-
-.clicked-menubar {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.munu-login-header {
-  display: flex;
-  width: 100%;
-}
-
-.munu-login-sub-header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* background-color: pink; */
-  height: 50px;
-}
-
-.close-button {
-  width: 40px;
-  height: 40px;
-}
-
-.login-button {
-  width: 70px;
-  height: 25px;
-  margin-top: 0;
-  background-color: white;
-  /* margin-right: 10px; */
-  font-weight: bold;
-  border: 1px solid black;
-}
-
-.munu-login-money {
-  display: flex;
-  width: 100%;
-}
-
-.munu-login-sub-money {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-.concierge-title {
-  font-weight: 500;
-}
-
-#concierge {
-  height: 1em;
-  width: 1em;
-}
-
-.bid-price {
-  display: flex;
-  justify-content: space-between;
-}
-
-.bid-price-number {
-  font-weight: bold;
-}
-
-.list-of-participating-auctions {
-  margin-top: 20px;
+.farmer-profile-wrapper .farmer-profile {
+  margin: 0 auto;
+  width: 120px;
   height: 100px;
 }
 
-.list-of-participating-auctions-div {
-  display: flex;
-}
-
-.list-of-participating-auctions-div-text {
-  width: 100%;
-  margin: 10px 10px 10px 0;
-  background-color: pink;
-}
-
-.list-of-participating-auctions-div img {
-  padding: 10px;
-  width: 100px;
-  height: 100px;
-}
-
-.auction-time {
-  width: 80px;
-  height: 17px;
-  position: absolute;
+.farmer-profile-wrapper .farmer-profile .fp {
+  margin: 0 auto;
   text-align: center;
-  font-size: 12px;
-  background: black;
-  color: white;
-  transform: translate(-112%, 430%);
-  opacity: 0.7;
-
 }
 
-.menu-username-div {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.menu-username-div img {
+.farmer-profile-wrapper .farmer-profile .fp .farmer-profile-image {
+  margin: 5px auto;
   width: 70px;
   height: 70px;
 }
 
-.farmpami-text {
-  margin-left: 15px;
-  font-weight: bolder;
+.farmer-profile-wrapper .farmer-profile .fp .farm {
+  display: flex;
 }
 
-.footer {
-  width: 100%;
-  height: 55px;
-  /* border-top: 1px solid blue; */
-  background: #D9D9D9;
+.farmer-profile-wrapper .farmer-profile .fp .farmer .farmer-nickname {
+  font-size: 20px;
+}
+
+.farmer-profile-wrapper .farmer-profile .fp .farmer .medal {
+  margin-bottom: -4px;
+  width: 16px;
+  height: 18px;
+}
+
+.month-pam {
+  margin: 50px 20px 20px;
+}
+
+.pam-box {
+  margin: 0 auto;
+  width: 350px;
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
 }
 
-.footer img {
-  width: 35px;
-  height: 35px;
+.pam-box .pam-image .pam {
+  width: 100px;
+  text-align: center;
 }
+
+.pam-box .pam-image .pam img {
+  margin: 5px auto;
+  width: 70px;
+  height: 70px;
+  border-radius: 5px;
+}
+
+.pam-box .pam-image .pam p {
+  font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.header {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*  background-color: pink;*/
+/*}*/
+
+/*.menu-button {*/
+/*  width: 30px;*/
+/*  height: 30px;*/
+/*}*/
+
+/*.carousel img {*/
+/*  width: 50px;*/
+/*  height: 200px;*/
+/*}*/
+
+/*.carousel-hot {*/
+/*  font-weight: bolder;*/
+/*  margin-left: 20px;*/
+/*  margin-top: 15px;*/
+/*  color: #FF0000;*/
+/*}*/
+
+/*.carousel-div {*/
+/*  display: flex;*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  margin-bottom: 20px;*/
+/*  width: 350px;*/
+/*  height: 194px;*/
+/*  overflow: hidden;*/
+/*}*/
+
+/*.carousel-div img {*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*}*/
+
+/*.slide-container {*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*}*/
+
+/*.text-over-image {*/
+/*  position: absolute;*/
+/*  transform: translate(10%, -250%);*/
+/*  z-index: 0;*/
+/*}*/
+
+/*.text-over-image p {*/
+/*  width: 100%;*/
+/*  height: 30px;*/
+/*  color: white;*/
+/*  font-weight: bold;*/
+/*  font-size: 20px;*/
+/*}*/
+
+/*.classification {*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*}*/
+
+/*.classification div {*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  text-align: center;*/
+/*}*/
+
+/*.classification img {*/
+/*  width: 60px;*/
+/*  height: 60px;*/
+/*}*/
+
+/*.classification p {*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*.title-of-the-month {*/
+/*  margin-left: 20px;*/
+/*  margin-top: 20px;*/
+/*  margin-bottom: 10px;*/
+/*  height: 24px;*/
+/*  font-weight: 500;*/
+/*}*/
+
+/*.farmer-of-the-month {*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*}*/
+
+/*.farmer-of-the-month div {*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  text-align: center;*/
+/*}*/
+
+/*#medal {*/
+/*  height: 1em;*/
+/*  width: 1em;*/
+/*}*/
+
+/*.farmer-of-the-month img {*/
+/*  width: 60px;*/
+/*  height: 60px;*/
+/*}*/
+
+/*.sale-of-the-month {*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*}*/
+
+/*.sale-of-the-month div {*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  text-align: center;*/
+/*}*/
+
+/*.sale-of-the-month img {*/
+/*  width: 60px;*/
+/*  height: 60px;*/
+/*}*/
+
+/*.farmer-of-the-month p {*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*.sale-of-the-month p {*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*.clicked-menubar {*/
+/*  margin-left: 10px;*/
+/*  margin-right: 10px;*/
+/*}*/
+
+/*.munu-login-header {*/
+/*  display: flex;*/
+/*  width: 100%;*/
+/*}*/
+
+/*.munu-login-sub-header {*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*  !* background-color: pink; *!*/
+/*  height: 50px;*/
+/*}*/
+
+/*.close-button {*/
+/*  width: 40px;*/
+/*  height: 40px;*/
+/*}*/
+
+/*.login-button {*/
+/*  width: 70px;*/
+/*  height: 25px;*/
+/*  margin-top: 0;*/
+/*  background-color: white;*/
+/*  !* margin-right: 10px; *!*/
+/*  font-weight: bold;*/
+/*  border: 1px solid black;*/
+/*}*/
+
+/*.munu-login-money {*/
+/*  display: flex;*/
+/*  width: 100%;*/
+/*}*/
+
+/*.munu-login-sub-money {*/
+/*  width: 100%;*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  margin-bottom: 20px;*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*.concierge-title {*/
+/*  font-weight: 500;*/
+/*}*/
+
+/*#concierge {*/
+/*  height: 1em;*/
+/*  width: 1em;*/
+/*}*/
+
+/*.bid-price {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*}*/
+
+/*.bid-price-number {*/
+/*  font-weight: bold;*/
+/*}*/
+
+/*.list-of-participating-auctions {*/
+/*  margin-top: 20px;*/
+/*  height: 100px;*/
+/*}*/
+
+/*.list-of-participating-auctions-div {*/
+/*  display: flex;*/
+/*}*/
+
+/*.list-of-participating-auctions-div-text {*/
+/*  width: 100%;*/
+/*  margin: 10px 10px 10px 0;*/
+/*  background-color: pink;*/
+/*}*/
+
+/*.list-of-participating-auctions-div img {*/
+/*  padding: 10px;*/
+/*  width: 100px;*/
+/*  height: 100px;*/
+/*}*/
+
+/*.auction-time {*/
+/*  width: 80px;*/
+/*  height: 17px;*/
+/*  position: absolute;*/
+/*  text-align: center;*/
+/*  font-size: 12px;*/
+/*  background: black;*/
+/*  color: white;*/
+/*  transform: translate(-112%, 430%);*/
+/*  opacity: 0.7;*/
+
+/*}*/
+
+/*.menu-username-div {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  margin-top: 20px;*/
+/*  margin-bottom: 20px;*/
+/*}*/
+
+/*.menu-username-div img {*/
+/*  width: 70px;*/
+/*  height: 70px;*/
+/*}*/
+
+/*.farmpami-text {*/
+/*  margin-left: 15px;*/
+/*  font-weight: bolder;*/
+/*}*/
+
+/*.footer {*/
+/*  width: 100%;*/
+/*  height: 55px;*/
+/*  !* border-top: 1px solid blue; *!*/
+/*  background: #D9D9D9;*/
+/*  display: flex;*/
+/*  justify-content: space-around;*/
+/*  align-items: center;*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*}*/
+
+/*.footer img {*/
+/*  width: 35px;*/
+/*  height: 35px;*/
+/*}*/

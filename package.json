@@ -11,9 +11,12 @@
     "@tosspayments/payment-widget-sdk": "^0.10.0",
     "axios": "^1.6.1",
     "core-js": "^3.8.3",
+<<<<<<< HEAD
     "firebase": "^10.7.0",
     "node-sass": "^9.0.0",
     "sass-loader": "^13.3.2",
+=======
+>>>>>>> c82c6915b9c85ada9e3d20f80072bee54ec62a59
     "vue": "^3.2.13",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0"
@@ -27,8 +30,11 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "node-sass": "^9.0.0",
+    "sass-loader": "^13.3.2",
     "vite": "^4.4.11",
-    "vue-template-compiler": "^2.6.14"
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.89.0"
   },
   "eslintConfig": {
     "root": true,
@@ -42,7 +48,9 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars": "off"
+    }
   },
   "browserslist": [
     "> 1%",
