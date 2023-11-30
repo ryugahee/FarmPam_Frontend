@@ -1,6 +1,6 @@
 .chat-box {
   padding-top: 20px;
-  padding-bottom: 50px;
+  padding-bottom: 10px;
   overflow-y: scroll;
   max-height: 604px;
   -ms-overflow-style: none;
@@ -18,7 +18,7 @@
   width: 390px;
   height: 80px;
   background: #ffffff;
-  max-height: 120px;
+  max-height: 100px;
 }
 
 .message-bar {

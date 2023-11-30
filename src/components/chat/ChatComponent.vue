@@ -97,7 +97,7 @@ export default {
       textarea.style.height = "auto";
 
       const inputDiv = this.$refs.inputDivRef;
-      inputDiv.style.height = "80px";
+      inputDiv.style.height = "70px";
 
       this.$nextTick(() => {
         this.$refs.chatBox.scrollTop = this.$refs.chatBox.scrollHeight;
@@ -109,7 +109,7 @@ export default {
       textarea.style.height = `${textarea.scrollHeight}px`;
 
       const inputDiv = this.$refs.inputDivRef;
-      inputDiv.style.height = `${textarea.scrollHeight + 40}px`;
+      inputDiv.style.height = `${textarea.scrollHeight + 20}px`;
     },
     handleEnterKey(event) {
       if (event.shiftKey) {
