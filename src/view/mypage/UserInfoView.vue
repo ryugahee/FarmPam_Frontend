@@ -1,33 +1,33 @@
 <template>
   <div>
-    <LOGO />
+    <LOGO/>
     <div class="header">
       <div>
-        <button class="btn-left" @click="goBack"><img src="../../../public/assets/img/left%202.png" alt="" /></button>
+        <button class="btn-left" @click="goBack"><img src="../../../public/assets/img/left.png" alt=""/></button>
       </div>
       <div class="page-name">
         <p>프로필 수정</p>
       </div>
       <div>
-        <button  class="btn-upload">완료</button>
+        <button class="btn-upload">완료</button>
       </div>
     </div>
 
 
     <div class="img-user-container" v-if="!file">
       <div class="img-user">
-        <img src="../../../public/assets/img/person2.png"/>
+        <img src="../../../public/assets/img/person2.png" alt=""/>
       </div>
       <div class="user-icon">
         <label for="file">
-          <img src="../../../public/assets/img/camera%201.png" class="icon-cam"/>
+          <img src="../../../public/assets/img/camera.png" class="icon-cam" alt=""/>
         </label>
         <input type="file" id="file" ref="file" @change="userImageUpload" style="display: none"/>
       </div>
     </div>
     <div class="img-user-container" v-else>
       <label for="file">
-        <img :src="preview" class="preview-user"/>
+        <img :src="preview" class="preview-user" alt=""/>
       </label>
       <input type="file" id="file" ref="file" @change="userImageUpload" style="display: none"/>
     </div>
@@ -73,9 +73,7 @@
     </div>
 
 
-
-
-    <NavComponent />
+    <NavComponent/>
   </div>
 </template>
 
@@ -110,7 +108,7 @@ export default {
       this.preview = URL.createObjectURL(this.file)
     },
 
-    goBack(){
+    goBack() {
       this.$router.go(-1);
     },
 
