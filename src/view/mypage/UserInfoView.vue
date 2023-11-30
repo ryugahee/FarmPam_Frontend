@@ -3,7 +3,7 @@
     <LOGO/>
     <div class="header">
       <div>
-        <button class="btn-left" @click="goBack"><img src="../../../public/assets/img/left.png" alt=""/></button>
+        <button class="btn-left" @click="goBack"><img src="../../../public/assets/img/left2.png" alt=""/></button>
       </div>
       <div class="page-name">
         <p>프로필 수정</p>
@@ -20,7 +20,7 @@
       </div>
       <div class="user-icon">
         <label for="file">
-          <img src="../../../public/assets/img/camera.png" class="icon-cam" alt=""/>
+          <img src="../../../public/assets/img/camera1.png" class="icon-cam" alt=""/>
         </label>
         <input type="file" id="file" ref="file" @change="userImageUpload" style="display: none"/>
       </div>
