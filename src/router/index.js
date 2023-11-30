@@ -23,95 +23,7 @@ import ChatDetailView from "@/view/chat/ChatDetailView.vue";
 
 
 const routes = [
-<<<<<<< HEAD
-    {
-        path: "/",
-        redirect: "/login",
-        component: UserTemplate,
-        children:
-            [
 
-                {
-                    path: "/login",
-                    component: LoginView
-                },
-                {
-                    path: "/easyLogin",
-                    component: EasyLogin
-                },
-                {
-                    path: "/findId",
-                    component: FindIdView
-                },
-                {
-                    path: "/findPw",
-                    component: FindPwView
-                },
-                {
-                    path: "/register",
-                    component: RegisterView
-                },
-                {
-                    path: "/pay",
-                    name: "pay",
-                    component: PayView
-                },
-                {
-                    path: "/success",
-                    name: "success",
-                    component: SuccessView
-                },
-                {
-                    path: "/fail",
-                    name: "fail",
-                    component: FailView
-                },
-                {
-                    path: "/items",
-                    name: "items",
-                    component: ItemsView
-                },
-                {
-                    path: "/profile",
-                    name: "profile",
-                    component: ProfileView
-                },
-                {
-                    path: "/home",
-                    name: "home",
-                    component: HomeView
-                },
-                // TODO : 식별 번호 수정 사항
-                {
-                    path: "/detail",
-                    name: "detail",
-                    component: ItemDetailView
-                },
-                {
-                    path: "/home",
-                    name: "home",
-                    component: MainView,
-                },
-                {
-                    path: "/auction/register",
-                    component: AuctionRegisterView
-                },
-                {
-                    path: "/auction/bid",
-                    component: AuctionView,
-                },
-                {
-                    path: "/user",
-                    name: "user",
-                    component: MyPageView
-                },
-                {
-                    path: "/user/info",
-                    component: UserInfoView
-                },
-            ],
-    },
-=======
   {
     path: "/",
     redirect: "/home",
@@ -178,6 +90,10 @@ const routes = [
         component: AuctionRegisterView,
       },
       {
+        path: "/auction/bid",
+        component: AuctionView,
+      },
+      {
         path: "/user",
         name: "user",
         component: MyPageView,
@@ -207,7 +123,6 @@ const routes = [
       },
     ],
   },
->>>>>>> c82c6915b9c85ada9e3d20f80072bee54ec62a59
 ];
 
 const router = createRouter({
