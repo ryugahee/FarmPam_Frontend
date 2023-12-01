@@ -22,6 +22,10 @@ const store = createStore({
       state.user.mobilePhone = mobilePhone;
       state.user.farmMoney = farmMoney;
     },
+    addFarmMoney(state) {
+      // TODO: 팜머니 업데이트 체크
+      state.user.farmMoney += state.amount;
+    },
   },
   actions: {},
   getters: {

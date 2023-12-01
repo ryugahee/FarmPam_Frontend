@@ -72,6 +72,11 @@ export default {
       confirmed,
     };
   },
+
+  mounted() {
+    // #TODO: 데이터베이스를 활용해서 FarmMoney를 업데이트 하기
+    this.$store.commit("addFarmMoney");
+  },
 };
 </script>
 <style>

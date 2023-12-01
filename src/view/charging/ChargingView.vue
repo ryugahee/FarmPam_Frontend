@@ -1,19 +1,23 @@
 <template>
-  <div class="container">
+  <div class="template-container">
     <Logo />
     <Header>
       <p>{{ title }}</p>
     </Header>
     <div class="charging-container">
       <div class="top-wrapper">
-        <h3 class="subtitle">{{ subtitle }}</h3>
-        <input
-          type="text"
-          class="charging-farm-money"
-          :placeholder="subtitle"
-          :value="formattedInputFarmMoney"
-          @input="updateInputFarmMoney"
-        />
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control charging-farm-money"
+            :placeholder="subtitle"
+            :value="formattedInputFarmMoney"
+            @input="updateInputFarmMoney"
+            :id="chargingInput"
+            readonly
+          />
+          <label for="chargingInput">충전 금액</label>
+        </div>
         <div class="amount">
           <p>현재 Farm 머니</p>
           <p class="farm-money">{{ farmMoney.toLocaleString() }}원</p>
@@ -57,7 +61,14 @@
         </div>
         <div class="charging-btn-div">
           <router-link :to="`/pay`">
-            <button @click="charge" class="charging-btn">충전하기</button>
+            <button
+              @click="charge"
+              class="charging-btn"
+              :disabled="!isChargeValid()"
+              :style="{ 'background-color': isChargeValid() ? '' : '#808080' }"
+            >
+              충전하기
+            </button>
           </router-link>
         </div>
       </div>
@@ -85,10 +96,16 @@ export default {
   },
   computed: {
     formattedInputFarmMoney() {
-      return Number(this.inputFarmMoney).toLocaleString();
+      return this.inputFarmMoney !== "" && this.inputFarmMoney !== "0"
+        ? Number(this.inputFarmMoney).toLocaleString()
+        : "";
     },
   },
   methods: {
+    isChargeValid() {
+      const inputFarmMoneyAsNumber = Number(this.inputFarmMoney);
+      return !isNaN(inputFarmMoneyAsNumber) && inputFarmMoneyAsNumber >= 10000;
+    },
     addToFarmMoney(number) {
       this.inputFarmMoney = (Number(this.inputFarmMoney) + number).toString();
     },
@@ -100,7 +117,7 @@ export default {
     },
     updateInputFarmMoney(event) {
       const newValue = event.target.value.replace(/[^0-9]/g, "");
-      this.inputFarmMoney = newValue;
+      this.inputFarmMoney = newValue !== "0" ? newValue : "";
     },
     charge() {
       this.$store.commit("charging", Number(this.inputFarmMoney));

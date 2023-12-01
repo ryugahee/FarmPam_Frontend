@@ -4,7 +4,7 @@ button {
   background-color: #f4f4f4;
 }
 
-.container {
+.template-container {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -92,4 +92,9 @@ button {
 .charging-btn {
   background-color: #90ee90;
   color: white;
+}
+
+.form-floating {
+  display: flex;
+  justify-content: center;
 }
