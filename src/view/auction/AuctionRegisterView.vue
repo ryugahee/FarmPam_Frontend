@@ -19,7 +19,7 @@
         </div>
         <!--     사진 추가       -->
         <div v-if="!files.length">
-          <label for="file" class="filelabel"><img src="../../../public/assets/img/camera%201.png" class="icon-camera" alt="" ></label>
+          <label for="file" class="filelabel"><img src="../../../public/assets/img/camera1.png" class="icon-camera" alt="" ></label>
           <input
               type="file"
               id="file"

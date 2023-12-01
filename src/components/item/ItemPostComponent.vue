@@ -10,11 +10,11 @@
         </div>
       </div>
       <div class="post-content">
-        <h3> {{ post.title }} </h3>
+        <h5> {{ post.title }} </h5>
         <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
-        <span class="participants"> {{ post.users }} </span>
+        <p class="participants"> {{ post.users }} </p>
         <p class="current-bid-price">현재 입찰가</p>
-        <h3 class="price"> {{ post.price.toLocaleString() }}원 </h3>
+        <h4 class="price"> {{ post.price.toLocaleString() }}원 </h4>
       </div>
     </div>
   </div>

@@ -91,6 +91,6 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 @import "../../../public/assets/css/tosspayments-style.css";
 </style>
