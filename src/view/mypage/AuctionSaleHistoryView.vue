@@ -39,9 +39,4 @@ export default {
 
 <style scoped>
 @import "../../../public/assets/css/tab-component.css";
-
-.header-fix {
-  z-index: 1;
-  position: fixed;
-}
 </style>
