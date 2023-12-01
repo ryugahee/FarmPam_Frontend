@@ -1,33 +1,33 @@
 <template>
   <div>
-    <LOGO />
+    <LOGO/>
     <div class="header">
       <div>
-        <button class="btn-left" @click="goBack"><img src="../../../public/assets/img/left%202.png" alt="" /></button>
+        <button class="btn-left" @click="goBack"><img src="../../../public/assets/img/left2.png" alt=""/></button>
       </div>
       <div class="page-name">
         <p>프로필 수정</p>
       </div>
       <div>
-        <button  class="btn-upload">완료</button>
+        <button class="btn-upload">완료</button>
       </div>
     </div>
 
 
     <div class="img-user-container" v-if="!file">
       <div class="img-user">
-        <img src="../../../public/assets/img/person2.png"/>
+        <img src="../../../public/assets/img/person2.png" alt=""/>
       </div>
       <div class="user-icon">
         <label for="file">
-          <img src="../../../public/assets/img/camera%201.png" class="icon-cam"/>
+          <img src="../../../public/assets/img/camera1.png" class="icon-cam" alt=""/>
         </label>
         <input type="file" id="file" ref="file" @change="userImageUpload" style="display: none"/>
       </div>
     </div>
     <div class="img-user-container" v-else>
       <label for="file">
-        <img :src="preview" class="preview-user"/>
+        <img :src="preview" class="preview-user" alt=""/>
       </label>
       <input type="file" id="file" ref="file" @change="userImageUpload" style="display: none"/>
     </div>
@@ -67,15 +67,13 @@
       </dl>
       <dl class="flex">
         <dt>상점소개</dt>
-        <dd>상점 소개를 적어주세요</dd>
+        <dd></dd>
       </dl>
-      <textarea class="store-Intro" type="text"></textarea>
+      <textarea class="store-Intro" type="text" placeholder="&#10; 상점 소개를 적어주세요"></textarea>
     </div>
 
 
-
-
-    <NavComponent />
+    <NavComponent/>
   </div>
 </template>
 
@@ -110,7 +108,7 @@ export default {
       this.preview = URL.createObjectURL(this.file)
     },
 
-    goBack(){
+    goBack() {
       this.$router.go(-1);
     },
 
@@ -120,6 +118,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 @import "../../../public/assets/css/user-info.css";
 </style>
