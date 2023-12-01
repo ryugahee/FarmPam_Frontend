@@ -1,8 +1,9 @@
 <template>
   <div class="post" @click="detail">
-    <div class="post-img-box">
+    <div class="post-img-box" v-for="(item, i) in items" :key="i">
       <div class="post-img">
-        <img class="thumbnail-img"/>
+<!--        {{item.itemImgDtoList[0].imgUrl}}-->
+        <img src="" class="thumbnail-img"/>
         <div class="remaining-time">
           <div class="time-bg">
             <p> 00:00:00 남음</p>
@@ -10,7 +11,7 @@
         </div>
       </div>
       <div class="post-content">
-        <h3> {{ itemTitle }} {{ weight }} </h3>
+        <h3> {{ item.itemTitle }} {{ item.weight }}kg </h3>
         <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
         <span class="participants">  </span>
         <p class="current-bid-price">현재 입찰가</p>
@@ -27,8 +28,7 @@ export default {
   name: 'ItemPost',
   data() {
     return {
-      itemTitle: "",
-      weight: ""
+      items: [],
     }
   },
   created() {
@@ -36,21 +36,18 @@ export default {
 
   },
   methods: {
-
     loadItemList() {
       axios.get("api/item/list").then((res) => {
         console.log("res데이터: " + res.data);
         this.items = res.data;
-        this.weight = this.items[0].weight;
-        this.itemTitle = this.items[0].itemTitle;
-        // this.weight = res.data.weight;
       })
 
     },
 
     detail() {
       this.$router.push("/detail")
-    }
+    },
+
   }
 }
 </script>
