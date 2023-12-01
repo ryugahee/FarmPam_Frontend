@@ -64,6 +64,9 @@ export default {
   methods: {
     profile() {
       this.$router.push("/profile")
+    },
+    auction(){
+      this.$router.push("/auction/bid")
     }
   }
 }

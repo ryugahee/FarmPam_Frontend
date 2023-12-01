@@ -11,12 +11,9 @@
     "@tosspayments/payment-widget-sdk": "^0.10.0",
     "axios": "^1.6.1",
     "core-js": "^3.8.3",
-<<<<<<< HEAD
     "firebase": "^10.7.0",
     "node-sass": "^9.0.0",
     "sass-loader": "^13.3.2",
-=======
->>>>>>> c82c6915b9c85ada9e3d20f80072bee54ec62a59
     "vue": "^3.2.13",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0"

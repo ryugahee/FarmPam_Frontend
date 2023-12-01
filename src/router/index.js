@@ -13,7 +13,7 @@ import HomeView from "@/view/home/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
-import AuctionView from "@/view/AuctionView.vue";
+import AuctionView from "@/view/auction/AuctionView.vue";
 import UserInfoView from "@/view/mypage/UserInfoView.vue";
 import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
 import SalesHistory from "@/view/mypage/SalesHistory.vue";
