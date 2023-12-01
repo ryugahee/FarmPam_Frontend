@@ -11,9 +11,9 @@
         </div>
       </div>
       <div class="post-content">
-        <h3> {{ item.itemTitle }} {{ item.weight }}kg </h3>
+        <h5> {{ item.itemTitle }} {{ item.weight }}kg  </h5>
         <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
-        <span class="participants">  </span>
+        <p> class="participants">  </p>
         <p class="current-bid-price">현재 입찰가</p>
         <h3 class="price"> 원 </h3>
       </div>

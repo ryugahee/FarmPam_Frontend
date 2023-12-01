@@ -1,7 +1,12 @@
 <template>
   <div>
     <LOGO/>
-    <SearchBar/>
+    <div class="search-fix">
+      <div class="search-bar">
+        <input v-model="searchValue" class="search-box" placeholder="검색할 물품을 입력하세요."/>
+        <button class="search-btn" @click="btnClick"><img src="../../../public/assets/img/search-green.png" alt="" /></button>
+      </div>
+    </div>
     <div class="select-box">
       <select class="select">
         <option value="join" selected>참여순</option>
@@ -20,16 +25,29 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import ItemPost from "@/components/item/ItemPostComponent.vue";
 import NavBar from "@/components/user/NavComponent.vue";
-import SearchBar from "@/components/user/SearchBarComponent.vue";
 
 export default {
   name: "ItemView",
+  data() {
+    return {
+      searchValue: ''
+    }
+  },
   components: {
-    SearchBar,
     LOGO,
     ItemPost,
     NavBar
   },
+  methods: {
+    btnClick() {
+      if (this.searchValue.trim() !== '') {
+        this.$router.push({ path: "/items", query: { search: encodeURIComponent(this.searchValue) } });
+      } else {
+        this.$router.push("/items");
+      }
+    }
+  }
+
 }
 </script>
 
