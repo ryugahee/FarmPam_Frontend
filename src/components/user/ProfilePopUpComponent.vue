@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pop-up-modal offcanvas offcanvas-end" id="offcanvasRight">
+    <div class="pop-up-modal offcanvas pop-up-slide" id="offcanvasRight">
       <div class="pop-up-header">
         <img class="pop-up-close" data-bs-dismiss="offcanvas" aria-label="Close"
              src="../../../public/assets/img/close.png" alt="">
