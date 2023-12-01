@@ -39,7 +39,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .input-box .inputs {
   width: 100%;
 }
