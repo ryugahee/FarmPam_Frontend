@@ -130,7 +130,7 @@ export default {
 
     };
   },
-
+  inject:["$http"],
   methods: {
 
 
@@ -178,8 +178,8 @@ export default {
       const arrayAsString = myArray.join(',');
       formData.append("tagNames",arrayAsString);
 
-      await axios
-          .post("/api/item/new", formData, {
+      await this.$http
+          .post("/item/new", formData, {
             headers: {
               "Content-Type": "multipart/form-data;  charset=UTF-8",
             },

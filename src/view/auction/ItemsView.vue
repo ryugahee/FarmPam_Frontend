@@ -10,7 +10,7 @@
       </select>
     </div>
     <div>
-      <ItemPost v-for="post in 10" :key="post"/>
+      <ItemPost />
     </div>
     <NavBar/>
   </div>
@@ -29,7 +29,7 @@ export default {
     LOGO,
     ItemPost,
     NavBar
-  }
+  },
 }
 </script>
 

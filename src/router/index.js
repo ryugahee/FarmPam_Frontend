@@ -14,11 +14,12 @@ import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
 import UserInfoView from "@/view/mypage/UserInfoView.vue";
-import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
-import SalesHistory from "@/view/mypage/SalesHistory.vue";
 import FailView from "@/view/pay/FailView.vue";
 import ChatListView from "@/view/chat/ChatListView.vue";
 import ChatDetailView from "@/view/chat/ChatDetailView.vue";
+import AuctionPurchaseHistoryView from "@/view/mypage/AuctionPurchaseHistoryView.vue";
+import AuctionSaleHistoryView from "@/view/mypage/AuctionSaleHistoryView.vue";
+import AuctionView from "@/view/AuctionView.vue";
 
 const routes = [
   {
@@ -87,6 +88,12 @@ const routes = [
         component: AuctionRegisterView,
       },
       {
+        path:"/auction/bid",
+        component: AuctionView
+      },
+
+
+      {
         path: "/user",
         name: "user",
         component: MyPageView,
@@ -97,11 +104,11 @@ const routes = [
       },
       {
         path: "/user/history/purchase",
-        component: PurchaseHistory,
+        component: AuctionPurchaseHistoryView,
       },
       {
         path: "/user/history/sales",
-        component: SalesHistory,
+        component: AuctionSaleHistoryView,
       },
       {
         path: "/chats",

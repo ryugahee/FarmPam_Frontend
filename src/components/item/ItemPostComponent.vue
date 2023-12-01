@@ -35,12 +35,15 @@ export default {
     this.loadItemList();
 
   },
+  inject:["$http"],
   methods: {
     loadItemList() {
-      axios.get("api/item/list").then((res) => {
-        console.log("res데이터: " + res.data);
+      this.$http.get("/item/list").then((res) => {
         this.items = res.data;
-      })
+      }).catch((error) => {
+        // 오류가 발생했을 때
+        console.error(error);
+      });
 
     },
 

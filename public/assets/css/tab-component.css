@@ -1,0 +1,48 @@
+html,body {width:100%;  }
+body,div,ul,li{margin:0; padding:0;}
+ul,li {list-style:none;}
+
+.tab{
+    float: left;
+    width:390px;
+}
+.tabnav{
+    font-size:0;
+    width:390px;
+/*    z-index: 1;
+    position: fixed;*/
+}
+.tabnav li{
+    display: inline-block;
+    height:15px;
+    text-align:center;
+}
+.tabnav li a:before{
+    content:"";
+    position:absolute;
+    left:0; top:0px;
+}
+.tabnav li a.active:before{
+    background:#98CB98;
+}
+.tabnav li a{
+    position:relative;
+    display:block;
+    background: #f8f8f8;
+    color: #000;
+    padding:0 30px;
+    line-height:40px;
+    width: 195px;
+    text-decoration:none;
+    font-size:17px;
+}
+.tabnav li a:hover, .tabnav li a.active{
+    background:#fff; color:#98CB98;
+}
+.tabcontent {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.loglo-header-fix {
+    /*position: fixed;*/
+}
