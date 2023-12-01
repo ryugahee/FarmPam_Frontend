@@ -11,6 +11,10 @@
 
 .search-bar {
     position: relative;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+
 }
 
 .search-bar .search-box {
@@ -22,6 +26,7 @@
     background-color: #FFFFFF;
     border-radius: 5px;
     border: none;
+
 }
 
 .search-bar .search-btn {
