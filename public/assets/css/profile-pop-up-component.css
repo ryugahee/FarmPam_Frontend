@@ -4,7 +4,6 @@
     position: fixed;
     top: 0;
     background-color: #FFFFFF;
-    z-index: 50;
 }
 
 .pop-up-modal .pop-up-header {
@@ -90,4 +89,8 @@
 .menu-box img {
     width: 30px;
     height: 30px;
+}
+
+.pop-up-slide {
+    transform: translateX(100%);
 }

@@ -3,7 +3,7 @@
     <div>
       <div class="modal-bg" v-if="!modal" @click="modal=!modal"></div>
       <transition name="slide-up">
-        <div class="modal" v-if="!modal">
+        <div class="nav-modal" v-if="!modal">
           <SearchBar class="search"/>
           <div class="nav-item-post">
             <ItemPost v-for="post in 10" :key="post" />

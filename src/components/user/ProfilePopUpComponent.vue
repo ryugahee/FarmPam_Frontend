@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="pop-up-modal" v-if="popUpModal">
+    <div class="pop-up-modal offcanvas pop-up-slide" id="offcanvasRight">
       <div class="pop-up-header">
-        <img class="pop-up-close" src="../../../public/assets/img/close.png" @click="popUpModal=!popUpModal" alt="">
+        <img class="pop-up-close" data-bs-dismiss="offcanvas" aria-label="Close"
+             src="../../../public/assets/img/close.png" alt="">
         <button class="logoutBtn" @click="logout">로그아웃</button>
       </div>
       <div class="pop-up-profile">
@@ -20,9 +21,12 @@
         <span>참여 중인 경매</span>
         <ItemPost v-for="post in 1" :key="post"/>
       </div>
+      <div>
+      </div>
     </div>
     <div class="menu-box">
-      <img src="../../../public/assets/img/dehaze.png" @click="popUpModal=!popUpModal" alt=""/>
+      <img type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+           src="../../../public/assets/img/dehaze.png" alt=""/>
     </div>
   </div>
 </template>
@@ -32,10 +36,11 @@ import ItemPost from "@/components/item/ItemPostComponent.vue";
 
 export default {
   name: "ProfilePopUp",
-  components: {ItemPost},
+  components: {
+    ItemPost
+  },
   data() {
     return {
-      popUpModal: false,
       username: "그랜드팜파라밤밤",
       farmMoney: 150000
     }

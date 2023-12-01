@@ -16,7 +16,7 @@
     background-color: rgba(0, 0, 0, 60%);
 }
 
-.modal {
+.nav-modal {
     width: 390px;
     height: 700px;
     overflow-y: auto;
@@ -28,11 +28,11 @@
     border-top-right-radius: 20px;
 }
 
-.modal::-webkit-scrollbar {
+.nav-modal::-webkit-scrollbar {
     display: none;
 }
 
-.modal .search {
+.nav-modal .search {
     padding: 20px 0 55px 0;
     top: 0;
 }

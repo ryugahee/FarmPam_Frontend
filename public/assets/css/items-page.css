@@ -1,6 +1,21 @@
+.search {
+    margin: 0 auto;
+    width: 390px;
+    height: 55px;
+    position: sticky;
+    top: 54px;
+    text-align: center;
+    background-color: #FFFFFF;
+    z-index: 1;
+}
+
 .select-box {
     width: 100%;
     height: 30px;
+    position: sticky;
+    top: 109px;
+    background-color: #FFFFFF;
+    z-index: 1;
 }
 
 .select-box .select {
@@ -15,4 +30,12 @@
 
 .select-box .select:focus {
     border: 1px solid #90EE90;
+}
+
+.item-post {
+    overflow-y: auto;
+}
+
+.logo img {
+    margin-left: 15px;
 }
