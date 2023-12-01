@@ -19,6 +19,7 @@ import SalesHistory from "@/view/mypage/SalesHistory.vue";
 import FailView from "@/view/pay/FailView.vue";
 import ChatListView from "@/view/chat/ChatListView.vue";
 import ChatDetailView from "@/view/chat/ChatDetailView.vue";
+import ChargingView from "@/view/charging/ChargingView.vue";
 
 const routes = [
   {
@@ -45,21 +46,6 @@ const routes = [
       {
         path: "/register",
         component: RegisterView,
-      },
-      {
-        path: "/pay",
-        name: "pay",
-        component: PayView,
-      },
-      {
-        path: "/success",
-        name: "success",
-        component: SuccessView,
-      },
-      {
-        path: "/fail",
-        name: "fail",
-        component: FailView,
       },
       {
         path: "/items",
@@ -114,7 +100,27 @@ const routes = [
         component: ChatDetailView,
         props: true,
       },
+      {
+        path: "/charging",
+        name: "charging",
+        component: ChargingView,
+      },
     ],
+  },
+  {
+    path: "/pay",
+    name: "pay",
+    component: PayView,
+  },
+  {
+    path: "/success",
+    name: "success",
+    component: SuccessView,
+  },
+  {
+    path: "/fail",
+    name: "fail",
+    component: FailView,
   },
 ];
 
