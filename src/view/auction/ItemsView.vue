@@ -42,7 +42,7 @@ export default {
   methods: {
     btnClick() {
       if (this.searchValue.trim() !== '') {
-        this.$router.push({path: "/items", query: {search: encodeURIComponent(this.searchValue)}});
+        this.$router.push({ path: "/items", query: { search: encodeURIComponent(this.searchValue) } });
       } else {
         this.$router.push("/items");
       }
