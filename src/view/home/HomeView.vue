@@ -1,7 +1,7 @@
 <template>
   <div>
     <LOGO />
-    <SearchBar/>
+    <SearchBar :style="{position: 'static'}"/>
     <div class="header-title">
       <h1>HOT</h1>
     </div>
