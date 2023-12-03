@@ -20,6 +20,7 @@ import ChatDetailView from "@/view/chat/ChatDetailView.vue";
 import AuctionPurchaseHistoryView from "@/view/mypage/AuctionPurchaseHistoryView.vue";
 import AuctionSaleHistoryView from "@/view/mypage/AuctionSaleHistoryView.vue";
 import AuctionView from "@/view/AuctionView.vue";
+import TimerComponent from "@/components/item/TimerComponent.vue";
 
 const routes = [
   {
@@ -120,6 +121,10 @@ const routes = [
         name: "chat",
         component: ChatDetailView,
         props: true,
+      },
+      {
+        path: "/t",
+        component: TimerComponent,
       },
     ],
   },

@@ -6,7 +6,7 @@
     </HeaderComponent>
     <ItemPostTabComponent>
       <template v-slot:tab-num1>
-        <ItemPost/>
+        <ItemPost v-for="post in 10" :key="post"/>
       </template>
       <template v-slot:tab-num2>
         <h3>없으면 기본</h3>

@@ -47,16 +47,17 @@
       <div>
         <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
       </div>
-      <div class="ss">
-        <select class="time-box" required>
-          <option>시간</option>
-          <option value="30">30분</option>
-          <option>1시간</option>
-          <option>2시간</option>
-          <option>3시간</option>
-          <option>6시간</option>
-          <option>12시간</option>
-          <option>24시간</option>
+      <div class="timer">
+        <select class="time-box" v-model="time" required>
+          <option value="1800">30분</option>
+          <option value="3600">1시간</option>
+          <option value="7200">2시간</option>
+          <option value="10800">3시간</option>
+          <option value="21600">6시간</option>
+          <option value="43200">12시간</option>
+<!--          <option value="86400">24시간</option>-->
+          <option value="20">20초</option>
+          <option value="60">1분</option>
         </select>
       </div>
       <div class="content">
@@ -102,7 +103,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import LOGO from "@/components/user/LogoComponent.vue";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
 
@@ -127,12 +127,10 @@ export default {
       filesPreview: [],
       uploadImageIndex: 0,
 
-
     };
   },
   inject:["$http"],
   methods: {
-
 
     imageAddUpload() {
       let num = -1;
@@ -169,13 +167,16 @@ export default {
       formData.append("itemDetail", this.itemDetail);
       formData.append("itemType", this.itemType);
       formData.append("weight", this.weight);
+      formData.append("time", this.time);
+
+      console.log("경매시간: " + this.time)
 
       for (let i = 0; i < this.files.length; i++) {
         formData.append("files", this.files[i].file);
       }
 
-      const myArray = this.tags;
-      const arrayAsString = myArray.join(',');
+      const tagArray = this.tags;
+      const arrayAsString = tagArray.join(',');
       formData.append("tagNames",arrayAsString);
 
       await this.$http
@@ -207,7 +208,6 @@ export default {
       this.tags.push(this.tag);
       this.tag = '';
 
-      console.log("태그: " + this.tags);
     },
     removeTag(tag) {
       let index = this.tags.indexOf(tag);
@@ -217,6 +217,9 @@ export default {
     },
 
   },
+
+
+
 };
 </script>
 

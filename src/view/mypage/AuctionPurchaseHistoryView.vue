@@ -4,7 +4,7 @@
     <HeaderComponent>
       <p>구내 내역</p>
     </HeaderComponent>
-    <ItemPost />
+    <ItemPost  v-for="post in 10" :key="post"/>
     <NavBar/>
   </div>
 </template>

@@ -15,7 +15,7 @@
       </select>
     </div>
     <div>
-      <ItemPost />
+      <ItemPost v-for="post in 10" :key="post"/>
     </div>
     <NavBar/>
   </div>
@@ -30,7 +30,7 @@ export default {
   name: "ItemView",
   data() {
     return {
-      searchValue: ''
+      searchValue: '',
     }
   },
   components: {
@@ -38,7 +38,9 @@ export default {
     ItemPost,
     NavBar
   },
+
   methods: {
+
     btnClick() {
       if (this.searchValue.trim() !== '') {
         this.$router.push({ path: "/items", query: { search: encodeURIComponent(this.searchValue) } });
