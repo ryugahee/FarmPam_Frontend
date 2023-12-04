@@ -15,7 +15,8 @@
       </select>
     </div>
     <div>
-      <ItemPost v-for="post in 10" :key="post"/>
+<!--      <ItemPost v-for="post in 10" :key="post"/>-->
+      <ItemPost />
     </div>
     <NavBar/>
   </div>

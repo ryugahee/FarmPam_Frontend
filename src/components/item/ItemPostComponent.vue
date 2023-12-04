@@ -18,26 +18,16 @@
         <h3 class="price"> 원 </h3>
       </div>
     </div>
-    <infinite-loading @infinite="infiniteHandler">
-      <template #spinner>
-        이미지 로딩
-      </template>
-      <template #no-more>
-        결과 없음
-      </template>
-      <template #no-results>
-        이건 몰루
-      </template>
-    </infinite-loading>
+    <ObserverComponent @triggerIntersected="loadData"/>
   </div>
 </template>
 
 <script>
-import InfiniteLoading from 'infinite-loading-vue3-ts';
+import ObserverComponent from "@/components/user/ObserverComponent.vue";
 export default {
   name: 'ItemPost',
   components: {
-    InfiniteLoading,
+    ObserverComponent,
   },
   data() {
     return {
@@ -45,14 +35,45 @@ export default {
       lastId: null,
     }
   },
-/*  created() {
-    this.loadItemList();
-
-  },*/
+  mounted() {
+    // 컴포넌트가 처음 마운트될 때 초기 데이터 로드
+    this.loadData();
+  },
   inject:["$http"],
   methods: {
+/*    handleScroll() {
+      const container = this.$refs.scroll;
+      if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+        // 스크롤이 맨 아래에 도달했을 때 새로운 데이터를 불러옴
+        console.log('무한스크롤 발생!');
+        this.loadData();
+      }
+    },*/
 
-    infiniteHandler($state) {
+    loadData() {
+      this.$http.get("/item/list", {
+        params: {
+          lastId: this.lastId,
+          size: 3,
+        },
+      }).then((res) => {
+        if (res.data.length > 0) {
+          this.lastId = res.data[res.data.length - 1].id;
+          this.items = this.items.concat(res.data);
+          console.log("라스트아이디: " + this.lastId)
+        }
+
+        this.items.forEach(item => {
+          item.remainingTime = item.time;
+          this.startStopwatch(item);
+        });
+      }).catch((error) => {
+        console.error(error);
+      });
+
+    },
+
+/*    infiniteHandler($state) {
       this.$http.get("/item/list", {
         params: {
           lastId: this.lastId,
@@ -68,16 +89,27 @@ export default {
           $state.complete();
         }
 
-/*        this.items = res.data;
+        this.items = res.data;
         this.items.forEach(item => {
           item.remainingTime = item.time;
           this.startStopwatch(item);
-        });*/
+        });
       }).catch((error) => {
         console.error(error);
       });
-    },
+    },*/
 
+/*    loadItemList() {
+      this.$http.get("/item/list").then((res) => {
+        this.items = res.data;
+        this.items.forEach(item => {
+          item.remainingTime = item.time;
+          this.startStopwatch(item);
+        });
+      }).catch((error) => {
+        console.error(error);
+      });
+    },*/
     startStopwatch(item) {
       item.timer = setInterval(() => {
         if (item.remainingTime > 0) {
