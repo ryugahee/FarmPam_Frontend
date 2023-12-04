@@ -8,14 +8,14 @@
       <div class="loginForm">
         <input 
           placeholder="아이디" 
-          v-model="state.form.username"
+          v-model="username"
           @keyup.enter="submit()"
 
         />
         <br />
         <input 
           placeholder="비밀번호" 
-          v-model="state.form.password"
+          v-model="password"
           @keyup.enter="submit()"
         />
       </div>
@@ -23,7 +23,7 @@
       <div class="bottons">
         <button @click="submit()">로그인</button>
         <br />
-        <button>회원가입</button>
+        <button @click="register">회원가입</button>
       </div>
 
       <div class="finder">
@@ -47,34 +47,33 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
-import axios from 'axios';
-
 export default {
-  setup() {
-        const state = reactive({
-            form: {
-                username: "",
-                password: ""
-            }
-        });
-
-        const submit = () => {
-            axios.post("/api/login", state.form).then(() => {
-
-                alert("로그인 완료");
-
-            }).catch((err) => {
-                console.log(err);
-                window.alert("로그인 정보가 존재하지 않습니다.");
-            });
-        }
-
-        return{
-            state,
-            submit
-        }
+  name:"LoginView",
+  inject:["$http"],
+  data(){
+    return{
+      username: "",
+      password: ""
     }
+  },
+
+  methods:{
+    register() {
+      this.$router.push("/register")
+    },
+
+    async submit() {
+
+      this.$http.post("/api/login", this.data).then(() => {
+        alert("로그인 완료");
+        this.$router.push("/home");
+      }).catch((err) => {
+        console.log(err);
+        window.alert("로그인 정보가 존재하지 않습니다.");
+      });
+    }
+  },
+
 }
 </script>
 

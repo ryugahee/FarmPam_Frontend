@@ -27,23 +27,57 @@
         <span>내 입찰가</span>
         <span> {{ myPrice.toLocaleString() }}원 </span>
       </div>
+
+<!--      bid modal-->
       <div class="bid-bg" v-if="!bidModal">
         <div class="bid-btn">
-          <p class="bidding">입찰하기</p>
-          <p> {{ time }} </p>
+          <div class="current-price-bid-box">
+            <span>현재 입찰가</span>
+            <span> {{ currentPrice.toLocaleString() }}원 </span>
+          </div>
+
+          <div>
+            <p class="bid-text">입찰할 금액(직접입력)</p>
+          </div>
+          <div>
+
+            <input v-model="bidPrice" class="bid-input-box" type="text" placeholder="입찰가 입력."><span class="bid-won">원</span>
+          </div>
+
+
+        </div>
+
+        <div class="btn-a-bid" @click="sendBidPrice">
+          <p class="bid-time"> {{ time }} </p>
+          입찰하기
         </div>
       </div>
+
+<!--      아이템 디테일-->
       <div class="make-a-bid" v-if="bidModal" @click="bidModal=!bidModal">
         <p class="bid-time"> {{ time }} </p>
         <p>입찰하기</p>
       </div>
+<!--      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button>-->
+
+<!--      <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">-->
+<!--        <div class="offcanvas-header">-->
+<!--          <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5>-->
+<!--          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>-->
+<!--        </div>-->
+<!--        <div class="offcanvas-body small">-->
+<!--          ...-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
 
 <script>
 import LOGO from "@/components/user/LogoComponent.vue";
-
+import Stomp from 'webstomp-client'
+import SocketJS from 'sockjs-client'
+import Auction from "@/components/auction/AuctionComponent.vue";
 export default {
   name: "ItemDetailView",
   data() {
@@ -55,15 +89,31 @@ export default {
       currentPrice: 10000,
       myPrice: 9000,
       time: "14:31:29",
-      bidModal: true
+      bidModal: true,
+      userName:"",
+      bidPrice: "",
+      reciveList: []
     }
   },
   components: {
-    LOGO
+    LOGO,
+  },
+  inject: ["$http"],
+  created() {
+    this.connect()
   },
   methods: {
     profile() {
       this.$router.push("/profile")
+    },
+    sendBidPrice(){
+      let data = {};
+
+      this.$http.post("/bid", data).then(res =>{
+        console.log(res.data);
+      }).catch(err =>{
+        console.log(err);
+      })
     }
   }
 }
@@ -71,4 +121,5 @@ export default {
 
 <style scoped>
 @import "../../../public/assets/css/item-detail-page.css";
+@import "../../../public/assets/css/chat-style.css";
 </style>
