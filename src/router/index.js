@@ -19,14 +19,21 @@ import SalesHistory from "@/view/mypage/SalesHistory.vue";
 import FailView from "@/view/pay/FailView.vue";
 import ChatListView from "@/view/chat/ChatListView.vue";
 import ChatDetailView from "@/view/chat/ChatDetailView.vue";
+import AuctionView from "@/view/auction/AuctionView.vue";
 import ChargingView from "@/view/charging/ChargingView.vue";
 
+
 const routes = [
+
   {
     path: "/",
-    redirect: "/home",
+    redirect: "/login",
     component: UserTemplate,
     children: [
+      {
+        path:"/auctionTest",
+        component: AuctionView,
+      },
       {
         path: "/login",
         component: LoginView,
@@ -64,7 +71,7 @@ const routes = [
       },
       // TODO : 식별 번호 수정 사항
       {
-        path: "/detail",
+        path: "/auction/detail",
         name: "detail",
         component: ItemDetailView,
       },
