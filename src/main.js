@@ -13,6 +13,5 @@ app.use(BootstrapVue);
 app.provide("$http", http);
 
 app.use(router);
-app.use(store);
 
 app.mount("#app");
