@@ -13,22 +13,25 @@ import HomeView from "@/view/home/HomeView.vue";
 import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
-import AuctionView from "@/view/auction/AuctionView.vue";
 import UserInfoView from "@/view/mypage/UserInfoView.vue";
 import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
 import SalesHistory from "@/view/mypage/SalesHistory.vue";
 import FailView from "@/view/pay/FailView.vue";
 import ChatListView from "@/view/chat/ChatListView.vue";
 import ChatDetailView from "@/view/chat/ChatDetailView.vue";
-
+import AuctionView from "@/view/auction/AuctionView.vue";
 
 const routes = [
 
   {
     path: "/",
-    redirect: "/home",
+    redirect: "/login",
     component: UserTemplate,
     children: [
+      {
+        path:"/auctionTest",
+        component: AuctionView,
+      },
       {
         path: "/login",
         component: LoginView,
@@ -81,17 +84,13 @@ const routes = [
       },
       // TODO : 식별 번호 수정 사항
       {
-        path: "/detail",
+        path: "/auction/detail",
         name: "detail",
         component: ItemDetailView,
       },
       {
         path: "/auction/register",
         component: AuctionRegisterView,
-      },
-      {
-        path: "/auction/bid",
-        component: AuctionView,
       },
       {
         path: "/user",
