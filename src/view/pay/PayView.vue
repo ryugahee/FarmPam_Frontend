@@ -36,7 +36,7 @@ export default {
       clientKey: "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm",
       // TODO: customerKey는 구매자와 1:1 관계로 무작위한 고유값을 생성하세요.
       customerKey: nanoid(),
-      amount: 50000,
+      amount: this.$store.getters.getAmount,
     };
   },
   methods: {
@@ -47,10 +47,10 @@ export default {
           // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
           await this.paymentWidget.requestPayment({
             orderId: nanoid(),
-            orderName: "토스 티셔츠 외 2건",
-            customerName: "김토스",
-            customerEmail: "customer123@gmail.com",
-            customerMobilePhone: "01012341234",
+            orderName: "Farm 머니 충전",
+            customerName: this.$store.getters.getUserName,
+            customerEmail: this.$store.getters.getUserEmail,
+            customerMobilePhone: this.$store.getters.getUserMobilePhone,
             successUrl: `${window.location.origin}/success`,
             failUrl: `${window.location.origin}/fail`,
           });
