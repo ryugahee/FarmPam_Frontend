@@ -1,6 +1,6 @@
 <template>
   <div ref="trigger">
-    -
+    a
   </div>
 </template>
 
@@ -20,7 +20,13 @@ export default defineComponent({
     let observer = null;
     // 옵저버가 감지되면 handleIntersect이라는 함수를 실행
     const handleIntersect = (entry) => {
-      if (entry.isIntersecting) emit('triggerIntersected', trigger.value);
+      try {
+        if (entry.isIntersecting) {
+          emit('triggerIntersected', trigger.value);
+        }
+      } catch (error) {
+        console.error('Error during handleIntersect:', error);
+      }
     };
 
     onMounted(() => {
@@ -35,7 +41,9 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      observer.value.disconnect();
+      if (observer.value) {
+        observer.value.disconnect();
+      }
     });
 
     return {

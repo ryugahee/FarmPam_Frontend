@@ -32,7 +32,8 @@ export default {
   data() {
     return {
       items: [],
-      lastId: null,
+      cursorId: 0,
+      page: 1,
     }
   },
   mounted() {
@@ -41,26 +42,18 @@ export default {
   },
   inject:["$http"],
   methods: {
-/*    handleScroll() {
-      const container = this.$refs.scroll;
-      if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
-        // 스크롤이 맨 아래에 도달했을 때 새로운 데이터를 불러옴
-        console.log('무한스크롤 발생!');
-        this.loadData();
-      }
-    },*/
 
     loadData() {
       this.$http.get("/item/list", {
         params: {
-          lastId: this.lastId,
+          cursorId: this.cursorId,
           size: 3,
         },
       }).then((res) => {
         if (res.data.length > 0) {
-          this.lastId = res.data[res.data.length - 1].id;
+          this.cursorId = res.data[res.data.length - 1].id;
           this.items = this.items.concat(res.data);
-          console.log("라스트아이디: " + this.lastId)
+          console.log("라스트아이디: " + this.cursorId)
         }
 
         this.items.forEach(item => {
@@ -68,7 +61,7 @@ export default {
           this.startStopwatch(item);
         });
       }).catch((error) => {
-        console.error(error);
+        console.error("Error loading data:", error);
       });
 
     },
