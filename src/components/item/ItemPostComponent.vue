@@ -33,7 +33,6 @@ export default {
     return {
       items: [],
       cursorId: 0,
-      page: 1,
     }
   },
   mounted() {
@@ -47,12 +46,12 @@ export default {
       this.$http.get("/item/list", {
         params: {
           cursorId: this.cursorId,
-          size: 3,
+          size: 1,
         },
       }).then((res) => {
         if (res.data.length > 0) {
           this.cursorId = res.data[res.data.length - 1].id;
-          this.items = this.items.concat(res.data);
+          this.items = this.items.push(...res.data);
           console.log("라스트아이디: " + this.cursorId)
         }
 
