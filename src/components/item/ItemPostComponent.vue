@@ -18,35 +18,34 @@
         <h3 class="price"> 원 </h3>
       </div>
     </div>
-    <ObserverComponent @triggerIntersected="loadData"/>
+    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
 <script>
-import ObserverComponent from "@/components/user/ObserverComponent.vue";
+import InfiniteLoading from "v3-infinite-loading";
+
 export default {
   name: 'ItemPost',
   components: {
-    ObserverComponent,
+    InfiniteLoading,
   },
+
   data() {
     return {
       items: [],
-      cursorId: 0,
+      page: 1,
     }
   },
-  mounted() {
-    // 컴포넌트가 처음 마운트될 때 초기 데이터 로드
-    this.loadData();
-  },
+
   inject:["$http"],
   methods: {
 
-    loadData() {
+/*    loadData() {
       this.$http.get("/item/list", {
         params: {
-          cursorId: this.cursorId,
-          size: 1,
+          // cursorId: this.cursorId,
+          size: 2,
         },
       }).then((res) => {
         if (res.data.length > 0) {
@@ -63,20 +62,19 @@ export default {
         console.error("Error loading data:", error);
       });
 
-    },
+    },*/
 
-/*    infiniteHandler($state) {
+    infiniteHandler($state) {
       this.$http.get("/item/list", {
         params: {
-          lastId: this.lastId,
-          size: 5,
+          page: this.page,
         },
       }).then((res) => {
-        if (res.data.length > 0) {
-          this.lastId = res.data[res.data.length - 1].id;
-          console.log("아이디: " + this.lastId)
-          $state.loaded();
+        if (res.data.length) {
+          this.page++;
+          console.log("페이지: " + this.page)
           this.items = this.items.push(...res.data);
+          $state.loaded();
         } else {
           $state.complete();
         }
@@ -89,7 +87,7 @@ export default {
       }).catch((error) => {
         console.error(error);
       });
-    },*/
+    },
 
 /*    loadItemList() {
       this.$http.get("/item/list").then((res) => {
