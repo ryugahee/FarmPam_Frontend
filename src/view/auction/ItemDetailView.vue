@@ -30,6 +30,10 @@
 
 <!--      bid modal-->
       <div class="bid-bg" v-if="!bidModal">
+        <div v-for="item in receiveList" :key="item.id">
+          <p>유저 이름: {{ item.userName}}</p>
+          <p>내용: {{ item.content}}</p>
+        </div>
         <div class="bid-btn">
           <div class="current-price-bid-box">
             <span>현재 입찰가</span>
@@ -40,7 +44,7 @@
             <p class="bid-text">입찰할 금액(직접입력)</p>
           </div>
           <div>
-
+            <input v-model="userName" class="bid-input-box" type="text" placeholder="사용자 이름 입력.">
             <input v-model="bidPrice" class="bid-input-box" type="text" placeholder="입찰가 입력."><span class="bid-won">원</span>
           </div>
 
@@ -92,7 +96,7 @@ export default {
       bidModal: true,
       userName:"",
       bidPrice: "",
-      reciveList: []
+      receiveList: []
     }
   },
   components: {
@@ -103,17 +107,40 @@ export default {
     this.connect()
   },
   methods: {
+    connect(){
+      const serverURL = "http://localhost:8080"
+      let socket = new SocketJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      console.log(`connected try. URL: ${serverURL}`)
+      this.stompClient.connect(
+          {},
+          frame => {
+            this.connected = true;
+            console.log('connected success', frame);
+
+            this.stompClient.subscribe("/auction/bids", res =>{
+              console.log("response message", res.body);
+              this.receiveList.push(JSON.parse(res.body))
+            });
+          },
+          error => {
+            console.log('connected fail', error);
+            this.connected = false;
+          }
+      );
+    },
     profile() {
       this.$router.push("/profile")
     },
     sendBidPrice(){
-      let data = {};
-
-      this.$http.post("/bid", data).then(res =>{
-        console.log(res.data);
-      }).catch(err =>{
-        console.log(err);
-      })
+      console.log("Send bidPrice:" + this.bidPrice);
+      if(this.stompClient && this.stompClient.connected){
+        const msg = {
+          userName: this.userName,
+          content: this.bidPrice
+        };
+        this.stompClient.send("/auction-bid", JSON.stringify(msg), {});
+      }
     }
   }
 }
