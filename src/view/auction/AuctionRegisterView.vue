@@ -190,6 +190,7 @@ export default {
             if (res.status === 200) {
               console.log(res);
               window.alert("상품 등록 성공");
+              this.$router.go(-1);
             }
           })
           .catch(() => {
