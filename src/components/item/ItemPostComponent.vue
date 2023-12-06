@@ -6,13 +6,14 @@
         <img src="" class="thumbnail-img"/>
         <div class="remaining-time">
           <div class="time-bg">
-            <p> {{ formatTime(item.remainingTime) }} </p>
+            <p> {{ formatTime(item.remainingTime) }} 남음 </p>
             <p></p>
           </div>
         </div>
       </div>
       <div class="post-content">
-        <h5> {{ item.itemTitle }} {{ item.weight }}kg </h5>
+        <h5> {{ item.itemTitle }} {{ item.weight }}kg
+          <button type="button" @click="deleteItem(item.id)">임시삭제</button></h5>
         <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
         <p></p>
         <p class="current-bid-price">현재 입찰가</p>
@@ -58,7 +59,6 @@ export default {
             this.startStopwatch(item);
           });
           this.num = res.data[res.data.length - 1].id;
-          console.log("아이템2: " + this.num)
           $state.loaded();
           if (res.data.length / 7 < 1) {
 
@@ -67,11 +67,6 @@ export default {
         } else {
           $state.complete();
         }
-
-        /*        this.items.forEach(item => {
-                  item.remainingTime = item.time;
-                  this.startStopwatch(item);
-                });*/
       }).catch((error) => {
         console.error(error);
       });
@@ -100,6 +95,19 @@ export default {
 
     detail() {
       this.$router.push("/detail")
+    },
+
+    deleteItem(itemId) {
+      this.$http.delete("/item/delete/${itemId}")
+          .then((res) => {
+            if (res.status === 200) {
+              console.log(res);
+              window.alert("상품이 삭제되었습니다");
+              this.$router.go(-1);
+            }
+          }).catch(() => {
+        window.alert("상품 삭제에 실패했습니다");
+      });
     },
   }
 }

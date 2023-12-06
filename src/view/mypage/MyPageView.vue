@@ -13,7 +13,7 @@
       <div class="pay-box">
         <div class="pay-money">
           <div class="farmpay">Farm pay</div>
-          <div>150,000원</div>
+          <div class="charge">150,000원</div>
         </div>
         <div class="pay-charge">
           <div class="charge">충전하기</div>

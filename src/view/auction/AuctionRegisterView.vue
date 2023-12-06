@@ -55,15 +55,13 @@
           <option value="10800">3시간</option>
           <option value="21600">6시간</option>
           <option value="43200">12시간</option>
-<!--          <option value="86400">24시간</option>-->
-          <option value="20">20초</option>
-          <option value="60">1분</option>
+          <option value="86400">24시간</option>
         </select>
       </div>
       <div class="content">
       <textarea class="itemDetail-box"
           type="text"
-                v-model="itemDetail" placeholder="&#10; 상품 설명" required></textarea>
+                v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
       </div>
       <!--     태그 추가       -->
       <div class="tag-box">
