@@ -5,11 +5,11 @@
   <div class="input-box">
     <input v-model="userName" class="custom-input inputs" type="text" placeholder="유저 이름 입력.">
     <input v-model="bidPrice" class="custom-input inputs" type="text"  placeholder="입찰가 입력.">
-    <button @click="sendMessage" @keyup="sendMessage" class="custom-button inputs">입찰</button>
+    <button @click="send" @keyup="send" class="custom-button inputs">입찰</button>
   </div>
   <div v-for="item in receiveList" :key="item.id">
     <h3>유저 이름: {{ item.userName}}</h3>
-    <h3>내용: {{ item.bidPrice}}</h3>
+    <h3>내용: {{ item.content}}</h3>
   </div>
   </div>
 </template>
@@ -31,13 +31,6 @@ export default {
   },
   inject:['$http'],
   methods:{
-    sendMessage(e){
-      console.log("input req");
-      // if(e.keyCode === 13 && this.userName !== '' && this.bidPrice !=='') {
-        this.send();
-        this.bidPrice = '';
-      // }
-    },
     send(){
       console.log("Send bidPrice:" + this.bidPrice);
       if(this.stompClient && this.stompClient.connected){
@@ -45,7 +38,7 @@ export default {
           userName: this.userName,
           content: this.bidPrice
         };
-        this.stompClient.send("/receive", JSON.stringify(msg), {});
+        this.stompClient.send("/auction-bid", JSON.stringify(msg), {});
       }
     },
 
@@ -60,7 +53,7 @@ export default {
             this.connected = true;
             console.log('connected success', frame);
 
-            this.stompClient.subscribe("/send", res =>{
+            this.stompClient.subscribe("/auction/bids", res =>{
               console.log("response message", res.body);
               this.receiveList.push(JSON.parse(res.body))
             });
