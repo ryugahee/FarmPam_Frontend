@@ -2,16 +2,17 @@
   <div class="post" @click="detail">
     <div class="post-img-box" v-for="(item, i) in items" :key="i">
       <div class="post-img">
-<!--        {{item.itemImgDtoList[0].imgUrl}}-->
+        <!--        {{item.itemImgDtoList[0].imgUrl}}-->
         <img src="" class="thumbnail-img"/>
         <div class="remaining-time">
           <div class="time-bg">
             <p> {{ formatTime(item.remainingTime) }} </p>
+            <p></p>
           </div>
         </div>
       </div>
       <div class="post-content">
-        <h5> {{ item.itemTitle }} {{ item.weight }}kg  </h5>
+        <h5> {{ item.itemTitle }} {{ item.weight }}kg </h5>
         <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
         <p></p>
         <p class="current-bid-price">현재 입찰가</p>
@@ -23,7 +24,8 @@
 </template>
 
 <script>
-import InfiniteLoading from "v3-infinite-loading";
+
+import {InfiniteLoading} from "infinite-loading-vue3-ts";
 
 export default {
   name: 'ItemPost',
@@ -34,72 +36,47 @@ export default {
   data() {
     return {
       items: [],
-      page: 1,
+      num: 1,
     }
   },
 
-  inject:["$http"],
+  inject: ["$http"],
   methods: {
-
-/*    loadData() {
-      this.$http.get("/item/list", {
-        params: {
-          // cursorId: this.cursorId,
-          size: 2,
-        },
-      }).then((res) => {
-        if (res.data.length > 0) {
-          this.cursorId = res.data[res.data.length - 1].id;
-          this.items = this.items.push(...res.data);
-          console.log("라스트아이디: " + this.cursorId)
-        }
-
-        this.items.forEach(item => {
-          item.remainingTime = item.time;
-          this.startStopwatch(item);
-        });
-      }).catch((error) => {
-        console.error("Error loading data:", error);
-      });
-
-    },*/
 
     infiniteHandler($state) {
       this.$http.get("/item/list", {
         params: {
-          page: this.page,
+          num: this.num,
         },
       }).then((res) => {
         if (res.data.length) {
-          this.page++;
-          console.log("페이지: " + this.page)
-          this.items = this.items.push(...res.data);
+          console.log("아이템: " + this.num)
+          this.items.push(...res.data);
+
+          this.items.forEach(item => {
+            item.remainingTime = item.time;
+            this.startStopwatch(item);
+          });
+          this.num = res.data[res.data.length - 1].id;
+          console.log("아이템2: " + this.num)
           $state.loaded();
+          if (res.data.length / 7 < 1) {
+
+            $state.complete();
+          }
         } else {
           $state.complete();
         }
 
-        this.items = res.data;
-        this.items.forEach(item => {
-          item.remainingTime = item.time;
-          this.startStopwatch(item);
-        });
+        /*        this.items.forEach(item => {
+                  item.remainingTime = item.time;
+                  this.startStopwatch(item);
+                });*/
       }).catch((error) => {
         console.error(error);
       });
     },
 
-/*    loadItemList() {
-      this.$http.get("/item/list").then((res) => {
-        this.items = res.data;
-        this.items.forEach(item => {
-          item.remainingTime = item.time;
-          this.startStopwatch(item);
-        });
-      }).catch((error) => {
-        console.error(error);
-      });
-    },*/
     startStopwatch(item) {
       item.timer = setInterval(() => {
         if (item.remainingTime > 0) {
