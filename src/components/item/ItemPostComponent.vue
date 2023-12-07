@@ -59,6 +59,13 @@ export default {
             item.remainingTime = item.time;
             this.startStopwatch(item);
           });
+          this.items.forEach(item => {
+            // time 속성이 있는지 확인
+            if (item.time !== undefined) {
+              item.remainingTime = item.time;
+              this.startStopwatch(item);
+            }
+          });
           this.num = res.data[res.data.length - 1].id;
           $state.loaded();
           if (res.data.length / 7 < 1) {

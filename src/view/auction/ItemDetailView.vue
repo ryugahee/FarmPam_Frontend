@@ -1,7 +1,9 @@
 <template>
   <div>
     <LOGO/>
- <router-view></router-view>
+    <HeaderComponent>
+      <p>경매</p>
+    </HeaderComponent>
     <div class="detail-profile">
       <div class="detail-profile-box" @click="profile">
         <img :src="profileImg" alt="profileImg"/>
@@ -21,9 +23,9 @@
       <img :src="itemImg" alt="경매 상품 이미지">
     </div>
     <div class="item-content">
-      <p>집에서 직접 재배한 사과입니다.{{ items.itemTitle }} {{ items.weight }}kg</p>
-      <button type="button" class="delete-btn" @click="deleteItem(item.id)">등록 취소</button>
-      <p>{{ items.itemDetail }}</p>
+      <p>{{ itemTitle }} {{ weight }}kg</p>
+      <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>
+      <p>{{ itemDetail }}</p>
     </div>
     <div class="item-footer">
       <div class="current-price">
@@ -54,19 +56,16 @@
             <input v-model="bidPrice" class="bid-input-box" type="text" placeholder="입찰가 입력."><span
               class="bid-won">원</span>
           </div>
-
-
         </div>
-
         <div class="btn-a-bid" @click="sendBidPrice">
-          <p class="bid-time"> {{ items.time }} </p>
+          <p class="bid-time"> {{ time }} </p>
           입찰하기
         </div>
       </div>
 
       <!--      아이템 디테일-->
       <div class="make-a-bid" v-if="bidModal" @click="bidModal=!bidModal">
-        <p class="bid-time"> {{ items.time }} </p>
+        <p class="bid-time"> {{ time }} </p>
         <p>입찰하기</p>
       </div>
       <!--      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button>-->
@@ -89,6 +88,7 @@ import LOGO from "@/components/user/LogoComponent.vue";
 import Stomp from 'webstomp-client'
 import SocketJS from 'sockjs-client'
 import Auction from "@/components/auction/AuctionComponent.vue";
+import HeaderComponent from "@/components/user/HeaderComponent.vue";
 
 export default {
   name: "ItemDetailView",
@@ -106,9 +106,14 @@ export default {
       receiveList: [],
       // 불러온 아이템 정보
       items: [],
+      weight: "",
+      itemTitle: "",
+      itemDetail: "",
+      time: "",
     }
   },
   components: {
+    HeaderComponent,
     LOGO,
   },
   inject: ["$http"],
@@ -117,7 +122,6 @@ export default {
   },
   methods: {
     connect() {
-      const itemId = this.$route.params.id;
       const serverURL = "http://localhost:8080"
       let socket = new SocketJS(serverURL);
       this.stompClient = Stomp.over(socket);
@@ -140,9 +144,20 @@ export default {
       );
 
       // 디테일 불러오기
-      this.$http.get(`/auction/detail/${itemId}`)
+      this.$http.get(`/item/detail/${this.$route.params.id}`)
           .then((res) => {
+            this.itemTitle = res.data.itemTitle
+            this.itemDetail = res.data.itemDetail
+            this.weight = res.data.weight
+            this.time = res.data.time
+
+            // 시간 출력 디자인
             this.items.push(...res.data);
+
+            this.items.forEach(item => {
+              item.remainingTime = item.time;
+              this.startStopwatch(item);
+            });
           }).catch((error) => {
         console.error(error);
       });
@@ -161,10 +176,9 @@ export default {
         this.stompClient.send("/auction-bid", JSON.stringify(msg), {});
       }
     },
-
+    // 경매 삭제
     deleteItem() {
-      const itemId = this.$route.params.id;
-      this.$http.delete(`/item/delete/${itemId}`)
+      this.$http.delete(`/item/delete/${this.$route.params.id}`)
           .then((res) => {
             if (res.status === 200) {
               console.log(res);
@@ -175,12 +189,28 @@ export default {
         window.alert("상품 삭제에 실패했습니다");
       });
     },
+    // 시간 디자인 변환
+    startStopwatch(item) {
+      item.timer = setInterval(() => {
+        if (item.remainingTime > 0) {
+          item.remainingTime -= 1000;
+        } else {
+          item.remainingTime = 0;
+          clearInterval(item.timer);
+        }
+      }, 1000);
 
-    computed: {
-      itemId() {
-        return this.$route.params.id;
-      },
-    }
+    },
+    formatTime(remainingTime) {
+      const hours = Math.floor(remainingTime / 3600000);
+      const minutes = Math.floor((remainingTime % 3600000) / 60000);
+      const seconds = Math.floor((remainingTime % 60000) / 1000);
+      return `${this.padTime(hours)}:${this.padTime(minutes)}:${this.padTime(seconds)}`;
+    },
+    padTime(time) {
+      return (time < 10 ? '0' : '') + time;
+    },
+
   }
 }
 </script>

@@ -60,6 +60,10 @@
     font-size: 25px;
 }
 
+.item-content p {
+    margin-bottom: 0px;
+}
+
 .delete-btn {
     width: 80px;
     height: 30px;
