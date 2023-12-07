@@ -1,21 +1,43 @@
 .detail-profile {
-    width: 100%;
-    height: 100px;
-}
-
-.detail-profile .detail-profile-box {
-    margin: 5px 20px;
-    width: 230px;
-    height: 80px;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
 }
 
-.detail-profile .detail-profile-box .review-avg {
-    width: 60px;
+.detail-profile-box {
+    margin: 5px 0px 5px 20px;
+    width: 300px;
+    height: 80px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.detail-profile-box img, h3, div {
+    margin-right: 10px;
+}
+
+.detail-chat-btn {
+    width: 80px;
+    height: 30px;
+    border-radius: 3px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.detail-profile .detail-profile-box .review-avg {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.detail-profile .detail-profile-box .review-avg div {
+    width: 30px;
+}
+
+.detail-profile .detail-profile-box .review-avg span {
+    font-size: 17px;
 }
 
 .detail-profile .detail-profile-box>img {
@@ -28,14 +50,22 @@
     line-height: 30px;
 }
 
-.item-img {
+.item-detail-img {
     width: 100%;
     height: 300px;
 }
 
 .item-content {
-    margin: 10px;
+    margin-top: 10px;
     font-size: 25px;
+}
+
+.delete-btn {
+    width: 80px;
+    height: 30px;
+    border-radius: 3px;
+    font-size: 16px;
+    margin-left: 290px;
 }
 
 .item-footer {
@@ -89,14 +119,14 @@
 }
 
 .make-a-bid {
-    margin: 10px auto;
+    margin: auto;
     width: 350px;
     height: 60px;
     color: #FFFFFF;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /*justify-content: flex-start;*/
     background-color: #FF4500;
     border-radius: 30px;
 }
@@ -108,7 +138,6 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     background-color: #FF4500;
     position: fixed;
     bottom: -10px;
@@ -117,7 +146,8 @@
 
 
 .make-a-bid .bid-time {
-    font-size: 30px;
+    font-size: 22px;
+    margin-bottom: 0px;
 }
 .bid-input-box{
     margin-left: 20px;

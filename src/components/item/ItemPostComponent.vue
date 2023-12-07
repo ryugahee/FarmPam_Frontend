@@ -1,6 +1,7 @@
 <template>
   <div class="post" @click="detail">
     <div class="post-img-box" v-for="(item, i) in items" :key="i">
+      <router-link :to='"/auction/detail/" + item.id'>
       <div class="post-img">
         <!--        {{item.itemImgDtoList[0].imgUrl}}-->
         <img src="" class="thumbnail-img"/>
@@ -12,13 +13,13 @@
         </div>
       </div>
       <div class="post-content">
-        <h5> {{ item.itemTitle }} {{ item.weight }}kg
-          <button type="button" @click="deleteItem(item.id)">임시삭제</button></h5>
+        <h5> {{ item.itemTitle }} {{ item.weight }}kg</h5>
         <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
         <p></p>
         <p class="current-bid-price">현재 입찰가</p>
         <h3 class="price"> 원 </h3>
       </div>
+      </router-link>
     </div>
     <infinite-loading @infinite="infiniteHandler"></infinite-loading>
   </div>
@@ -93,22 +94,6 @@ export default {
       return (time < 10 ? '0' : '') + time;
     },
 
-    detail() {
-      this.$router.push("/detail")
-    },
-
-    deleteItem(itemId) {
-      this.$http.delete("/item/delete/${itemId}")
-          .then((res) => {
-            if (res.status === 200) {
-              console.log(res);
-              window.alert("상품이 삭제되었습니다");
-              this.$router.go(-1);
-            }
-          }).catch(() => {
-        window.alert("상품 삭제에 실패했습니다");
-      });
-    },
   }
 }
 </script>

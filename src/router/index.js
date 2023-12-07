@@ -71,7 +71,7 @@ const routes = [
       },
       // TODO : 식별 번호 수정 사항
       {
-        path: "/auction/detail",
+        path: "/auction/detail/:id",
         name: "detail",
         component: ItemDetailView,
       },
