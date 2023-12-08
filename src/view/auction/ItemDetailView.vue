@@ -23,9 +23,15 @@
       <img :src="itemImg" alt="경매 상품 이미지">
     </div>
     <div class="item-content">
-      <p>{{ itemTitle }} {{ weight }}kg</p>
-      <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>
-      <p>{{ itemDetail }}</p>
+      <p class="content-title">{{ itemTitle }} {{ weight }}kg</p>
+<!--      <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>-->
+      <div>
+        <div class="tags-container"><span v-for="(tag, index) in tagNames" :key="index" class="tag-item">
+            {{ tag }}
+          </span>
+        </div>
+      </div>
+      <p class="content-detail">{{ itemDetail }}</p>
     </div>
     <div class="item-footer">
       <div class="current-price">
@@ -110,6 +116,7 @@ export default {
       itemTitle: "",
       itemDetail: "",
       time: "",
+      tagNames: [],
     }
   },
   components: {
@@ -150,10 +157,10 @@ export default {
             this.itemDetail = res.data.itemDetail
             this.weight = res.data.weight
             this.time = res.data.time
+            this.tagNames = res.data.tagNames
 
             // 시간 출력 디자인
             this.items.push(...res.data);
-
             this.items.forEach(item => {
               item.remainingTime = item.time;
               this.startStopwatch(item);

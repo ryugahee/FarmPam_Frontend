@@ -81,6 +81,9 @@ export default {
     },
 
     startStopwatch(item) {
+      if(item.timer) {
+        clearInterval(item.timer);
+      }
       item.timer = setInterval(() => {
         if (item.remainingTime > 0) {
           item.remainingTime -= 1000;
