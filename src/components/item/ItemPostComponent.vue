@@ -34,6 +34,9 @@ export default {
   components: {
     InfiniteLoading,
   },
+  props: {
+    sortOption: String,
+  },
 
   data() {
     return {
@@ -45,7 +48,7 @@ export default {
   inject: ["$http"],
   methods: {
 
-    infiniteHandler($state) {
+    loadItems($state) {
       this.$http.get("/item/list", {
         params: {
           num: this.num,
@@ -70,6 +73,10 @@ export default {
       }).catch((error) => {
         console.error(error);
       });
+    },
+
+    infiniteHandler($state) {
+      this.loadItems($state);
     },
 
     startStopwatch(item) {

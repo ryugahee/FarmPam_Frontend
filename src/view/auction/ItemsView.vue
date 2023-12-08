@@ -9,14 +9,14 @@
       </div>
     </div>
     <div class="select-box">
-      <select class="select">
+      <select class="select" v-model="sortOption" @change="loadItems">
         <option value="join" selected>참여순</option>
         <option value="latest">최신순</option>
         <option value="ending">종료임박순</option>
       </select>
     </div>
     <div>
-      <ItemPost />
+      <ItemPost  :sortOption="sortOption"/>
     </div>
     <NavBar/>
   </div>
@@ -32,6 +32,7 @@ export default {
   data() {
     return {
       searchValue: '',
+      sortOption: 'latest',
     }
   },
   components: {
