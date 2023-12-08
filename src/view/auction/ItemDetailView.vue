@@ -64,14 +64,14 @@
           </div>
         </div>
         <div class="btn-a-bid" @click="sendBidPrice">
-          <p class="bid-time"> {{ time }} </p>
+          <p class="bid-time"> {{ formatTime(remainingTime) }} </p>
           입찰하기
         </div>
       </div>
 
       <!--      아이템 디테일-->
       <div class="make-a-bid" v-if="bidModal" @click="bidModal=!bidModal">
-        <p class="bid-time"> {{ time }} </p>
+        <p class="bid-time"> {{ formatTime(remainingTime) }} </p>
         <p>입찰하기</p>
       </div>
       <!--      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button>-->
@@ -117,6 +117,8 @@ export default {
       itemDetail: "",
       time: "",
       tagNames: [],
+      timer: null,
+      remainingTime: "",
     }
   },
   components: {
@@ -160,11 +162,9 @@ export default {
             this.tagNames = res.data.tagNames
 
             // 시간 출력 디자인
-            this.items.push(...res.data);
-            this.items.forEach(item => {
-              item.remainingTime = item.time;
-              this.startStopwatch(item);
-            });
+            this.remainingTime = res.data.time
+            this.startTimer();
+
           }).catch((error) => {
         console.error(error);
       });
@@ -197,18 +197,19 @@ export default {
       });
     },
     // 시간 디자인 변환
-    startStopwatch(item) {
-      item.timer = setInterval(() => {
-        if (item.remainingTime > 0) {
-          item.remainingTime -= 1000;
-        } else {
-          item.remainingTime = 0;
-          clearInterval(item.timer);
+    startTimer() {
+      this.timer = setInterval(() => {
+        this.remainingTime -= 1000;
+        if (this.remainingTime < 0) {
+          clearInterval(this.timer);
+          this.remainingTime = 0;
         }
       }, 1000);
-
     },
     formatTime(remainingTime) {
+      if (remainingTime <= 0) {
+        return '00:00:00';
+      }
       const hours = Math.floor(remainingTime / 3600000);
       const minutes = Math.floor((remainingTime % 3600000) / 60000);
       const seconds = Math.floor((remainingTime % 60000) / 1000);

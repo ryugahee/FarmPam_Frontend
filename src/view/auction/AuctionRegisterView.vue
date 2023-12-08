@@ -55,7 +55,7 @@
           <option value="10800">3시간</option>
           <option value="21600">6시간</option>
           <option value="43200">12시간</option>
-          <option value="86400">24시간</option>
+          <option value="10">24시간</option>
         </select>
       </div>
       <div class="content">

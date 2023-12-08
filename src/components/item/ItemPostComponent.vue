@@ -53,23 +53,15 @@ export default {
       }).then((res) => {
         if (res.data.length) {
           console.log("아이템: " + this.num)
-          this.items.push(...res.data);
 
+          this.items.push(...res.data);
           this.items.forEach(item => {
             item.remainingTime = item.time;
             this.startStopwatch(item);
           });
-          this.items.forEach(item => {
-            // time 속성이 있는지 확인
-            if (item.time !== undefined) {
-              item.remainingTime = item.time;
-              this.startStopwatch(item);
-            }
-          });
           this.num = res.data[res.data.length - 1].id;
           $state.loaded();
-          if (res.data.length / 7 < 1) {
-
+          if (res.data.length / 10 < 1) {
             $state.complete();
           }
         } else {
@@ -88,13 +80,16 @@ export default {
         if (item.remainingTime > 0) {
           item.remainingTime -= 1000;
         } else {
-          item.remainingTime = 0;
           clearInterval(item.timer);
+          item.remainingTime = 0;
         }
       }, 1000);
 
     },
     formatTime(remainingTime) {
+      if (remainingTime <= 0) {
+        return '00:00:00';
+      }
       const hours = Math.floor(remainingTime / 3600000);
       const minutes = Math.floor((remainingTime % 3600000) / 60000);
       const seconds = Math.floor((remainingTime % 60000) / 1000);
