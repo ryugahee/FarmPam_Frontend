@@ -1,59 +1,111 @@
 <template>
   <div class="post" @click="detail">
-    <div class="post-img-box" v-for="(post, i) in posts" :key="i">
+    <div class="post-img-box" v-for="(item, i) in items" :key="i">
+      <router-link :to='"/auction/detail/" + item.id'>
       <div class="post-img">
-        <img class="thumbnail-img" :src="post.image" alt=""/>
+        <!--        {{item.itemImgDtoList[0].imgUrl}}-->
+        <img src="" class="thumbnail-img"/>
         <div class="remaining-time">
           <div class="time-bg">
-            <p> {{ post.time }} 남음</p>
+            <p> {{ formatTime(item.remainingTime) }} 남음 </p>
+            <p></p>
           </div>
         </div>
       </div>
       <div class="post-content">
-        <h5> {{ post.title }} </h5>
+        <h5> {{ item.itemTitle }} {{ item.weight }}kg</h5>
         <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
-        <p class="participants"> {{ post.users }} </p>
+        <p></p>
         <p class="current-bid-price">현재 입찰가</p>
-        <h4 class="price"> {{ post.price.toLocaleString() }}원 </h4>
+        <h3 class="price"> 원 </h3>
       </div>
+      </router-link>
     </div>
+    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
 <script>
+
+import {InfiniteLoading} from "infinite-loading-vue3-ts";
+
 export default {
   name: 'ItemPost',
+  components: {
+    InfiniteLoading,
+  },
+  props: {
+    sortOption: String,
+  },
+
   data() {
     return {
-      posts: [
-        {
-          image: require("../../../public/assets/img/thumbnail1.png"),
-          time: "00:00:51",
-          title: "가희네 고당도 샤인머스켓 4kg",
-          users: 1204,
-          price: 40000
-        },
-        {
-          image: require("../../../public/assets/img/thumbnail2.png"),
-          time: "00:01:22",
-          title: "다은이네 천도 복숭아 4kg",
-          users: 512,
-          price: 23000
-        },
-        {
-          image: require("../../../public/assets/img/thumbnail3.png"),
-          time: "00:02:00",
-          title: "민이네 남해 유자 4kg",
-          users: 256,
-          price: 51000
-        },
-      ]
+      items: [],
+      num: 1,
     }
   },
+
+  inject: ["$http"],
   methods: {
-    detail() {
-      this.$router.push("/detail")
-    }
+
+    loadItems($state) {
+      this.$http.get("/item/list", {
+        params: {
+          num: this.num,
+        },
+      }).then((res) => {
+        if (res.data.length) {
+          console.log("아이템: " + this.num)
+
+          this.items.push(...res.data);
+          this.items.forEach(item => {
+            item.remainingTime = item.time;
+            this.startStopwatch(item);
+          });
+          this.num = res.data[res.data.length - 1].id;
+          $state.loaded();
+          if (res.data.length / 10 < 1) {
+            $state.complete();
+          }
+        } else {
+          $state.complete();
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    },
+
+    infiniteHandler($state) {
+      this.loadItems($state);
+    },
+
+    startStopwatch(item) {
+      if(item.timer) {
+        clearInterval(item.timer);
+      }
+      item.timer = setInterval(() => {
+        if (item.remainingTime > 0) {
+          item.remainingTime -= 1000;
+        } else {
+          clearInterval(item.timer);
+          item.remainingTime = 0;
+        }
+      }, 1000);
+
+    },
+    formatTime(remainingTime) {
+      if (remainingTime <= 0) {
+        return '00:00:00';
+      }
+      const hours = Math.floor(remainingTime / 3600000);
+      const minutes = Math.floor((remainingTime % 3600000) / 60000);
+      const seconds = Math.floor((remainingTime % 60000) / 1000);
+      return `${this.padTime(hours)}:${this.padTime(minutes)}:${this.padTime(seconds)}`;
+    },
+    padTime(time) {
+      return (time < 10 ? '0' : '') + time;
+    },
+
   }
 }
 </script>
