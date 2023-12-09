@@ -173,6 +173,11 @@ export default {
   methods: {
     imageAddUpload() {
       let num = -1;
+
+      if (this.files.length + this.$refs.files.files.length > 5) {
+        return;
+      }
+
       for (let i = 0; i < this.$refs.files.files.length; i++) {
         const fileType = this.$refs.files.files[i].name.toLowerCase();
         if (
@@ -243,6 +248,9 @@ export default {
 
     addTag() {
       if (this.tag == " " || this.tag == "") {
+        return;
+      }
+      if (this.tags.length >= 5) {
         return;
       }
       if (this.tags.indexOf(this.tag) != -1) {
