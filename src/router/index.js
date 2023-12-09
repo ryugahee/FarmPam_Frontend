@@ -14,13 +14,13 @@ import ItemDetailView from "@/view/auction/ItemDetailView.vue";
 import AuctionRegisterView from "@/view/auction/AuctionRegisterView.vue";
 import MyPageView from "@/view/mypage/MyPageView.vue";
 import UserInfoView from "@/view/mypage/UserInfoView.vue";
-import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
-import SalesHistory from "@/view/mypage/SalesHistory.vue";
 import FailView from "@/view/pay/FailView.vue";
 import ChatListView from "@/view/chat/ChatListView.vue";
 import ChatDetailView from "@/view/chat/ChatDetailView.vue";
-import AuctionView from "@/view/auction/AuctionView.vue";
 import ChargingView from "@/view/charging/ChargingView.vue";
+import AuctionPurchaseHistoryView from "@/view/mypage/AuctionPurchaseHistoryView.vue";
+import AuctionSaleHistoryView from "@/view/mypage/AuctionSaleHistoryView.vue";
+import AuctionView from "@/view/auction/AuctionView.vue";
 
 
 const routes = [
@@ -71,7 +71,7 @@ const routes = [
       },
       // TODO : 식별 번호 수정 사항
       {
-        path: "/auction/detail",
+        path: "/auction/detail/:id",
         name: "detail",
         component: ItemDetailView,
       },
@@ -90,11 +90,11 @@ const routes = [
       },
       {
         path: "/user/history/purchase",
-        component: PurchaseHistory,
+        component: AuctionPurchaseHistoryView,
       },
       {
         path: "/user/history/sales",
-        component: SalesHistory,
+        component: AuctionSaleHistoryView,
       },
       {
         path: "/chats",

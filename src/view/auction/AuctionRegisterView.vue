@@ -47,22 +47,21 @@
       <div>
         <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
       </div>
-      <div class="ss">
-        <select class="time-box" required>
-          <option>시간</option>
-          <option value="30">30분</option>
-          <option>1시간</option>
-          <option>2시간</option>
-          <option>3시간</option>
-          <option>6시간</option>
-          <option>12시간</option>
-          <option>24시간</option>
+      <div class="timer">
+        <select class="time-box" v-model="time" required>
+          <option value="1800">30분</option>
+          <option value="3600">1시간</option>
+          <option value="7200">2시간</option>
+          <option value="10800">3시간</option>
+          <option value="21600">6시간</option>
+          <option value="43200">12시간</option>
+          <option value="10">24시간</option>
         </select>
       </div>
       <div class="content">
       <textarea class="itemDetail-box"
           type="text"
-                v-model="itemDetail" placeholder="&#10; 상품 설명" required></textarea>
+                v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
       </div>
       <!--     태그 추가       -->
       <div class="tag-box">
@@ -102,7 +101,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import LOGO from "@/components/user/LogoComponent.vue";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
 
@@ -127,12 +125,10 @@ export default {
       filesPreview: [],
       uploadImageIndex: 0,
 
-
     };
   },
-
+  inject:["$http"],
   methods: {
-
 
     imageAddUpload() {
       let num = -1;
@@ -169,17 +165,20 @@ export default {
       formData.append("itemDetail", this.itemDetail);
       formData.append("itemType", this.itemType);
       formData.append("weight", this.weight);
+      formData.append("time", this.time);
+
+      console.log("경매시간: " + this.time)
 
       for (let i = 0; i < this.files.length; i++) {
         formData.append("files", this.files[i].file);
       }
 
-      const myArray = this.tags;
-      const arrayAsString = myArray.join(',');
+      const tagArray = this.tags;
+      const arrayAsString = tagArray.join(',');
       formData.append("tagNames",arrayAsString);
 
-      await axios
-          .post("/api/item/new", formData, {
+      await this.$http
+          .post("/item/new", formData, {
             headers: {
               "Content-Type": "multipart/form-data;  charset=UTF-8",
             },
@@ -208,7 +207,6 @@ export default {
       this.tags.push(this.tag);
       this.tag = '';
 
-      console.log("태그: " + this.tags);
     },
     removeTag(tag) {
       let index = this.tags.indexOf(tag);
@@ -218,6 +216,9 @@ export default {
     },
 
   },
+
+
+
 };
 </script>
 

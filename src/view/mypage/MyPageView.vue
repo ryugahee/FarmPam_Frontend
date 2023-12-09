@@ -13,7 +13,7 @@
       <div class="pay-box">
         <div class="pay-money">
           <div class="farmpay">Farm pay</div>
-          <div>150,000원</div>
+          <div class="charge">150,000원</div>
         </div>
         <div class="pay-charge">
           <div class="charge">충전하기</div>
@@ -48,16 +48,16 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import NavComponent from "@/components/user/NavComponent.vue";
 import router from "@/router";
-import PurchaseHistory from "@/view/mypage/PurchaseHistory.vue";
-import SalesHistory from "@/view/mypage/SalesHistory.vue";
+import AuctionPurchaseHistoryView from "@/view/mypage/AuctionPurchaseHistoryView.vue";
+import AuctionSaleHistoryView from "@/view/mypage/AuctionSaleHistoryView.vue";
 
 export default {
   computed: {
     SalesHistory() {
-      return SalesHistory
+      return AuctionSaleHistoryView
     },
     PurchaseHistory() {
-      return PurchaseHistory
+      return AuctionPurchaseHistoryView
     }
   },
   components: {NavComponent, LOGO},
