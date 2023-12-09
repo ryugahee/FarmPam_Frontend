@@ -45,15 +45,10 @@
 
       <!--      bid modal-->
       <div class="bid-bg" v-if="!bidModal">
-<<<<<<< HEAD
         <div v-for="(item, index) in receiveList" :key="item.id">
 <!--          <p class="bid-Message">경매 이름: {{ item.bidId}}</p>-->
           <p class="bid-Message"> {{index+1}} 번째 입찰 가격 {{item.content}}</p>
-=======
-        <div v-for="item in receiveList" :key="item.id">
-          <p>유저 이름: {{ items.userName }}</p>
-          <p>내용: {{ items.content }}</p>
->>>>>>> 4a51a3c6131663bdd4ff10e7c12661e8c5daa000
+          //01077421801
         </div>
         <div class="bid-btn">
           <div class="current-price-bid-box">
