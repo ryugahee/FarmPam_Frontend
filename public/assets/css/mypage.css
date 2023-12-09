@@ -44,11 +44,12 @@
     width: 340px;
     height: 80px;
     margin: auto;
+    padding: 5px;
 }
 .pay-money {
     display: flex;
     flex-direction: column;
-    margin-left: 30px;
+    margin-left: 20px;
 }
 
 .pay-charge {
@@ -61,11 +62,11 @@
     margin-left: 10px;
 }
 .charge {
-    font-size: larger;
+    font-size: 18px;
 }
 .farmpay {
-    font-size: larger;
-    margin-bottom: 25px;
+    font-size: 23px;
+    margin-bottom: 10px;
 }
 
 
