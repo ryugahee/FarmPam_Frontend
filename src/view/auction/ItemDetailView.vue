@@ -48,7 +48,6 @@
         <div v-for="(item, index) in receiveList" :key="item.id">
 <!--          <p class="bid-Message">경매 이름: {{ item.bidId}}</p>-->
           <p class="bid-Message"> {{index+1}} 번째 입찰 가격 {{item.content}}</p>
-          //01077421801
         </div>
         <div class="bid-btn">
           <div class="current-price-bid-box">
