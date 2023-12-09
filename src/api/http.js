@@ -38,4 +38,35 @@ function getChatPreviewInfos(chatIds, userId) {
   );
 }
 
-export { instance, getChatIds, getChatPreviewInfos };
+function getChatDetailInfo(chatId, userId) {
+  return instance.get(`/chats/chatDetailInfo`, {
+    params: {
+      chatId: chatId,
+      userId: userId,
+    },
+    headers: {
+      "Content-Type": "text/plain",
+      "X-AUTH-TOKEN": localStorage.getItem("jwt"),
+    },
+  });
+}
+
+function getChatMessages(chatId) {
+  return instance.get(`/chats/chatMessages`, {
+    params: {
+      chatId: chatId,
+    },
+    headers: {
+      "Content-Type": "text/plain",
+      "X-AUTH-TOKEN": localStorage.getItem("jwt"),
+    },
+  });
+}
+
+export {
+  instance,
+  getChatIds,
+  getChatPreviewInfos,
+  getChatDetailInfo,
+  getChatMessages,
+};

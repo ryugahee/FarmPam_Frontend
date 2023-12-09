@@ -1,5 +1,10 @@
 import { createStore } from "vuex";
-import { getChatIds, getChatPreviewInfos } from "@/api/http";
+import {
+  getChatIds,
+  getChatPreviewInfos,
+  getChatDetailInfo,
+  getChatMessages,
+} from "@/api/http";
 
 const store = createStore({
   state() {
@@ -24,12 +29,18 @@ const store = createStore({
           itemThumbnailUrl: "테스트 경매 사진",
         },
       ],
-      chats: [
+      chatDetailInfo: {
+        toNickName: "테스트 닉네임",
+        itemTitle: "테스트 타이틀",
+        itemThumbnailUrl: "테스트 경매 사진",
+        biddingPrice: 40000,
+      },
+
+      chatMessages: [
         {
-          auctionId: 0,
-          auctionName: "",
-          lastMessage: "",
-          nickname: "",
+          fromUserId: 0,
+          message: "",
+          updateAt: "",
         },
       ],
     };
@@ -56,22 +67,55 @@ const store = createStore({
     setChatPreviewInfos(state, chatPreviewInfos) {
       state.chatPreviewInfos = chatPreviewInfos;
     },
+    setChatDetailInfo(state, chatDetailInfo) {
+      state.chatDetailInfo = chatDetailInfo;
+    },
+    setChatMessages(state, chatMessages) {
+      state.chatMessages = chatMessages;
+    },
   },
   actions: {
     // 내가 참여중인 채팅방 아이디 찾기
     findChatIds({ commit }, userId) {
-      return getChatIds(userId).then((response) => {
-        commit("setChatIds", response.data);
-      });
+      return getChatIds(userId)
+        .then((response) => {
+          commit("setChatIds", response.data);
+        })
+        .catch(function () {
+          console.log("findChatIds Error");
+        });
     },
 
+    // 채팅방 프리뷰 정보 가져오기
     findChatPreviewInfos({ commit }, { chatIds, userId }) {
       return getChatPreviewInfos(chatIds, userId)
         .then((response) => {
           commit("setChatPreviewInfos", response.data);
           console.log(store.state.chatPreviewInfos);
         })
-        .catch(function () {});
+        .catch(function () {
+          console.log("findChatPreviewInfos Error");
+        });
+    },
+
+    findChatDetailInfo({ commit }, { chatId, userId }) {
+      return getChatDetailInfo(chatId, userId)
+        .then((response) => {
+          commit("setChatDetailInfo", response.data);
+        })
+        .catch(function () {
+          console.log("findChatDetailInfo Error");
+        });
+    },
+
+    findChatMessages({ commit }, chatId) {
+      return getChatMessages(chatId)
+        .then((response) => {
+          commit("setChatMessages", response.data);
+        })
+        .catch(function () {
+          console.log("findChatMessages Error");
+        });
     },
   },
   getters: {
