@@ -42,7 +42,7 @@
     </div>
     <div class="main">
       <div>
-        <input class="title-box" type="text" v-model="itemTitle" placeholder=" 제목" required>
+        <input class="title-box" type="text" v-model="itemTitle" placeholder=" 제목"  @input="limitStringLength(itemTitle,10)" required>
       </div>
       <div>
         <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
@@ -61,7 +61,7 @@
       <div class="content">
       <textarea class="itemDetail-box"
           type="text"
-                v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
+                v-model="itemDetail" placeholder=" 상품 설명" @input="limitStringLength(itemDetail, 499)" required></textarea>
       </div>
       <!--     태그 추가       -->
       <div class="tag-box">
@@ -132,6 +132,11 @@ export default {
 
     imageAddUpload() {
       let num = -1;
+
+      if (this.files.length + this.$refs.files.files.length > 5) {
+        return;
+      }
+
       for (let i = 0; i < this.$refs.files.files.length; i++) {
 
         const fileType = this.$refs.files.files[i].name.toLowerCase();
@@ -187,7 +192,6 @@ export default {
             console.log(res);
             if (res.status === 200) {
               console.log(res);
-              window.alert("상품 등록 성공");
               this.$router.go(-1);
             }
           })
@@ -199,6 +203,9 @@ export default {
 
     addTag() {
       if (this.tag == " " || this.tag == "") {
+        return;
+      }
+      if (this.tags.length >= 5) {
         return;
       }
       if (this.tags.indexOf(this.tag) != -1) {
@@ -214,6 +221,12 @@ export default {
         this.tags.splice(index, 1);
       }
     },
+/*    limitStringLength(inputString, maxLength) {
+      if (inputString.length > maxLength) {
+        inputString = escape(inputString.slice(0, maxLength));
+        alert("글자수초과")
+      }
+    }*/
 
   },
 

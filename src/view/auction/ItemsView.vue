@@ -9,14 +9,15 @@
       </div>
     </div>
     <div class="select-box">
-      <select class="select" v-model="sortOption" @change="loadItems">
-        <option value="join" selected>참여순</option>
+      <select class="select" v-model="sortType" @change="fetchData">
+        <option value="join" >참여순</option>
         <option value="latest">최신순</option>
-        <option value="ending">종료임박순</option>
+        <option value="time">종료임박순</option>
       </select>
     </div>
     <div>
-      <ItemPost  :sortOption="sortOption"/>
+      <ItemPost :items="items"/>
+      <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
     </div>
     <NavBar/>
   </div>
@@ -26,22 +27,94 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import ItemPost from "@/components/item/ItemPostComponent.vue";
 import NavBar from "@/components/user/NavComponent.vue";
+import {InfiniteLoading} from "infinite-loading-vue3-ts";
 
 export default {
   name: "ItemView",
   data() {
     return {
       searchValue: '',
-      sortOption: 'latest',
+
+      items: [],
+      sortType: 'latest',
+      page: 0
     }
   },
   components: {
+    InfiniteLoading,
     LOGO,
     ItemPost,
     NavBar
   },
+  created() {
 
+    if(this.$refs.InfiniteLoading){
+      this.$refs.InfiniteLoading.stateChanger.reset();
+    }
+  },
+
+  inject: ["$http"],
   methods: {
+
+    fetchData() {
+      if (this.sortType === 'latest') {
+        this.sortType = 'latest';
+      } else if (this.sortType === 'time') {
+        this.sortType = 'time';
+      } else if (this.sortType === 'join') {
+        this.sortType = 'join';
+      }
+      this.page = 0;
+      this.items = [];
+      this.$refs.infiniteLoading.stateChanger.reset();
+    },
+
+
+    infiniteHandler($state) {
+      this.$http.get("/item/list", {
+        params: {
+          page: this.page,
+          sortType: this.sortType
+        },
+      }).then((res) => {
+        if (res.data.length) {
+          console.log("페이지: " + this.page)
+
+          this.items.push(...res.data);
+          this.items.forEach(item => {
+            item.remainingTime = item.time;
+            this.startStopwatch(item);
+          });
+
+          this.page ++
+          $state.loaded();
+          if (res.data.length  < 1) {
+            $state.complete();
+          }
+        } else {
+          $state.complete();
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    },
+
+    startStopwatch(item) {
+      if(item.timer) {
+        clearInterval(item.timer);
+      }
+      item.timer = setInterval(() => {
+        if (item.remainingTime > 0) {
+          item.remainingTime -= 1000;
+        } else {
+          clearInterval(item.timer);
+          item.remainingTime = 0;
+        }
+      }, 1000);
+
+    },
+
+
 
     btnClick() {
       if (this.searchValue.trim() !== '') {
