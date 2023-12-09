@@ -30,14 +30,14 @@
 
 <!--      bid modal-->
       <div class="bid-bg" v-if="!bidModal">
-        <div v-for="item in receiveList" :key="item.id">
-          <p>유저 이름: {{ item.userName}}</p>
-          <p>내용: {{ item.content}}</p>
+        <div v-for="(item, index) in receiveList" :key="item.id">
+<!--          <p class="bid-Message">경매 이름: {{ item.bidId}}</p>-->
+          <p class="bid-Message"> {{index+1}} 번째 입찰 가격 {{item.content}}</p>
         </div>
         <div class="bid-btn">
           <div class="current-price-bid-box">
             <span>현재 입찰가</span>
-            <span> {{ currentPrice.toLocaleString() }}원 </span>
+            <span> {{ currentPrice.toString() }}원 </span>
           </div>
 
           <div>
@@ -82,20 +82,30 @@ import LOGO from "@/components/user/LogoComponent.vue";
 import Stomp from 'webstomp-client'
 import SocketJS from 'sockjs-client'
 import Auction from "@/components/auction/AuctionComponent.vue";
+import index from "vuex";
 export default {
   name: "ItemDetailView",
+  computed: {
+    index() {
+      return index
+    }
+  },
   data() {
     return {
       profileImg: require("../../../public/assets/img/profile1.png"),
       nickName: "그랜드팜",
       review: 4.5,
       itemImg: require("../../../public/assets/img/apple.png"),
-      currentPrice: 10000,
+      currentPrice: "",
       myPrice: 9000,
       time: "14:31:29",
       bidModal: true,
+
+      bidId:"chan",
+      publisher:"",
       userName:"",
-      bidPrice: "",
+      bidPrice:"",
+      bidList:[],
       receiveList: []
     }
   },
@@ -104,10 +114,17 @@ export default {
   },
   inject: ["$http"],
   created() {
+
+    // const url = new URL(location.href);
+    // const roomId = url.searchParams.get('roomId');
+    //
+    // console.log('roomId: ', roomId);
     this.connect()
   },
   methods: {
     connect(){
+      this.receiveBidList();
+      //소켓 연결
       const serverURL = "http://localhost:8080"
       let socket = new SocketJS(serverURL);
       this.stompClient = Stomp.over(socket);
@@ -117,11 +134,12 @@ export default {
           frame => {
             this.connected = true;
             console.log('connected success', frame);
-
-            this.stompClient.subscribe("/auction/bids", res =>{
+            this.stompClient.subscribe("/bidList", res =>{
               console.log("response message", res.body);
-              this.receiveList.push(JSON.parse(res.body))
+              this.receiveList.push(JSON.parse(res.body));
+              // this.currentPrice.pop();
             });
+
           },
           error => {
             console.log('connected fail', error);
@@ -129,17 +147,41 @@ export default {
           }
       );
     },
-    profile() {
-      this.$router.push("/profile")
+    receiveBidList(){
+      //입찰내역 호출
+      const msg = {
+        bidId: this.bidId,
+      };
+
+      this.$http.post("/bid-list", msg).then(res =>{
+        this.receiveList = (res.data);
+        console.log(this.receiveList);
+
+      }).catch(err => {
+        console.log(err);
+      });
     },
+    onConnected(){
+
+
+      // this.stompClient.send("/bid-list", JSON.stringify(this.userName), {})
+      // this.stompClient.subscribe('/sub/chat/room' + this.roomId, this.onMessageReceived);
+      // this.stompClient.send("/pub/chat/enterUser", {}, JSON.stringify({
+      //   "roomId": this.roomId,
+      //   userName: this.userName,
+      //   type: 'ENTER'
+      // }))
+    },
+
     sendBidPrice(){
       console.log("Send bidPrice:" + this.bidPrice);
       if(this.stompClient && this.stompClient.connected){
         const msg = {
-          userName: this.userName,
-          content: this.bidPrice
+          bidId: this.bidId,
+          content: this.bidPrice,
         };
-        this.stompClient.send("/auction-bid", JSON.stringify(msg), {});
+        this.stompClient.send("/bid-push", JSON.stringify(msg), {});
+        // this.stompClient.send("/bid-update", JSON.stringify(msg), {});
       }
     }
   }
@@ -149,4 +191,8 @@ export default {
 <style scoped>
 @import "../../../public/assets/css/item-detail-page.css";
 @import "../../../public/assets/css/chat-style.css";
+.bid-Message{
+  text-align: center;
+  color: #FFFFFF;
+}
 </style>
