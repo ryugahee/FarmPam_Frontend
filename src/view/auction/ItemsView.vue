@@ -9,14 +9,14 @@
       </div>
     </div>
     <div class="select-box">
-      <select class="select">
+      <select class="select" v-model="sortOption" @change="loadItems">
         <option value="join" selected>참여순</option>
         <option value="latest">최신순</option>
         <option value="ending">종료임박순</option>
       </select>
     </div>
     <div>
-      <ItemPost v-for="post in 10" :key="post" class="item-post"/>
+      <ItemPost  :sortOption="sortOption"/>
     </div>
     <NavBar/>
   </div>
@@ -31,7 +31,8 @@ export default {
   name: "ItemView",
   data() {
     return {
-      searchValue: ''
+      searchValue: '',
+      sortOption: 'latest',
     }
   },
   components: {
@@ -39,7 +40,9 @@ export default {
     ItemPost,
     NavBar
   },
+
   methods: {
+
     btnClick() {
       if (this.searchValue.trim() !== '') {
         this.$router.push({ path: "/items", query: { search: encodeURIComponent(this.searchValue) } });
@@ -48,6 +51,7 @@ export default {
       }
     }
   }
+
 }
 </script>
 
