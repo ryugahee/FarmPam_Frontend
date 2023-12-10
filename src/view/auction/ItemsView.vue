@@ -31,6 +31,12 @@ import {InfiniteLoading} from "infinite-loading-vue3-ts";
 
 export default {
   name: "ItemView",
+  components: {
+    InfiniteLoading,
+    LOGO,
+    ItemPost,
+    NavBar
+  },
   data() {
     return {
       searchValue: '',
@@ -40,12 +46,7 @@ export default {
       page: 0
     }
   },
-  components: {
-    InfiniteLoading,
-    LOGO,
-    ItemPost,
-    NavBar
-  },
+
   created() {
 
     if(this.$refs.InfiniteLoading){

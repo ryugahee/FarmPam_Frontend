@@ -42,7 +42,7 @@
     </div>
     <div class="main">
       <div>
-        <input class="title-box" type="text" v-model="itemTitle" placeholder=" 제목"  @input="limitStringLength(itemTitle,10)" required>
+        <input class="title-box" type="text" v-model="itemTitle" placeholder=" 제목" required>
       </div>
       <div>
         <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
@@ -61,7 +61,7 @@
       <div class="content">
       <textarea class="itemDetail-box"
           type="text"
-                v-model="itemDetail" placeholder=" 상품 설명" @input="limitStringLength(itemDetail, 499)" required></textarea>
+                v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
       </div>
       <!--     태그 추가       -->
       <div class="tag-box">
@@ -192,7 +192,7 @@ export default {
             console.log(res);
             if (res.status === 200) {
               console.log(res);
-              this.$router.go(-1);
+              // this.$router.go(-1);
             }
           })
           .catch(() => {
