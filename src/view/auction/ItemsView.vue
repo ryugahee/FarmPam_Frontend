@@ -3,7 +3,7 @@
     <LOGO/>
     <div class="search">
       <div class="search-bar">
-        <input v-model="searchValue" class="search-box" placeholder="검색할 물품을 입력하세요."/>
+        <input v-model="keyword" class="search-box" placeholder="검색할 물품을 입력하세요."/>
         <button class="search-btn" @click="btnClick"><img src="../../../public/assets/img/search-green.png" alt=""/>
         </button>
       </div>
@@ -39,7 +39,7 @@ export default {
   },
   data() {
     return {
-      searchValue: '',
+      keyword: '',
 
       items: [],
       sortType: 'latest',
@@ -75,7 +75,8 @@ export default {
       this.$http.get("/item/list", {
         params: {
           page: this.page,
-          sortType: this.sortType
+          sortType: this.sortType,
+          keyword: this.keyword
         },
       }).then((res) => {
         if (res.data.length) {
@@ -115,15 +116,16 @@ export default {
 
     },
 
-
-
     btnClick() {
-      if (this.searchValue.trim() !== '') {
-        this.$router.push({ path: "/items", query: { search: encodeURIComponent(this.searchValue) } });
+      if (this.keyword.trim() !== '') {
+        this.page = 0;
+        this.items = [];
+        this.$refs.infiniteLoading.stateChanger.reset();
       } else {
         this.$router.push("/items");
       }
-    }
+    },
+
   }
 
 }
