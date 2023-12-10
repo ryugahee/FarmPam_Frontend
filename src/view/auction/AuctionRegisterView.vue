@@ -207,7 +207,6 @@ export default {
     async submitPost() {
       const formData = new FormData();
 
-      formData.append("userName", this.userName);
       formData.append("itemTitle", this.itemTitle);
       formData.append("minPrice", this.minPrice);
       formData.append("itemDetail", this.itemDetail);
