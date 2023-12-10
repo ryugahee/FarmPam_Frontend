@@ -92,10 +92,17 @@ export default {
     this.isSocketConnected = false;
     this.myNickname = this.$store.state.user.nickname;
     this.myId = this.$store.state.user.id;
-    // 채팅 내역 가져오기
-    this.$store.dispatch("findChatMessages", this.chatId).then(() => {
-      this.messages = this.messages = this.$store.state.chatMessages;
-    });
+
+    this.getMessages();
+
+    // jwt 토큰이 없으면
+    // if(localStorage.getItem('accessToken') == null) {
+    //   router.replace("/home");
+    // }
+
+    if (this.isSocketConnected == false) {
+      this.connect();
+    }
   },
   mounted() {
     this.scrollToBottom();
@@ -121,11 +128,29 @@ export default {
         const currentTime = new Date();
         const formattedTime = this.formatTime(currentTime);
 
-        this.messages.push({
+        const message = {
           fromUserId: this.myId,
           message: this.newMessage,
           updatedAt: formattedTime,
+        };
+
+        this.$store.dispatch("sendMessage", {
+          message: message,
+          chatId: this.chatId,
         });
+
+        stompClient.send(
+          `/receive/${this.chatId}`,
+          JSON.stringify(message),
+          {}
+        );
+        this.onMessageReceived();
+
+        // this.messages.push({
+        //   fromUserId: this.myId,
+        //   message: this.newMessage,
+        //   updatedAt: formattedTime,
+        // });
         this.newMessage = "";
       }
 
@@ -141,9 +166,14 @@ export default {
     },
 
     formatTime(time) {
+      const year = time.getFullYear();
+      const month = (time.getMonth() + 1).toString().padStart(2, "0");
+      const day = time.getDate().toString().padStart(2, "0");
       const hours = time.getHours().toString().padStart(2, "0");
       const minutes = time.getMinutes().toString().padStart(2, "0");
-      const formattedTime = `${hours}:${minutes}`;
+      const seconds = time.getSeconds().toString().padStart(2, "0");
+
+      const formattedTime = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 
       return formattedTime;
     },
@@ -182,6 +212,30 @@ export default {
         return minHeight + (brCount + 1) * 20;
       }
       return this.messageHeight;
+    },
+    connect() {
+      this.isSocketConnected = true;
+
+      let socket = new SockJS("http://localhost:8080");
+      stompClient = Stomp.over(socket);
+      stompClient.connect({}, this.onConnected, this.onError);
+    },
+    onConnected() {
+      stompClient.subscribe(`/chat/${this.chatId}`, this.onMessageReceived);
+    },
+    onError() {
+      console.log("소켓 연결 실패");
+    },
+    onMessageReceived(res) {
+      setTimeout(() => {
+        this.getMessages();
+      });
+    },
+    getMessages() {
+      // 채팅 내역 가져오기
+      this.$store.dispatch("findChatMessages", this.chatId).then(() => {
+        this.messages = this.messages = this.$store.state.chatMessages;
+      });
     },
   },
 };

@@ -4,6 +4,7 @@ import {
   getChatPreviewInfos,
   getChatDetailInfo,
   getChatMessages,
+  sendMessage,
 } from "@/api/http";
 
 const store = createStore({
@@ -115,6 +116,16 @@ const store = createStore({
         })
         .catch(function () {
           console.log("findChatMessages Error");
+        });
+    },
+
+    sendMessage({ commit }, { message, chatId }) {
+      return sendMessage(message, chatId)
+        .then(() => {
+          store.dispatch("findChatMessages", chatId);
+        })
+        .catch(function () {
+          console.log("sendMessage Error");
         });
     },
   },

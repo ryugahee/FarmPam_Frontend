@@ -16,7 +16,7 @@ function getChatIds(userId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("jwt"),
+      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
@@ -32,7 +32,7 @@ function getChatPreviewInfos(chatIds, userId) {
     {
       headers: {
         "Content-Type": "application/json",
-        "X-AUTH-TOKEN": localStorage.getItem("jwt"),
+        "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
       },
     }
   );
@@ -46,7 +46,7 @@ function getChatDetailInfo(chatId, userId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("jwt"),
+      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
@@ -58,9 +58,21 @@ function getChatMessages(chatId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("jwt"),
+      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
+}
+
+function sendMessage(message, chatId) {
+  return instance.post(
+    `/chats/chatMessage`,
+    { message, chatId },
+    {
+      headers: {
+        "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
+      },
+    }
+  );
 }
 
 export {
@@ -69,4 +81,5 @@ export {
   getChatPreviewInfos,
   getChatDetailInfo,
   getChatMessages,
+  sendMessage,
 };
