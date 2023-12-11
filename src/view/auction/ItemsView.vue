@@ -3,7 +3,7 @@
     <LOGO/>
     <div class="search">
       <div class="search-bar">
-        <input v-model="keyword" class="search-box" placeholder="검색할 물품을 입력하세요."/>
+        <input v-model="keyword" @keyup.enter="btnClick" class="search-box" placeholder="검색할 물품을 입력하세요."/>
         <button class="search-btn" @click="btnClick"><img src="../../../public/assets/img/search-green.png" alt=""/>
         </button>
       </div>
@@ -95,6 +95,7 @@ export default {
           }
         } else {
           $state.complete();
+          this.keyword = '';
         }
       }).catch((error) => {
         console.error(error);
