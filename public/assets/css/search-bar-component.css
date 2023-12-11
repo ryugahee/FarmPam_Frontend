@@ -9,9 +9,22 @@
     z-index: 1;
 }
 
+/*.nav-search-fix {
+    margin: 0 auto;
+    width: 390px;
+    height: 55px;
+    position: sticky;
+    top: 20px;
+    text-align: center;
+    background-color: #FFFFFF;
+    z-index: 1;
+}*/
+
 .search-bar {
     position: relative;
+    /*margin-top: 20px;*/
     margin-bottom: 10px;
+    background-color: white;
     display: flex;
     justify-content: center;
 

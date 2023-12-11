@@ -48,6 +48,9 @@ export default {
   },
 
   created() {
+    if (this.$route.query.keyword) {
+      this.keyword = this.$route.query.keyword;
+    }
 
     if(this.$refs.InfiniteLoading){
       this.$refs.InfiniteLoading.stateChanger.reset();
@@ -95,7 +98,6 @@ export default {
           }
         } else {
           $state.complete();
-          this.keyword = '';
         }
       }).catch((error) => {
         console.error(error);
@@ -122,6 +124,7 @@ export default {
         this.page = 0;
         this.items = [];
         this.$refs.infiniteLoading.stateChanger.reset();
+        this.$router.push({ path: "/items", query: { keyword: this.keyword } });
       } else {
         this.$router.push("/items");
       }

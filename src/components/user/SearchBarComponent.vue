@@ -20,7 +20,7 @@ export default {
   methods: {
     btnClick() {
       if (this.keyword.trim() !== '') {
-        this.$router.push({ path: "/items", query: { keyword: encodeURIComponent(this.keyword) } });
+        this.$router.push({ path: "/items", query: { keyword: this.keyword } });
       } else {
         this.$router.push("/items");
       }
