@@ -75,8 +75,8 @@ function sendMessage(message, chatId) {
   );
 }
 
+export default instance;
 export {
-  instance,
   getChatIds,
   getChatPreviewInfos,
   getChatDetailInfo,

@@ -158,8 +158,6 @@ export default {
               console.log("response message", res.body);
               this.receiveList = JSON.parse(res.body);
               this.currentPrice = this.receiveList.at(-1);
-              // this.currentPrice = this.receiveList.content.pop();
-              // this.currentPrice.pop();
             });
 
           },
