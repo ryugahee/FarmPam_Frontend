@@ -216,12 +216,12 @@ export default {
     connect() {
       this.isSocketConnected = true;
 
-      let socket = new SockJS("http://localhost:8080");
+      let socket = new SockJS("http://localhost:8080/chat");
       stompClient = Stomp.over(socket);
       stompClient.connect({}, this.onConnected, this.onError);
     },
     onConnected() {
-      stompClient.subscribe(`/chat/${this.chatId}`, this.onMessageReceived);
+      stompClient.subscribe(`/send/${this.chatId}`, this.onMessageReceived);
     },
     onError() {
       console.log("소켓 연결 실패");
