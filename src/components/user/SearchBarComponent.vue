@@ -19,8 +19,9 @@ export default {
   inject: ["$http"],
   methods: {
     btnClick() {
-      if (this.keyword.trim() !== '') {
-        this.$router.push({ path: "/items", query: { keyword: encodeURIComponent(this.keyword) } });
+      if (this.keyword !== '') {
+        this.$router.push({ path: "/items", query: { keyword: this.keyword } });
+
       } else {
         this.$router.push("/items");
       }

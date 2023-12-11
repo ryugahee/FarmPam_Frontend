@@ -6,6 +6,8 @@ import http from "@/api/http";
 import BootstrapVue from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import store from "@/store/store";
+
 
 const app = createApp(App);
 app.use(BootstrapVue);
@@ -14,5 +16,9 @@ app.provide("$http", http);
 
 app.use(router);
 
+app.use(store);
+
 app.mount("#app");
+
+
 
