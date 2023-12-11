@@ -48,13 +48,10 @@ export default {
   },
 
   created() {
-    if (this.$route.query.keyword) {
-      this.keyword = this.$route.query.keyword;
-    }
-    if (this.$refs.InfiniteLoading) {
+
+    if(this.$refs.InfiniteLoading){
       this.$refs.InfiniteLoading.stateChanger.reset();
     }
-
   },
 
   inject: ["$http"],
@@ -98,7 +95,7 @@ export default {
           }
         } else {
           $state.complete();
-          // this.keyword = '';
+          this.keyword = '';
         }
       }).catch((error) => {
         console.error(error);
@@ -125,15 +122,12 @@ export default {
         this.page = 0;
         this.items = [];
         this.$refs.infiniteLoading.stateChanger.reset();
-        this.$router.push({ path: "/items", query: { keyword: this.keyword } });
       } else {
-        this.page = 0;
-        this.items = [];
-        this.$refs.infiniteLoading.stateChanger.reset();
+        this.$router.push("/items");
       }
     },
-  },
 
+  }
 
 }
 </script>
