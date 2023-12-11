@@ -11,6 +11,7 @@
             :style="{ height: calculateMessageHeight(message.message) + 'px' }"
           >
             <p
+              v-if="message.message"
               :class="{
                 sender: isMyMessage(message.fromUserId),
                 receiver: !isMyMessage(message.fromUserId),
@@ -128,20 +129,22 @@ export default {
         const currentTime = new Date();
         const formattedTime = this.formatTime(currentTime);
 
-        const message = {
+        const chatMessage = {
           fromUserId: this.myId,
           message: this.newMessage,
           updatedAt: formattedTime,
         };
 
+        console.log(chatMessage);
+
         this.$store.dispatch("sendMessage", {
-          message: message,
+          chatMessage: chatMessage,
           chatId: this.chatId,
         });
 
         stompClient.send(
           `/receive/${this.chatId}`,
-          JSON.stringify(message),
+          JSON.stringify(chatMessage),
           {}
         );
         this.onMessageReceived();
@@ -234,7 +237,8 @@ export default {
     getMessages() {
       // 채팅 내역 가져오기
       this.$store.dispatch("findChatMessages", this.chatId).then(() => {
-        this.messages = this.messages = this.$store.state.chatMessages;
+        this.messages = this.$store.state.chatMessages;
+        console.log(this.messages);
       });
     },
   },

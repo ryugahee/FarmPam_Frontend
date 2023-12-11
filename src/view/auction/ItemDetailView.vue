@@ -100,8 +100,8 @@
 
 <script>
 import LOGO from "@/components/user/LogoComponent.vue";
-import Stomp from 'webstomp-client'
-import SocketJS from 'sockjs-client'
+import Stomp from "webstomp-client";
+import SocketJS from "sockjs-client";
 import Auction from "@/components/auction/AuctionComponent.vue";
 import index from "vuex";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
@@ -110,8 +110,8 @@ export default {
   name: "ItemDetailView",
   computed: {
     index() {
-      return index
-    }
+      return index;
+    },
   },
   data() {
     return {
@@ -124,10 +124,10 @@ export default {
       bidModal: true,
 
       bidId: "",
-      publisher:"",
-      userName:"",
-      bidPrice:"",
-      bidList:[],
+      publisher: "",
+      userName: "",
+      bidPrice: "",
+      bidList: [],
       receiveList: [],
       // 불러온 아이템 정보
       items: [],
@@ -138,8 +138,7 @@ export default {
       tagNames: [],
       timer: null,
       remainingTime: "",
-
-    }
+    };
   },
   components: {
     HeaderComponent,
@@ -147,57 +146,56 @@ export default {
   },
   inject: ["$http"],
   created() {
-    this.connect()
+    this.connect();
   },
   methods: {
-    connect(){
+    connect() {
       this.receiveBidList();
 
       //소켓 연결
-      const serverURL = "http://localhost:8080/bid"
+      const serverURL = "http://localhost:8080/bid";
       let socket = new SocketJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      console.log(`connected try. URL: ${serverURL}`)
+      console.log(`connected try. URL: ${serverURL}`);
       this.stompClient.connect(
-          {},
-          frame => {
-            this.connected = true;
-            console.log('connected success', frame);
-            this.stompClient.subscribe("/bidList", res =>{
-              console.log("response message", res.body);
-              this.receiveList = JSON.parse(res.body);
-              this.currentPrice = this.receiveList.at(-1);
-              // this.currentPrice = this.receiveList.content.pop();
-              // this.currentPrice.pop();
-            });
-
-          },
-          error => {
-            console.log('connected fail', error);
-            this.connected = false;
-          }
+        {},
+        (frame) => {
+          this.connected = true;
+          console.log("connected success", frame);
+          this.stompClient.subscribe("/bidList", (res) => {
+            console.log("response message", res.body);
+            this.receiveList = JSON.parse(res.body);
+            this.currentPrice = this.receiveList.at(-1);
+            // this.currentPrice = this.receiveList.content.pop();
+            // this.currentPrice.pop();
+          });
+        },
+        (error) => {
+          console.log("connected fail", error);
+          this.connected = false;
+        }
       );
 
       // 디테일 불러오기
-      this.$http.get(`/item/detail/${this.$route.params.id}`)
-          .then((res) => {
-            this.itemTitle = res.data.itemTitle
-            this.itemDetail = res.data.itemDetail
-            this.weight = res.data.weight
-            this.time = res.data.time
-            this.tagNames = res.data.tagNames
+      this.$http
+        .get(`/item/detail/${this.$route.params.id}`)
+        .then((res) => {
+          this.itemTitle = res.data.itemTitle;
+          this.itemDetail = res.data.itemDetail;
+          this.weight = res.data.weight;
+          this.time = res.data.time;
+          this.tagNames = res.data.tagNames;
 
-            // 시간 출력 디자인
-            this.remainingTime = res.data.time
-            this.startTimer();
-
-          }).catch((error) => {
-        console.error(error);
-      });
-
+          // 시간 출력 디자인
+          this.remainingTime = res.data.time;
+          this.startTimer();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
 
-    sendBidPrice(){
+    sendBidPrice() {
       console.log("Send bidPrice:" + this.bidPrice);
       if (this.stompClient && this.stompClient.connected) {
         const msg = {
@@ -205,38 +203,35 @@ export default {
           content: this.bidPrice,
         };
         this.stompClient.send("/bid-push", JSON.stringify(msg), {});
-        console.log("receiveList : "+ this.receiveList);
+        console.log("receiveList : " + this.receiveList);
       }
     },
-    receiveBidList(){
+    receiveBidList() {
       //입찰내역 호출
       this.bidId = this.$route.params.id;
       console.log(this.bidId);
       const msg = {
         bidId: this.bidId,
       };
-      console.log("send bidId:"+ this.bidId);
-      this.$http.post("/bid-list", JSON.stringify(msg), {
-        headers: {
-
-        }
-      }).then(res =>{
-        console.log("receiveList : "+res.data);
-        this.receiveList = (res.data);
-        console.log("!!!!!!!!!!receive last list" + this.receiveList.at(-1));
-        this.currentPrice = this.receiveList.at(-1);
-        // this.receiveList.push(this.currentPrice.pop());
-        console.log("this currentPrice: "+this.currentPrice);
-
-
-      }).catch(err => {
-        console.log(err);
-      });
+      console.log("send bidId:" + this.bidId);
+      this.$http
+        .post("/bid-list", JSON.stringify(msg), {
+          headers: {},
+        })
+        .then((res) => {
+          console.log("receiveList : " + res.data);
+          this.receiveList = res.data;
+          console.log("!!!!!!!!!!receive last list" + this.receiveList.at(-1));
+          this.currentPrice = this.receiveList.at(-1);
+          // this.receiveList.push(this.currentPrice.pop());
+          console.log("this currentPrice: " + this.currentPrice);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
-    onConnected(){
-
-
+    onConnected() {
       // this.stompClient.send("/bid-list", JSON.stringify(this.userName), {})
       // this.stompClient.subscribe('/sub/chat/room' + this.roomId, this.onMessageReceived);
       // this.stompClient.send("/pub/chat/enterUser", {}, JSON.stringify({
@@ -246,19 +241,20 @@ export default {
       // }))
     },
 
-
     // 경매 삭제
     deleteItem() {
-      this.$http.delete(`/item/delete/${this.$route.params.id}`)
-          .then((res) => {
-            if (res.status === 200) {
-              console.log(res);
-              window.alert("상품이 삭제되었습니다");
-              this.$router.go(-1);
-            }
-          }).catch(() => {
-        window.alert("상품 삭제에 실패했습니다");
-      });
+      this.$http
+        .delete(`/item/delete/${this.$route.params.id}`)
+        .then((res) => {
+          if (res.status === 200) {
+            console.log(res);
+            window.alert("상품이 삭제되었습니다");
+            this.$router.go(-1);
+          }
+        })
+        .catch(() => {
+          window.alert("상품 삭제에 실패했습니다");
+        });
     },
     // 시간 디자인 변환
     startTimer() {
@@ -272,28 +268,45 @@ export default {
     },
     formatTime(remainingTime) {
       if (remainingTime <= 0) {
-        return '00:00:00';
+        return "00:00:00";
       }
       const hours = Math.floor(remainingTime / 3600000);
       const minutes = Math.floor((remainingTime % 3600000) / 60000);
       const seconds = Math.floor((remainingTime % 60000) / 1000);
-      return `${this.padTime(hours)}:${this.padTime(minutes)}:${this.padTime(seconds)}`;
+      return `${this.padTime(hours)}:${this.padTime(minutes)}:${this.padTime(
+        seconds
+      )}`;
     },
     padTime(time) {
-      return (time < 10 ? '0' : '') + time;
+      return (time < 10 ? "0" : "") + time;
     },
     createdChat() {
       const currentTime = new Date();
       const createdAt = this.formateCreatedTime(currentTime);
 
-      this.$store.dispatch("getSellerId")
+      this.$store.dispatch("findSellerId", this.$route.params.id).then(() => {
+        const sellerId = this.$store.state.sellerId;
+        const userId = this.$store.state.user.id;
 
-      const newChatInfo = {
-        firstUserId: this.$store.user.id,
-        secondUserId: ,
-        createdAt: createdAt,
-        itemId: this.$route.params.id,
-      }
+        if (sellerId !== userId) {
+          const newChatInfo = {
+            // TODO: firstUserId : 사용자
+            firstUserId: userId,
+            // TODO: secondUserId : 판매자
+            secondUserId: sellerId,
+            createdAt: createdAt,
+            itemId: this.$route.params.id,
+          };
+
+          console.log(newChatInfo);
+
+          this.$store.dispatch("createChat", newChatInfo).then(() => {
+            this.$router.push({
+              path: `/chats/${this.$store.state.newChatId}`,
+            });
+          });
+        }
+      });
     },
     formateCreatedTime(time) {
       const year = time.getFullYear();
@@ -306,9 +319,9 @@ export default {
       const formattedTime = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 
       return formattedTime;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
