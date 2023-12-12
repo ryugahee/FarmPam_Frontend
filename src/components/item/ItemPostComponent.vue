@@ -1,14 +1,12 @@
 <template>
-  <div class="post" @click="detail">
+  <div class="post">
     <div class="post-img-box" v-for="(item, i) in items" :key="i">
       <router-link :to='"/auction/detail/" + item.id'>
       <div class="post-img">
-        <!--        {{item.itemImgDtoList[0].imgUrl}}-->
         <img src="" class="thumbnail-img"/>
         <div class="remaining-time">
           <div class="time-bg">
             <p> {{ formatTime(item.remainingTime) }} 남음 </p>
-            <p></p>
           </div>
         </div>
       </div>
@@ -21,7 +19,7 @@
       </div>
       </router-link>
     </div>
-    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+
   </div>
 </template>
 
@@ -34,10 +32,10 @@ import Stomp from "webstomp-client";
 export default {
   name: 'ItemPost',
   components: {
-    InfiniteLoading,
+
   },
   props: {
-    sortOption: String,
+    items: Array,
   },
 
   data() {
@@ -47,11 +45,13 @@ export default {
       num: 1,
       receiveList: [],
       currentPrice: [],
+
     }
   },
 
   inject: ["$http"],
   methods: {
+
     connect() {
       this.receiveBidList();
       //소켓 연결
@@ -142,7 +142,6 @@ export default {
     padTime(time) {
       return (time < 10 ? '0' : '') + time;
     },
-
   }
 }
 </script>

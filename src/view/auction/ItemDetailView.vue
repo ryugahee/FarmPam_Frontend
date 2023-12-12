@@ -34,7 +34,7 @@
           </span>
         </div>
       </div>
-      <p class="content-detail">{{ itemDetail }}</p>
+      <p class="content-detail" style="white-space: pre-line;">{{ itemDetail }}</p>
     </div>
     <div class="item-footer">
       <div class="current-price">
