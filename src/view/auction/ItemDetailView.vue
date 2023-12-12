@@ -46,7 +46,6 @@
       <!--      bid modal-->
       <div class="bid-bg" v-if="!bidModal">
         <div v-for="(item, index) in receiveList" :key="item.id">
-<!--          <p class="bid-Message">경매 이름: {{ item.bidId}}</p>-->
           <p class="bid-Message"> {{index+1}} 번째 입찰 가격 {{item.content}}</p>
         </div>
         <div class="bid-btn">
@@ -58,7 +57,6 @@
             <p class="bid-text">입찰할 금액(직접입력)</p>
           </div>
           <div>
-<!--            <input v-model="userName" class="bid-input-box" type="text" placeholder="사용자 이름 입력.">-->
             <input v-model="bidPrice" class="bid-input-box" type="text" placeholder="입찰가 입력."><span
               class="bid-won">원</span>
           </div>
@@ -74,17 +72,6 @@
         <p class="bid-time"> {{ formatTime(remainingTime) }} </p>
         <p>입찰하기</p>
       </div>
-      <!--      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button>-->
-
-      <!--      <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">-->
-      <!--        <div class="offcanvas-header">-->
-      <!--          <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5>-->
-      <!--          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>-->
-      <!--        </div>-->
-      <!--        <div class="offcanvas-body small">-->
-      <!--          ...-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
   </div>
 </template>
@@ -96,6 +83,7 @@ import SocketJS from 'sockjs-client'
 import Auction from "@/components/auction/AuctionComponent.vue";
 import index from "vuex";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
+import data from "bootstrap/js/src/dom/data";
 
 export default {
   name: "ItemDetailView",
@@ -111,12 +99,12 @@ export default {
       review: 4.5,
       itemImg: require("../../../public/assets/img/apple.png"),
       currentPrice: [],
-      myPrice: 9000,
+      myPrice: [],
       bidModal: true,
+      bidStatus: true,
 
       bidId: "",
-      publisher:"",
-      userName:"",
+      userName:"chan",
       bidPrice:"",
       bidList:[],
       receiveList: [],
@@ -148,21 +136,16 @@ export default {
       const serverURL = "http://localhost:8080/bid"
       let socket = new SocketJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      console.log(`connected try. URL: ${serverURL}`)
       this.stompClient.connect(
           {},
           frame => {
             this.connected = true;
-            console.log('connected success', frame);
             this.stompClient.subscribe("/bidList", res =>{
-              console.log("response message", res.body);
               this.receiveList = JSON.parse(res.body);
               this.currentPrice = this.receiveList.at(-1);
             });
-
           },
           error => {
-            console.log('connected fail', error);
             this.connected = false;
           }
       );
@@ -187,55 +170,36 @@ export default {
     },
 
     sendBidPrice(){
-      console.log("Send bidPrice:" + this.bidPrice);
       if (this.stompClient && this.stompClient.connected) {
+        const data = {
+          userName: this.userName,
+          bidPrice: this.bidPrice
+        };
+        const content = JSON.stringify(data);
         const msg = {
           bidId: this.bidId,
-          content: this.bidPrice,
+          content
         };
         this.stompClient.send("/bid-push", JSON.stringify(msg), {});
-        console.log("receiveList : "+ this.receiveList);
+
+        this.stompClient.subscribe("/myBid-price", res =>{
+          this.myPrice = (res.body)
+        });
       }
     },
     receiveBidList(){
       //입찰내역 호출
       this.bidId = this.$route.params.id;
-      console.log(this.bidId);
       const msg = {
         bidId: this.bidId,
       };
-      console.log("send bidId:"+ this.bidId);
-      this.$http.post("/bid-list", JSON.stringify(msg), {
-        headers: {
-
-        }
-      }).then(res =>{
-        console.log("receiveList : "+res.data);
+      this.$http.post("/bid-list", JSON.stringify(msg), {}).then(res =>{
         this.receiveList = (res.data);
-        console.log("!!!!!!!!!!receive last list" + this.receiveList.at(-1));
         this.currentPrice = this.receiveList.at(-1);
-        // this.receiveList.push(this.currentPrice.pop());
-        console.log("this currentPrice: "+this.currentPrice);
-
-
       }).catch(err => {
         console.log(err);
       });
     },
-
-    onConnected(){
-
-
-      // this.stompClient.send("/bid-list", JSON.stringify(this.userName), {})
-      // this.stompClient.subscribe('/sub/chat/room' + this.roomId, this.onMessageReceived);
-      // this.stompClient.send("/pub/chat/enterUser", {}, JSON.stringify({
-      //   "roomId": this.roomId,
-      //   userName: this.userName,
-      //   type: 'ENTER'
-      // }))
-    },
-
-
     // 경매 삭제
     deleteItem() {
       this.$http.delete(`/item/delete/${this.$route.params.id}`)
@@ -249,6 +213,12 @@ export default {
         window.alert("상품 삭제에 실패했습니다");
       });
     },
+    finishItem(){
+      this.$http.post(`/bid-finish/${this.$route.params.id}`)
+          .then((res) =>{
+
+      })
+    },
     // 시간 디자인 변환
     startTimer() {
       this.timer = setInterval(() => {
@@ -261,6 +231,8 @@ export default {
     },
     formatTime(remainingTime) {
       if (remainingTime <= 0) {
+        this.bidStatus = false;
+        this.finishItem();
         return '00:00:00';
       }
       const hours = Math.floor(remainingTime / 3600000);

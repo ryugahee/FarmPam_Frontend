@@ -28,6 +28,8 @@
 <script>
 
 import {InfiniteLoading} from "infinite-loading-vue3-ts";
+import SocketJS from "sockjs-client";
+import Stomp from "webstomp-client";
 
 export default {
   name: 'ItemPost',
@@ -41,13 +43,48 @@ export default {
   data() {
     return {
       items: [],
+      bidId:"",
       num: 1,
+      receiveList: [],
+      currentPrice: [],
     }
   },
 
   inject: ["$http"],
   methods: {
-
+    connect() {
+      this.receiveBidList();
+      //소켓 연결
+      const serverURL = "http://localhost:8080/bid"
+      let socket = new SocketJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect(
+          {},
+          frame => {
+            this.connected = true;
+            this.stompClient.subscribe("/bidList", res => {
+              this.receiveList = JSON.parse(res.body);
+              this.currentPrice = this.receiveList.at(-1);
+            });
+          },
+          error => {
+            this.connected = false;
+          }
+      );
+    },
+    receiveBidList(){
+      //입찰내역 호출
+      this.bidId = this.$route.params.id;
+      const msg = {
+        bidId: this.bidId,
+      };
+      this.$http.post("/bid-list", JSON.stringify(msg), {}).then(res =>{
+        this.receiveList = (res.data);
+        this.currentPrice = this.receiveList.at(-1);
+      }).catch(err => {
+        console.log(err);
+      });
+    },
     loadItems($state) {
       this.$http.get("/item/list", {
         params: {

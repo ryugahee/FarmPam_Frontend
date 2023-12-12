@@ -55,7 +55,7 @@
           <option value="10800">3시간</option>
           <option value="21600">6시간</option>
           <option value="43200">12시간</option>
-          <option value="10">24시간</option>
+          <option value="20">24시간</option>
         </select>
       </div>
       <div class="content">
@@ -112,6 +112,7 @@ export default {
   },
   data() {
     return {
+      userName: "chan",
       itemTitle: "",
       minPrice: "",
       time: 0,
@@ -160,6 +161,7 @@ export default {
 
       const formData = new FormData();
 
+      formData.append("userName", this.userName);
       formData.append("itemTitle", this.itemTitle);
       formData.append("minPrice", this.minPrice);
       formData.append("itemDetail", this.itemDetail);
