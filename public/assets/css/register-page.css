@@ -5,7 +5,22 @@
       margin: 0 auto;
       display: flex;
     justify-content: center;
+    overflow: auto;
     /* background: antiquewhite; */
+  }
+
+  .colBox {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #mail {
+    width: 150px !important;
+    margin-right: 30px;
+  }
+
+  .mailButton {
+    width: 120px;
   }
   
   .advice {
