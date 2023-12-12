@@ -75,6 +75,7 @@ function sendMessage(chatMessage, chatId) {
   );
 }
 
+
 function getSellerId(itemId) {
   return instance.get(`/item/detail/${itemId}/seller`, {
     headers: {
@@ -94,7 +95,6 @@ function createChat(newChatInfo) {
 
 export default instance;
 export {
-  instance,
   getChatIds,
   getChatPreviewInfos,
   getChatDetailInfo,
