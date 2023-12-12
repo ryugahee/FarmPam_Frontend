@@ -2,7 +2,7 @@
   <div ref="displayRef">
     <row>
       <div class="chat-box" ref="chatBox">
-        <row>
+        <div>
           <div
             v-for="(message, index) in messages"
             :key="index"
@@ -11,6 +11,7 @@
             :style="{ height: calculateMessageHeight(message.message) + 'px' }"
           >
             <p
+              v-if="message.message"
               :class="{
                 sender: isMyMessage(message.fromUserId),
                 receiver: !isMyMessage(message.fromUserId),
@@ -18,7 +19,7 @@
               v-html="formatMessage(message.message)"
             ></p>
           </div>
-        </row>
+        </div>
       </div>
       <div class="message-input-div" ref="inputDivRef">
         <textarea
@@ -128,20 +129,22 @@ export default {
         const currentTime = new Date();
         const formattedTime = this.formatTime(currentTime);
 
-        const message = {
+        const chatMessage = {
           fromUserId: this.myId,
           message: this.newMessage,
           updatedAt: formattedTime,
         };
 
+        console.log(chatMessage);
+
         this.$store.dispatch("sendMessage", {
-          message: message,
+          chatMessage: chatMessage,
           chatId: this.chatId,
         });
 
         stompClient.send(
           `/receive/${this.chatId}`,
-          JSON.stringify(message),
+          JSON.stringify(chatMessage),
           {}
         );
         this.onMessageReceived();
@@ -216,12 +219,12 @@ export default {
     connect() {
       this.isSocketConnected = true;
 
-      let socket = new SockJS("http://localhost:8080");
+      let socket = new SockJS("http://localhost:8080/chat");
       stompClient = Stomp.over(socket);
       stompClient.connect({}, this.onConnected, this.onError);
     },
     onConnected() {
-      stompClient.subscribe(`/chat/${this.chatId}`, this.onMessageReceived);
+      stompClient.subscribe(`/send/${this.chatId}`, this.onMessageReceived);
     },
     onError() {
       console.log("소켓 연결 실패");
@@ -234,7 +237,8 @@ export default {
     getMessages() {
       // 채팅 내역 가져오기
       this.$store.dispatch("findChatMessages", this.chatId).then(() => {
-        this.messages = this.messages = this.$store.state.chatMessages;
+        this.messages = this.$store.state.chatMessages;
+        console.log(this.messages);
       });
     },
   },
