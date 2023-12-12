@@ -8,14 +8,24 @@
       <div class="loginForm">
         <input
           placeholder="아이디"
+
           v-model="state.form.username"
           @keyup.enter="login()"
+
+          v-model="username"
+          @keyup.enter="submit()"
+
         />
         <br />
         <input
           placeholder="비밀번호"
+
           v-model="state.form.password"
           @keyup.enter="login()"
+
+          v-model="password"
+          @keyup.enter="submit()"
+
         />
       </div>
 
@@ -49,6 +59,7 @@ import axios from "axios";
 import router from "@/router";
 
 export default {
+
   setup() {
     const state = reactive({
       form: {
@@ -75,6 +86,36 @@ export default {
           const refreshToken = res.data.refreshToken;
           const username = res.data.username;
           const roles = res.data.roles;
+
+  name: "LoginView",
+  inject: ["$http"],
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
+
+  methods: {
+    register() {
+      this.$router.push("/register");
+    },
+
+    async submit() {
+      this.$http
+        .post("/login", this.data)
+        .then(() => {
+          alert("로그인 완료");
+          this.$router.push("/home");
+        })
+        .catch((err) => {
+          console.log(err);
+          window.alert("로그인 정보가 존재하지 않습니다.");
+        });
+    },
+  },
+};
+</script>
 
           // console.log("엑세스 토큰: " + res.data.accessToken);
           // console.log("리프레시 토큰: " + res.data.refreshToken);

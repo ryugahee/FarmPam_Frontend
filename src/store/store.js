@@ -5,6 +5,8 @@ import {
   getChatDetailInfo,
   getChatMessages,
   sendMessage,
+  getSellerId,
+  createChat,
 } from "@/api/http";
 
 const store = createStore({
@@ -25,7 +27,7 @@ const store = createStore({
         {
           toNickName: "테스트 닉네임",
           toNickNameThumbnailUrl: "테스트 프로필 사진",
-          lastMessage: "테스트 메시지",
+          lastMessage: "",
           updateTime: "2023/01/01",
           itemThumbnailUrl: "테스트 경매 사진",
         },
@@ -44,6 +46,10 @@ const store = createStore({
           updateAt: "",
         },
       ],
+
+      sellerId: "grandFarm",
+
+      newChatId: 0,
     };
   },
   mutations: {
@@ -73,6 +79,12 @@ const store = createStore({
     },
     setChatMessages(state, chatMessages) {
       state.chatMessages = chatMessages;
+    },
+    setSellerId(state, sellerId) {
+      state.sellerId = sellerId;
+    },
+    setNewChatId(state, newChatId) {
+      state.newChatId = newChatId;
     },
   },
   actions: {
@@ -119,13 +131,32 @@ const store = createStore({
         });
     },
 
-    sendMessage({ commit }, { message, chatId }) {
-      return sendMessage(message, chatId)
+    sendMessage({ commit }, { chatMessage, chatId }) {
+      return sendMessage(chatMessage, chatId)
         .then(() => {
           store.dispatch("findChatMessages", chatId);
         })
         .catch(function () {
           console.log("sendMessage Error");
+        });
+    },
+
+    findSellerId({ commit }, itemId) {
+      return getSellerId(itemId)
+        .then((response) => {
+          commit("setSellerId", response.data);
+        })
+        .catch(function () {
+          console.log("findSellerId Error");
+        });
+    },
+    createChat({ commit }, newChatInfo) {
+      return createChat(newChatInfo)
+        .then((response) => {
+          commit("setNewChatId", response.data);
+        })
+        .catch(function () {
+          console.log("createChat Error");
         });
     },
   },
