@@ -27,10 +27,10 @@ export default {
   data() {
     return {
       chatDetailInfo: {
-        toNickName: "테스트 닉네임",
-        itemTitle: "테스트 타이틀",
-        itemThumbnailUrl: "테스트 경매 사진",
-        biddingPrice: 40000,
+        toNickName: "",
+        itemTitle: "",
+        itemThumbnailUrl: "",
+        biddingPrice: 0,
       },
     };
   },

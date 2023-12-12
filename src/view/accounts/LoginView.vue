@@ -6,15 +6,14 @@
       </div>
 
       <div class="loginForm">
-        <input 
-          placeholder="아이디" 
+        <input
+          placeholder="아이디"
           v-model="username"
           @keyup.enter="submit()"
-
         />
         <br />
-        <input 
-          placeholder="비밀번호" 
+        <input
+          placeholder="비밀번호"
           v-model="password"
           @keyup.enter="submit()"
         />
@@ -31,9 +30,7 @@
         <button>비밀번호 찾기</button>
       </div>
 
-      <div class="line">
-        또는
-      </div>
+      <div class="line">또는</div>
 
       <div class="easyLogin">
         <img src="../../../public/assets/img/kakao.png" alt="" />
@@ -48,33 +45,34 @@
 
 <script>
 export default {
-  name:"LoginView",
-  inject:["$http"],
-  data(){
-    return{
+  name: "LoginView",
+  inject: ["$http"],
+  data() {
+    return {
       username: "",
-      password: ""
-    }
+      password: "",
+    };
   },
 
-  methods:{
+  methods: {
     register() {
-      this.$router.push("/register")
+      this.$router.push("/register");
     },
 
     async submit() {
-
-      this.$http.post("/api/login", this.data).then(() => {
-        alert("로그인 완료");
-        this.$router.push("/home");
-      }).catch((err) => {
-        console.log(err);
-        window.alert("로그인 정보가 존재하지 않습니다.");
-      });
-    }
+      this.$http
+        .post("/login", this.data)
+        .then(() => {
+          alert("로그인 완료");
+          this.$router.push("/home");
+        })
+        .catch((err) => {
+          console.log(err);
+          window.alert("로그인 정보가 존재하지 않습니다.");
+        });
+    },
   },
-
-}
+};
 </script>
 
 <style scoped>
