@@ -220,6 +220,7 @@ export default {
       this.isSocketConnected = true;
 
       let socket = new SockJS("http://localhost:8080/chat");
+
       stompClient = Stomp.over(socket);
       stompClient.connect({}, this.onConnected, this.onError);
     },
