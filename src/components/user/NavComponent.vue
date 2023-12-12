@@ -1,15 +1,17 @@
 <template>
   <div class="nav-bar">
     <div>
-      <div class="modal-bg" v-if="!modal" @click="modal=!modal"></div>
+      <div class="modal-bg" v-if="!modal" @click="modal = !modal"></div>
       <transition name="slide-up">
         <div class="nav-modal" v-if="!modal">
+
           <div class="search-fix">
             <div class="search-bar">
               <input v-model="keyword" class="search-box" @keyup.enter="btnClick" placeholder="검색할 물품을 입력하세요."/>
               <button class="search-btn" @click="btnClick"><img src="../../../public/assets/img/search-green.png" alt="" /></button>
             </div>
           </div>
+
           <div class="nav-item-post">
             <ItemPost :items="items"/>
             <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
@@ -18,10 +20,18 @@
       </transition>
     </div>
     <div class="nav-menu">
-      <img @click="modal=!modal" src="../../../public/assets/img/search.png" alt="" />
+      <img
+        @click="modal = !modal"
+        src="../../../public/assets/img/search.png"
+        alt=""
+      />
       <img @click="home" src="../../../public/assets/img/home.png" alt="" />
-      <img @click="auctionRegister" src="../../../public/assets/img/add_box.png" alt="" />
-      <img src="../../../public/assets/img/chat.png" alt="" />
+      <img
+        @click="auctionRegister"
+        src="../../../public/assets/img/add_box.png"
+        alt=""
+      />
+      <img @click="chats" src="../../../public/assets/img/chat.png" alt="" />
       <img @click="user" src="../../../public/assets/img/person.png" alt="" />
     </div>
   </div>
@@ -34,12 +44,15 @@ import {InfiniteLoading} from "infinite-loading-vue3-ts";
 export default {
   name: "NavBar",
   components: {
+
     InfiniteLoading,
     ItemPost
+
   },
   data() {
     return {
       modal: true,
+
       keyword: '',
       items: [],
       page: 0
@@ -49,6 +62,7 @@ export default {
     if (this.$refs.InfiniteLoading) {
       this.$refs.InfiniteLoading.stateChanger.reset();
     }
+
   },
   inject: ["$http"],
   methods: {
@@ -114,6 +128,12 @@ export default {
     },
   }
 }
+
+    chats() {
+      this.$router.push("/chats");
+    },
+  },
+
 </script>
 
 <style scoped>
