@@ -56,6 +56,10 @@ export default {
       },
     });
 
+    const goToRegister = () => {
+      router.push({ name: "Register" });
+    };
+
     const login = () => {
       console.log("로그인 요청");
       axios
@@ -108,6 +112,7 @@ export default {
       state,
       // submit,
       oauthLoigin,
+      goToRegister,
       login,
       // get,
     };
