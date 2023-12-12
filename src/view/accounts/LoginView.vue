@@ -8,24 +8,14 @@
       <div class="loginForm">
         <input
           placeholder="아이디"
-
           v-model="state.form.username"
           @keyup.enter="login()"
-
-          v-model="username"
-          @keyup.enter="submit()"
-
         />
         <br />
         <input
           placeholder="비밀번호"
-
           v-model="state.form.password"
           @keyup.enter="login()"
-
-          v-model="password"
-          @keyup.enter="submit()"
-
         />
       </div>
 
@@ -57,9 +47,7 @@
 import { reactive } from "vue";
 import axios from "axios";
 import router from "@/router";
-
 export default {
-
   setup() {
     const state = reactive({
       form: {
@@ -68,11 +56,6 @@ export default {
       },
     });
 
-    const goToRegister = () => {
-      router.push({ name: "Register" });
-    };
-
-    //로그인
     const login = () => {
       console.log("로그인 요청");
       axios
@@ -87,42 +70,12 @@ export default {
           const username = res.data.username;
           const roles = res.data.roles;
 
-  name: "LoginView",
-  inject: ["$http"],
-  data() {
-    return {
-      username: "",
-      password: "",
-    };
-  },
+          // console.log("응답 : " + JSON.stringify (res));
+          console.log("엑세스 토큰: " + res.data.accessToken);
+          console.log("리프레시 토큰: " + res.data.refreshToken);
+          console.log("유저네임: " + res.data.username);
+          console.log("역할 : " + res.data.roles);
 
-  methods: {
-    register() {
-      this.$router.push("/register");
-    },
-
-    async submit() {
-      this.$http
-        .post("/login", this.data)
-        .then(() => {
-          alert("로그인 완료");
-          this.$router.push("/home");
-        })
-        .catch((err) => {
-          console.log(err);
-          window.alert("로그인 정보가 존재하지 않습니다.");
-        });
-    },
-  },
-};
-</script>
-
-          // console.log("엑세스 토큰: " + res.data.accessToken);
-          // console.log("리프레시 토큰: " + res.data.refreshToken);
-          // console.log("유저네임: " + res.data.username);
-          // console.log("역할 : " + res.data.roles);
-
-          //로컬스토리지에 토큰 및 role 저장
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.setItem("username", username);
@@ -144,7 +97,6 @@ export default {
         });
     };
 
-    //간편로그인
     const oauthLoigin = () => {
       axios
         .get("http://localhost:8080/oauth2/authorization/google")
@@ -154,9 +106,10 @@ export default {
 
     return {
       state,
+      // submit,
       oauthLoigin,
       login,
-      goToRegister,
+      // get,
     };
   },
 };
