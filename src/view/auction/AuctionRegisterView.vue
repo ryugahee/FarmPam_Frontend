@@ -272,7 +272,6 @@ export default {
         this.tags.splice(index, 1);
       }
     },
-  },
     // 유효성 검사
     inputWeight(event) {
       const inputValue = event.target.value;
@@ -293,6 +292,7 @@ export default {
     onChange(event){
       console.log(event.target.value)
     }
+  },
 };
 </script>
 
