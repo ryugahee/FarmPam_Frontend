@@ -7,6 +7,7 @@ import {
   sendMessage,
   getSellerId,
   createChat,
+  getFarmMoney,
 } from "@/api/http";
 
 const store = createStore({
@@ -20,7 +21,7 @@ const store = createStore({
         nickname: "홍홍홍",
         email: "test@test.com",
         mobilePhone: "01012345678",
-        farmMoney: 150000,
+        farmMoney: 0,
       },
       chatIds: [0],
       chatPreviewInfos: [
@@ -85,6 +86,9 @@ const store = createStore({
     },
     setNewChatId(state, newChatId) {
       state.newChatId = newChatId;
+    },
+    setFarmMoney(state, farmMoney) {
+      state.user.farmMoney = farmMoney;
     },
   },
   actions: {
@@ -157,6 +161,16 @@ const store = createStore({
         })
         .catch(function () {
           console.log("createChat Error");
+        });
+    },
+
+    findFarmMoney({ commit }, userId) {
+      return getFarmMoney(userId)
+        .then((response) => {
+          commit("setFarmMoney", response.data);
+        })
+        .catch(function () {
+          console.log("findFarmMoney");
         });
     },
   },
