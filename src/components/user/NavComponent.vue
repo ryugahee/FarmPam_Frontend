@@ -126,13 +126,12 @@ export default {
       this.$refs.infiniteLoading.stateChanger.reset();
       this.keyword = '';
     },
-  }
-}
-
     chats() {
       this.$router.push("/chats");
     },
-  },
+  }
+}
+
 
 </script>
 
