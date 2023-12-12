@@ -40,17 +40,18 @@ export default {
 
   data() {
     return {
-
       items: [],
       bidId:"",
       num: 1,
       receiveList: [],
       currentPrice: [],
+
     }
   },
 
   inject: ["$http"],
   methods: {
+
     connect() {
       this.receiveBidList();
       //소켓 연결
