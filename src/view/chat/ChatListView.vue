@@ -4,15 +4,15 @@
     <HeaderComponent>
       <p>{{ title }}</p>
     </HeaderComponent>
-    <row>
+    <row v-if="chatIds.length > 0">
       <div class="chats_container">
-        <div v-for="chatId in chatIds" :key="chatId" :chatId="chatId">
+        <div v-for="(chatId, index) in chatIds" :key="index" :chatId="chatId">
           <router-link :to="`/chats/${chatId}`" class="router-link">
             <div class="chat_preview">
               <div class="profile_img_div">
                 <img
                   class="profile_img"
-                  :src="getChatPreviewInfo(chatId).toNickNameThumbnailUrl"
+                  :src="chatPreviewInfo(index).toNickNameThumbnailUrl"
                   alt="엑박"
                 />
               </div>
@@ -20,20 +20,20 @@
                 <div class="chat_info">
                   <div class="chat_info_top">
                     <p class="username">
-                      {{ getChatPreviewInfo(chatId).toNickName }}
+                      {{ chatPreviewInfo(index).toNickName }}
                     </p>
-                    <P class="chat_time">{{
-                      getChatPreviewInfo(chatId).updateTime
-                    }}</P>
+                    <p class="chat_time">
+                      {{ chatPreviewInfo(index).updateTime }}
+                    </p>
                   </div>
                   <div class="chat_info_bottom">
-                    {{ getChatPreviewInfo(chatId).lastMessage }}
+                    {{ chatPreviewInfo(index).lastMessage }}
                   </div>
                 </div>
                 <div class="item_img_div">
                   <img
                     class="item_img"
-                    :src="getChatPreviewInfo(chatId).itemThumbnailUrl"
+                    :src="chatPreviewInfo(index).itemThumbnailUrl"
                     alt="엑박"
                   />
                 </div>
@@ -59,17 +59,16 @@ export default {
       title: "대화 내역",
       chatIds: [],
       myId: "",
-      chatPreviewInfos: [],
+      chatPreviewInfos: [
+        {
+          toNickName: "",
+          toNickNameThumbnailUrl: "",
+          lastMessage: "",
+          updateTime: "",
+          itemThumbnailUrl: "",
+        },
+      ],
     };
-  },
-
-  computed: {
-    getChatPreviewInfo() {
-      return (chatId) => {
-        const chatPreviewInfo = this.chatPreviewInfos[chatId - 1];
-        return chatPreviewInfo ? chatPreviewInfo : "";
-      };
-    },
   },
 
   created() {
@@ -89,18 +88,6 @@ export default {
           .then(() => {
             this.chatPreviewInfos = this.$store.state.chatPreviewInfos;
           });
-      } else {
-        // 테스트 용
-        this.$store.state.chatIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        for (let i = 0; i < 10; i++) {
-          this.$store.state.chatPreviewInfos.push({
-            toNickName: "그랜드팜",
-            toNickNameThumbnailUrl: "../../public/assets/img/profile1.png",
-            lastMessage: "개맛도링",
-            updateTime: "오전 09:30",
-            itemThumbnailUrl: "../../public/assets/img/thumbnail1.png",
-          });
-        }
       }
 
       // jwt 토큰이 없으면 /home로 리디렉션
@@ -108,6 +95,12 @@ export default {
       //   router.replace("/home");
       // }
     });
+  },
+
+  methods: {
+    chatPreviewInfo(index) {
+      return this.$store.state.chatPreviewInfos[index];
+    },
   },
 };
 </script>
