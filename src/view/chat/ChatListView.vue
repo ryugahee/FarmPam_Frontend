@@ -4,7 +4,7 @@
     <HeaderComponent>
       <p>{{ title }}</p>
     </HeaderComponent>
-    <row v-if="chatIds.length > 0">
+    <div v-if="chatIds.length > 0">
       <div class="chats_container">
         <div v-for="(chatId, index) in chatIds" :key="index" :chatId="chatId">
           <router-link :to="`/chats/${chatId}`" class="router-link">
@@ -43,7 +43,7 @@
         </div>
       </div>
       <NavComponent />
-    </row>
+    </div>
   </div>
 </template>
 <script>
@@ -78,6 +78,8 @@ export default {
     this.$store.dispatch("findChatIds", this.myId).then(() => {
       this.chatIds = this.$store.state.chatIds;
 
+      console.log(this.chatIds);
+
       // ChatIds를 가져오면서 채팅 리스트에 보여줄 정보 미리 가져오기
       if (this.chatIds.length !== 0) {
         this.$store
@@ -87,6 +89,7 @@ export default {
           })
           .then(() => {
             this.chatPreviewInfos = this.$store.state.chatPreviewInfos;
+            console.log(this.chatPreviewInfos);
           });
       }
 
@@ -99,7 +102,8 @@ export default {
 
   methods: {
     chatPreviewInfo(index) {
-      return this.$store.state.chatPreviewInfos[index];
+      console.log(this.$store.state.chatPreviewInfos[index]);
+      return this.$store.state.chatPreviewInfos[index] || [];
     },
   },
 };

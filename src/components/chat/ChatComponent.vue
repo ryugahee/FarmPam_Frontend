@@ -2,7 +2,7 @@
   <div ref="displayRef">
     <row>
       <div class="chat-box" ref="chatBox">
-        <row>
+        <div>
           <div
             v-for="(message, index) in messages"
             :key="index"
@@ -19,7 +19,7 @@
               v-html="formatMessage(message.message)"
             ></p>
           </div>
-        </row>
+        </div>
       </div>
       <div class="message-input-div" ref="inputDivRef">
         <textarea
