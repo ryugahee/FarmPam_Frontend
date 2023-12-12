@@ -42,14 +42,36 @@
     </div>
     <div class="main">
       <div>
-        <input class="title-box" type="text" v-model="itemTitle" placeholder=" 제목" required>
+        <input class="title-box" type="text" v-model="itemTitle" @input="onChange" placeholder=" 제목" required>
+      </div>
+      <div>
+        <select class="type-box" v-model="city" required>
+          <option value="" disabled selected>지역 선택</option>
+          <option>서울</option>
+          <option>부산</option>
+          <option>대구</option>
+          <option>인천</option>
+          <option>광주</option>
+          <option>대전</option>
+          <option>울산</option>
+          <option>세종</option>
+          <option>경기도</option>
+          <option>강원도</option>
+          <option>충청북도</option>
+          <option>충청남도</option>
+          <option>전라북도</option>
+          <option>전라남도</option>
+          <option>경상북도</option>
+          <option>경상남도</option>
+          <option>제주</option>
+        </select>
       </div>
       <div>
         <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
       </div>
       <div class="timer">
         <select class="time-box" v-model="time" required>
-          <option value="1800">30분</option>
+          <option value="" disabled selected>시간 선택</option>
           <option value="3600">1시간</option>
           <option value="7200">2시간</option>
           <option value="10800">3시간</option>
@@ -58,7 +80,7 @@
           <option value="10">24시간</option>
         </select>
       </div>
-      <div class="content">
+      <div class="content-itemDetail">
       <textarea class="itemDetail-box"
           type="text"
                 v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
@@ -81,15 +103,7 @@
 
       </div>
       <div>
-        <select class="type-box" required>
-          <option>대분류</option>
-          <option>딸기</option>
-          <option>수박</option>
-          <option>토마토</option>
-        </select>
-      </div>
-      <div>
-        <input v-model="weight" class="weight-box" type="text" placeholder=" 무게" required> kg
+        <input class="weight-box" type="text" :value="weight" @input="inputWeight($event)" placeholder=" 무게"> kg
       </div>
     </div>
     <div class="btn-container">
@@ -117,7 +131,7 @@ export default {
       time: "",
       itemDetail: "",
       tag: "",
-      itemType: "",
+      city: "",
       weight: "",
       tags: [],
 
@@ -168,11 +182,12 @@ export default {
       formData.append("itemTitle", this.itemTitle);
       formData.append("minPrice", this.minPrice);
       formData.append("itemDetail", this.itemDetail);
-      formData.append("itemType", this.itemType);
+      formData.append("city", this.city);
       formData.append("weight", this.weight);
       formData.append("time", this.time);
 
       console.log("경매시간: " + this.time)
+      console.log("무게: " + this.weight)
 
       for (let i = 0; i < this.files.length; i++) {
         formData.append("files", this.files[i].file);
@@ -192,7 +207,7 @@ export default {
             console.log(res);
             if (res.status === 200) {
               console.log(res);
-              // this.$router.go(-1);
+              // this.$router.go(-1);  디테일 페이지로 변경
             }
           })
           .catch(() => {
@@ -221,15 +236,28 @@ export default {
         this.tags.splice(index, 1);
       }
     },
-/*    limitStringLength(inputString, maxLength) {
-      if (inputString.length > maxLength) {
-        inputString = escape(inputString.slice(0, maxLength));
-        alert("글자수초과")
+
+    // 유효성 검사
+    inputWeight(event) {
+      const inputValue = event.target.value;
+      if (inputValue.trim() === "") {
+        this.weight = "";
+        return;
       }
-    }*/
+      const regex = /^\d+(\.\d{0,1})?$/;
+      if (regex.test(inputValue)) {
+        this.weight = inputValue;
+        console.log("무게: " + this.weight)
+      } else {
+        alert("소수점 첫째짜리까지 입력 가능합니다.")
+        event.target.value = this.weight;
+      }
 
+    },
+    onChange(event){
+      console.log(event.target.value)
+    }
   },
-
 
 
 };

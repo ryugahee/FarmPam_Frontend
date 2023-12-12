@@ -73,7 +73,6 @@ export default {
       this.$refs.infiniteLoading.stateChanger.reset();
     },
 
-
     infiniteHandler($state) {
       this.$http.get("/item/list", {
         params: {
