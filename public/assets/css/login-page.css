@@ -70,7 +70,7 @@
 
 .line {
     display: flex;
-    flex-basis: 100%;
+    flex-basis: 10%;
     align-items: center;
     color: #C0C0C0;
     font-size: 14px;
