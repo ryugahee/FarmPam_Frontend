@@ -63,16 +63,34 @@ function getChatMessages(chatId) {
   });
 }
 
-function sendMessage(message, chatId) {
+function sendMessage(chatMessage, chatId) {
   return instance.post(
     `/chats/chatMessage`,
-    { message, chatId },
+    { chatMessage, chatId },
     {
       headers: {
         "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
       },
     }
   );
+}
+
+
+function getSellerId(itemId) {
+  return instance.get(`/item/detail/${itemId}/seller`, {
+    headers: {
+      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
+    },
+  });
+}
+
+function createChat(newChatInfo) {
+  console.log(newChatInfo);
+  return instance.post(`/chats`, newChatInfo, {
+    headers: {
+      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
+    },
+  });
 }
 
 export default instance;
@@ -82,4 +100,6 @@ export {
   getChatDetailInfo,
   getChatMessages,
   sendMessage,
+  getSellerId,
+  createChat,
 };

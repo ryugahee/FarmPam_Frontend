@@ -7,45 +7,63 @@
     <div class="img-upload">
       <!--     미리보기       -->
       <div class="img-preview">
-        <div
-            v-for="(file, index) in files"
-            :key="index" class="img-file">
-          <div
-              class="img-close-button"
-              @click="imageDeleteButton(index)">
+        <div v-for="(file, index) in files" :key="index" class="img-file">
+          <div class="img-close-button" @click="imageDeleteButton(index)">
             x
           </div>
           <img :src="file.preview" class="preview" alt="" />
         </div>
         <!--     사진 추가       -->
         <div v-if="!files.length">
-          <label for="file" class="filelabel"><img src="../../../public/assets/img/camera1.png" class="icon-camera" alt="" ></label>
+          <label for="file" class="filelabel"
+            ><img
+              src="../../../public/assets/img/camera1.png"
+              class="icon-camera"
+              alt=""
+          /></label>
           <input
-              type="file"
-              id="file"
-              ref="files"
-              multiple
-              @change="imageAddUpload"
-              style="display: none"/>
+            type="file"
+            id="file"
+            ref="files"
+            multiple
+            @change="imageAddUpload"
+            style="display: none"
+          />
         </div>
         <div v-else>
-          <label for="file" class="filelabel"><img src="../../../public/assets/img/add.png" class="icon" alt="" ></label>
+          <label for="file" class="filelabel"
+            ><img src="../../../public/assets/img/add.png" class="icon" alt=""
+          /></label>
           <input
-              type="file"
-              id="file"
-              ref="files"
-              multiple
-              @change="imageAddUpload"
-              style="display: none"/>
+            type="file"
+            id="file"
+            ref="files"
+            multiple
+            @change="imageAddUpload"
+            style="display: none"
+          />
         </div>
       </div>
     </div>
     <div class="main">
       <div>
-        <input class="title-box" type="text" v-model="itemTitle" placeholder=" 제목" required>
+        <input
+          class="title-box"
+          type="text"
+          v-model="itemTitle"
+          placeholder=" 제목"
+          required
+        />
       </div>
       <div>
-        <input class="price-box" type="text" v-model="minPrice" placeholder=" 최소 입찰 가격" required> 원
+        <input
+          class="price-box"
+          type="text"
+          v-model="minPrice"
+          placeholder=" 최소 입찰 가격"
+          required
+        />
+        원
       </div>
       <div class="timer">
         <select class="time-box" v-model="time" required>
@@ -59,26 +77,43 @@
         </select>
       </div>
       <div class="content">
-      <textarea class="itemDetail-box"
+        <textarea
+          class="itemDetail-box"
           type="text"
-                v-model="itemDetail" placeholder=" 상품 설명" required></textarea>
+          v-model="itemDetail"
+          placeholder=" 상품 설명"
+          required
+        ></textarea>
       </div>
       <!--     태그 추가       -->
       <div class="tag-box">
         <div>
-          <input type="text"
-                 v-model="tag" class="add-tag" @keyup.enter="addTag"  placeholder=" 품목명 태그">
-          <button class="btn-add-tag" type="button" @click="addTag">태그 추가</button>
+          <input
+            type="text"
+            v-model="tag"
+            class="add-tag"
+            @keyup.enter="addTag"
+            placeholder=" 품목명 태그"
+          />
+          <button class="btn-add-tag" type="button" @click="addTag">
+            태그 추가
+          </button>
         </div>
         <div class="selected-tag-box-flex">
-          <div class="selected-tag-box" v-for="(tag, i) in tags" :key="i" @click="removeTag(tag)" :tag="tag" required>
+          <div
+            class="selected-tag-box"
+            v-for="(tag, i) in tags"
+            :key="i"
+            @click="removeTag(tag)"
+            :tag="tag"
+            required
+          >
             <div class="selected-tag">
-              {{tag}}
+              {{ tag }}
             </div>
             <div class="closeBtn">X</div>
           </div>
         </div>
-
       </div>
       <div>
         <select class="type-box" required>
@@ -89,7 +124,14 @@
         </select>
       </div>
       <div>
-        <input v-model="weight" class="weight-box" type="text" placeholder=" 무게" required> kg
+        <input
+          v-model="weight"
+          class="weight-box"
+          type="text"
+          placeholder=" 무게"
+          required
+        />
+        kg
       </div>
     </div>
     <div class="btn-container">
@@ -108,7 +150,7 @@ export default {
   name: "AuctionRegisterView",
   components: {
     LOGO,
-    HeaderComponent
+    HeaderComponent,
   },
   data() {
     return {
@@ -125,22 +167,22 @@ export default {
       files: [],
       filesPreview: [],
       uploadImageIndex: 0,
-
     };
   },
-  inject:["$http"],
+  inject: ["$http"],
   methods: {
-
     imageAddUpload() {
       let num = -1;
       for (let i = 0; i < this.$refs.files.files.length; i++) {
-
         const fileType = this.$refs.files.files[i].name.toLowerCase();
-        if (!fileType.includes('jpg') && !fileType.includes('png') && !fileType.includes('gif') && !fileType.includes('JPEG')) {
-          alert(
-              `이미지 파일(JPG,JPEG,GIF,PNG)만 첨부해주세요.`
-          )
-          return
+        if (
+          !fileType.includes("jpg") &&
+          !fileType.includes("png") &&
+          !fileType.includes("gif") &&
+          !fileType.includes("JPEG")
+        ) {
+          alert(`이미지 파일(JPG,JPEG,GIF,PNG)만 첨부해주세요.`);
+          return;
         }
 
         this.files.push({
@@ -158,7 +200,6 @@ export default {
       console.log(this.files);
     },
     async submitPost() {
-
       const formData = new FormData();
 
       formData.append("userName", this.userName);
@@ -169,34 +210,35 @@ export default {
       formData.append("weight", this.weight);
       formData.append("time", this.time);
 
-      console.log("경매시간: " + this.time)
+      console.log("경매시간: " + this.time);
 
       for (let i = 0; i < this.files.length; i++) {
         formData.append("files", this.files[i].file);
       }
 
       const tagArray = this.tags;
-      const arrayAsString = tagArray.join(',');
-      formData.append("tagNames",arrayAsString);
+      const arrayAsString = tagArray.join(",");
+      formData.append("tagNames", arrayAsString);
+
+      formData.append("userId", this.$store.state.user.id);
 
       await this.$http
-          .post("/item/new", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data;  charset=UTF-8",
-            },
-          })
-          .then((res) => {
+        .post("/item/new", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data;  charset=UTF-8",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
             console.log(res);
-            if (res.status === 200) {
-              console.log(res);
-              window.alert("상품 등록 성공");
-              this.$router.go(-1);
-            }
-          })
-          .catch(() => {
-            window.alert("상품 등록 실패");
-          });
-
+            window.alert("상품 등록 성공");
+            this.$router.go(-1);
+          }
+        })
+        .catch(() => {
+          window.alert("상품 등록 실패");
+        });
     },
 
     addTag() {
@@ -207,8 +249,7 @@ export default {
         return;
       }
       this.tags.push(this.tag);
-      this.tag = '';
-
+      this.tag = "";
     },
     removeTag(tag) {
       let index = this.tags.indexOf(tag);
@@ -216,15 +257,10 @@ export default {
         this.tags.splice(index, 1);
       }
     },
-
   },
-
-
-
 };
 </script>
 
 <style scoped>
 @import "../../../public/assets/css/auction-register-page.css";
-
 </style>
