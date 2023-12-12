@@ -1,6 +1,6 @@
 <template>
   <div ref="displayRef">
-    <row>
+    <div>
       <div class="chat-box" ref="chatBox">
         <div>
           <div
@@ -62,7 +62,7 @@
           </g>
         </svg>
       </div>
-    </row>
+    </div>
   </div>
 </template>
 <script>
