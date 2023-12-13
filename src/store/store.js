@@ -15,29 +15,28 @@ const store = createStore({
     return {
       amount: 0,
       user: {
-        // TODO: 유저정보를 DB에서 조회해서 값 주입시키기
-        id: "mrHong",
-        name: "홍길동",
-        nickname: "홍홍홍",
-        email: "test@test.com",
-        mobilePhone: "01012345678",
+        id: "",
+        name: "",
+        nickname: "",
+        email: "",
+        mobilePhone: "",
         farmMoney: 0,
       },
       chatIds: [0],
       chatPreviewInfos: [
         {
-          toNickName: "테스트 닉네임",
-          toNickNameThumbnailUrl: "테스트 프로필 사진",
+          toNickName: "",
+          toNickNameThumbnailUrl: "",
           lastMessage: "",
-          updateTime: "2023/01/01",
-          itemThumbnailUrl: "테스트 경매 사진",
+          updateTime: "",
+          itemThumbnailUrl: "",
         },
       ],
       chatDetailInfo: {
-        toNickName: "테스트 닉네임",
-        itemTitle: "테스트 타이틀",
-        itemThumbnailUrl: "테스트 경매 사진",
-        biddingPrice: 40000,
+        toNickName: "",
+        itemTitle: "",
+        itemThumbnailUrl: "",
+        biddingPrice: 0,
       },
 
       chatMessages: [

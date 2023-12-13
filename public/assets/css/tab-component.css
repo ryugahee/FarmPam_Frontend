@@ -14,13 +14,15 @@ ul, li {
 
 .tab {
     width: 390px;
+    position: sticky;
+    top: 99px;
+    z-index: 1;
 }
 
 .tabnav {
     padding-left: 0px;
     margin-bottom: 0px;
-    position: sticky;
-    top: 99px;
+
 }
 
 .tabnav li {
@@ -62,8 +64,4 @@ ul, li {
     background-color: #FFFFFF;
     color: #98CB98;
     z-index: 13;
-}
-
-.tabcontent {
-
 }

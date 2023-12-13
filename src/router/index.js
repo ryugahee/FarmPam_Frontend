@@ -22,6 +22,10 @@ import ChargingView from "@/view/charging/ChargingView.vue";
 import AuctionPurchaseHistoryView from "@/view/mypage/AuctionPurchaseHistoryView.vue";
 import AuctionSaleHistoryView from "@/view/mypage/AuctionSaleHistoryView.vue";
 import AuctionView from "@/view/auction/AuctionView.vue";
+import Admin from "@/view/admin/AdminView.vue";
+import Chart from "@/view/admin/ChartView.vue";
+
+import AddressView from "@/components/user/AddressComponent.vue";
 
 
 const routes = [
@@ -53,6 +57,7 @@ const routes = [
       },
       {
         path: "/register",
+        name: 'Register',
         component: RegisterView,
       },
       {
@@ -113,6 +118,11 @@ const routes = [
         name: "charging",
         component: ChargingView,
       },
+      {
+        path: "/address",
+        name: "address",
+        component: AddressView,
+      }
     ],
   },
   {
@@ -130,6 +140,14 @@ const routes = [
     name: "fail",
     component: FailView,
   },
+  {
+    path: "/admin",
+    component: Admin
+  },
+  {
+    path: "/chart",
+    component: Chart
+  }
 ];
 
 const router = createRouter({

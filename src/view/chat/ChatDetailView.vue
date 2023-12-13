@@ -43,7 +43,7 @@ export default {
     },
   },
   created() {
-    this.myId = this.$store.state.user.id;
+    this.myId = localStorage.getItem("username");
     this.$store
       .dispatch("findChatDetailInfo", {
         chatId: this.chatId,
