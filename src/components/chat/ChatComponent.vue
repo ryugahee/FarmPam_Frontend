@@ -2,13 +2,15 @@
   <div ref="displayRef">
     <div>
       <div class="chat-box" ref="chatBox">
-        <div>
+        <div class="row">
           <div
             v-for="(message, index) in messages"
             :key="index"
             class="message"
             ref="messageRef"
-            :style="{ height: calculateMessageHeight(message.message) + 'px' }"
+            :style="{
+              height: calculateMessageHeight(message.message) + 'px',
+            }"
           >
             <p
               v-if="message.message"
@@ -92,14 +94,13 @@ export default {
   created() {
     this.isSocketConnected = false;
     this.myNickname = this.$store.state.user.nickname;
-    this.myId = this.$store.state.user.id;
+    this.myId = localStorage.getItem("username");
 
     this.getMessages();
 
-    // jwt 토큰이 없으면
-    // if(localStorage.getItem('accessToken') == null) {
-    //   router.replace("/home");
-    // }
+    if (localStorage.getItem("accessToken") == null) {
+      this.$router.replace("/home");
+    }
 
     if (this.isSocketConnected == false) {
       this.connect();
@@ -231,9 +232,13 @@ export default {
       console.log("소켓 연결 실패");
     },
     onMessageReceived(res) {
-      setTimeout(() => {
-        this.getMessages();
-      });
+      if (res && res.body) {
+        setTimeout(() => {
+          this.messages.push(JSON.parse(res.body));
+        });
+      } else {
+        console.error("Invalid message received:", res);
+      }
     },
     getMessages() {
       // 채팅 내역 가져오기
