@@ -4,6 +4,7 @@
       <div class="chat-box" ref="chatBox">
         <div>
           <div
+            v-show="message.message !== ''"
             v-for="(message, index) in messages"
             :key="index"
             class="message"
