@@ -34,7 +34,9 @@
           </span>
         </div>
       </div>
-      <p class="content-detail" style="white-space: pre-line;">{{ itemDetail }}</p>
+      <p class="content-detail" style="white-space: pre-line">
+        {{ itemDetail }}
+      </p>
     </div>
     <div class="item-footer">
       <div class="current-price">
@@ -49,7 +51,9 @@
       <!--      bid modal-->
       <div class="bid-bg" v-if="!bidModal">
         <div v-for="(item, index) in receiveList" :key="item.id">
-          <p class="bid-Message"> {{index+1}} 번째 입찰 가격 {{item.content}}</p>
+          <p class="bid-Message">
+            {{ index + 1 }} 번째 입찰 가격 {{ item.content }}
+          </p>
         </div>
         <div class="bid-btn">
           <div class="current-price-bid-box">
@@ -60,9 +64,12 @@
             <p class="bid-text">입찰할 금액(직접입력)</p>
           </div>
           <div>
-            <input v-model="bidPrice" class="bid-input-box" type="text" placeholder="입찰가 입력."><span
-              class="bid-won">원</span>
-
+            <input
+              v-model="bidPrice"
+              class="bid-input-box"
+              type="text"
+              placeholder="입찰가 입력."
+            /><span class="bid-won">원</span>
           </div>
         </div>
         <div class="btn-a-bid" @click="sendBidPrice">
@@ -107,9 +114,9 @@ export default {
       bidModal: true,
       bidStatus: true,
       bidId: "",
-      userName:"chan",
-      bidPrice:"",
-      bidList:[],
+      userName: "chan",
+      bidPrice: "",
+      bidList: [],
       receiveList: [],
       // 불러온 아이템 정보
       items: [],
@@ -139,18 +146,17 @@ export default {
       let socket = new SocketJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect(
-          {},
-          frame => {
-            this.connected = true;
-            this.stompClient.subscribe("/bidList", res =>{
-              this.receiveList = JSON.parse(res.body);
-              this.currentPrice = this.receiveList.at(-1);
-            });
-          },
-          error => {
-            this.connected = false;
-          }
-
+        {},
+        (frame) => {
+          this.connected = true;
+          this.stompClient.subscribe("/bidList", (res) => {
+            this.receiveList = JSON.parse(res.body);
+            this.currentPrice = this.receiveList.at(-1);
+          });
+        },
+        (error) => {
+          this.connected = false;
+        }
       );
 
       // 디테일 불러오기
@@ -172,24 +178,21 @@ export default {
         });
     },
 
-
-    sendBidPrice(){
-
+    sendBidPrice() {
       if (this.stompClient && this.stompClient.connected) {
         const data = {
           userName: this.userName,
-          bidPrice: this.bidPrice
+          bidPrice: this.bidPrice,
         };
         const content = JSON.stringify(data);
         const msg = {
           bidId: this.bidId,
-          content
+          content,
         };
         this.stompClient.send("/bid-push", JSON.stringify(msg), {});
-        this.stompClient.subscribe("/myBid-price", res =>{
-          this.myPrice = (res.body)
+        this.stompClient.subscribe("/myBid-price", (res) => {
+          this.myPrice = res.body;
         });
-
       }
     },
     receiveBidList() {
@@ -199,12 +202,15 @@ export default {
         bidId: this.bidId,
       };
 
-      this.$http.post("/bid-list", JSON.stringify(msg), {}).then(res =>{
-        this.receiveList = (res.data);
-        this.currentPrice = this.receiveList.at(-1);
-      }).catch(err => {
-        console.log(err);
-      });
+      this.$http
+        .post("/bid-list", JSON.stringify(msg), {})
+        .then((res) => {
+          this.receiveList = res.data;
+          this.currentPrice = this.receiveList.at(-1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     // 경매 삭제
@@ -222,11 +228,8 @@ export default {
           window.alert("상품 삭제에 실패했습니다");
         });
     },
-    finishItem(){
-      this.$http.post(`/bid-finish/${this.$route.params.id}`)
-          .then((res) =>{
-
-      })
+    finishItem() {
+      this.$http.post(`/bid-finish/${this.$route.params.id}`).then((res) => {});
     },
     // 시간 디자인 변환
     startTimer() {
@@ -242,8 +245,7 @@ export default {
       if (remainingTime <= 0) {
         this.bidStatus = false;
         this.finishItem();
-        return '00:00:00';
-
+        return "00:00:00";
       }
       const hours = Math.floor(remainingTime / 3600000);
       const minutes = Math.floor((remainingTime % 3600000) / 60000);
@@ -261,9 +263,9 @@ export default {
 
       this.$store.dispatch("findSellerId", this.$route.params.id).then(() => {
         const sellerId = this.$store.state.sellerId;
-        const userId = this.$store.state.user.id;
+        const userId = localStorage.getItem("username");
 
-        if (sellerId !== userId) {
+        if (sellerId !== userId && userId !== null && sellerId !== null) {
           const newChatInfo = {
             // TODO: firstUserId : 사용자
             firstUserId: userId,
@@ -280,6 +282,8 @@ export default {
               path: `/chats/${this.$store.state.newChatId}`,
             });
           });
+        } else {
+          console.log("자기 자신과 채팅할 수 없습니다.");
         }
       });
     },
