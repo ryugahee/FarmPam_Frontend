@@ -69,16 +69,21 @@ export default {
 
           console.log(res.data);
 
+          console.log(
+            "로그인 리다이렉트 페이지 확인 : ",
+            res.data.redirectPage
+          );
+
           const accessToken = res.data.accessToken;
           const refreshToken = res.data.refreshToken;
           const username = res.data.username;
           const roles = res.data.roles;
 
           // console.log("응답 : " + JSON.stringify (res));
-          console.log("엑세스 토큰: " + res.data.accessToken);
-          console.log("리프레시 토큰: " + res.data.refreshToken);
-          console.log("유저네임: " + res.data.username);
-          console.log("역할 : " + res.data.roles);
+          // console.log("엑세스 토큰: " + res.data.accessToken);
+          // console.log("리프레시 토큰: " + res.data.refreshToken);
+          // console.log("유저네임: " + res.data.username);
+          // console.log("역할 : " + res.data.roles);
 
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
@@ -93,7 +98,7 @@ export default {
           expireCookie("refreshToken");
           expireCookie("username");
 
-          router.push(res.data.redirectPage);
+          router.push(`${res.data.redirectPage}`);
         })
         .catch((err) => {
           console.log(err);
