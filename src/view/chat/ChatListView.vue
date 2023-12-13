@@ -72,8 +72,7 @@ export default {
   },
 
   created() {
-    // TODO: 로그인 할 시 자신의 id가 vuex의 user.id 에 저장하도록 구현하기
-    this.myId = this.$store.state.user.id;
+    this.myId = localStorage.getItem("username");
     // 내가 참여 중인 채팅방 아이디 찾기
     this.$store.dispatch("findChatIds", this.myId).then(() => {
       this.chatIds = this.$store.state.chatIds;

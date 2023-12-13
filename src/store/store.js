@@ -15,12 +15,12 @@ const store = createStore({
       amount: 0,
       user: {
         // TODO: 유저정보를 DB에서 조회해서 값 주입시키기
-        id: "mrHong",
-        name: "홍길동",
-        nickname: "홍홍홍",
-        email: "test@test.com",
-        mobilePhone: "01012345678",
-        farmMoney: 150000,
+        id: "",
+        name: "",
+        nickname: "",
+        email: "",
+        mobilePhone: "",
+        farmMoney: 0,
       },
       chatIds: [0],
       chatPreviewInfos: [

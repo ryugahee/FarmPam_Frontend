@@ -92,7 +92,7 @@ export default {
   created() {
     this.isSocketConnected = false;
     this.myNickname = this.$store.state.user.nickname;
-    this.myId = this.$store.state.user.id;
+    this.myId = localStorage.getItem("username");
 
     this.getMessages();
 
