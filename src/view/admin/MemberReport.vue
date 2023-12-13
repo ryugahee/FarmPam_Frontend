@@ -1,4 +1,5 @@
 <template>
+   <client-only>
   <div>
     <table class="table">
       <thead>
@@ -27,18 +28,20 @@
       <a href="#" class="page-link">&raquo;</a>
     </div>
   </div>
+</client-only>
 </template>
 
 <script>
 import { onMounted, ref } from "vue";
 import axios from "axios";
+import http from "@/api/http";
 export default {
   setup() {
     const users = ref([{ id: 1 }]);
 
     const getAllUsers = () => {
-      axios
-        .get("/api/getAllUsers")
+      http
+        .get("/getAllUsers")
         .then((res) => {
           users.value = [...res.data];
 

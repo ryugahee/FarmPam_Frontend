@@ -1,11 +1,19 @@
 import axios from "axios";
+import { reactive } from "vue";
 
 const instance = axios.create({
   timeout: 10000,
   baseURL: "/api",
   headers: {
     "content-type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    username: localStorage.getItem("username"),
   },
+});
+
+const state = reactive({
+  items: [],
+  errMsg: "",
 });
 
 // 채팅 아이디 가져오기

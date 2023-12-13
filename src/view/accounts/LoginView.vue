@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <row>
+    <div>
       <div class="logo">
         <img src="../../../public/assets/img/Logo.png" alt="" />
       </div>
@@ -26,7 +26,7 @@
       </div>
 
       <div class="finder">
-        <button>아이디 찾기</button> &nbsp; &nbsp; | &nbsp;
+        <button>아이디 찾기</button> &nbsp; &nbsp; &nbsp; | 
         <button>비밀번호 찾기</button>
       </div>
 
@@ -39,7 +39,7 @@
         <br />
         <img src="../../../public/assets/img/naver.png" alt="" />
       </div>
-    </row>
+    </div>
   </div>
 </template>
 
@@ -61,18 +61,18 @@ export default {
     };
 
     const login = () => {
-      console.log("로그인 요청");
+      // console.log("로그인 요청");
       axios
         .post("http://localhost:8080/api/login", state.form)
         .then((res) => {
-          console.log("로그인 완료");
+          // console.log("로그인 완료");
 
           console.log(res.data);
 
-          console.log(
-            "로그인 리다이렉트 페이지 확인 : ",
-            res.data.redirectPage
-          );
+          // console.log(
+          //   "로그인 리다이렉트 페이지 확인 : ",
+          //   res.data.redirectPage
+          // );
 
           const accessToken = res.data.accessToken;
           const refreshToken = res.data.refreshToken;
@@ -98,7 +98,7 @@ export default {
           expireCookie("refreshToken");
           expireCookie("username");
 
-          router.push(`${res.data.redirectPage}`);
+          router.replace(`${res.data.redirectPage}`);
         })
         .catch((err) => {
           console.log(err);

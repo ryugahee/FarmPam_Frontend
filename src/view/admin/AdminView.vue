@@ -1,4 +1,5 @@
 <template>
+  <client-only>
   <div>
     <!-- 헤더 -->
     <div class="adminHeader">
@@ -111,6 +112,7 @@
       </div>
     </div>
   </div>
+</client-only>
 </template>
 
 <script>
@@ -119,12 +121,16 @@ import ChartView from "./ChartView.vue";
 import MemberReport from "./MemberReport.vue";
 import { onMounted, ref } from "vue";
 import AutionOngoing from "./AutionOngoing.vue";
+import {requireRefreshToken} from "@/api/tokenApi.vue";
+import http from "@/api/http";
 
 export default {
   name: "App",
   components: { ChartView, AutionOngoing, MemberReport },
-
   setup() {
+
+  
+
     const marketValuePageNum = ref(0);
     const marketValueTotalPage = ref(0);
     const keyword = ref("");
@@ -139,8 +145,8 @@ export default {
 
       chartDatas.value = [];
 
-      axios
-        .get("/api/item/allMarketValues", {
+      http
+        .get("/item/allMarketValues", {
           params: {
             pageNum: pageNum,
           },
@@ -186,7 +192,11 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data);
+          if(err.response.data == "please send refreshToken"){
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     };
 
@@ -196,8 +206,8 @@ export default {
 
       console.log("시세 검색 요청 보내기 : ", keyword.value);
 
-      axios
-        .post("api/item/marketValue", { itemType: keyword.value })
+      http
+        .post("item/marketValue", { itemType: keyword.value })
         .then((res) => {
           console.log(res.data);
 
@@ -247,7 +257,7 @@ export default {
           // this.chartDatas[0].datasets[0].data = priceList;
         })
         .catch((err) => {
-          console.log(err);
+          
         });
     };
 
@@ -255,6 +265,8 @@ export default {
       console.log("전체 시세 조회 요청");
 
       console.log("페이지 요청 : ", marketValuePageNum.value);
+
+      // checkAccessToken();
 
       allMarketValue(marketValuePageNum.value);
     });
@@ -272,6 +284,8 @@ export default {
     };
   },
 };
+
+
 </script>
 
 <style scoped>
