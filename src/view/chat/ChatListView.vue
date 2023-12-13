@@ -72,6 +72,10 @@ export default {
   },
 
   created() {
+    if (localStorage.getItem("accessToken") == null) {
+      this.$router.replace("/home");
+    }
+
     this.myId = localStorage.getItem("username");
     // 내가 참여 중인 채팅방 아이디 찾기
     this.$store.dispatch("findChatIds", this.myId).then(() => {
