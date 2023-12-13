@@ -5,8 +5,8 @@
 }
 
 .profile_img_div {
-  max-width: 80px;
-  max-height: 80px;
+  width: 80px;
+  height: 80px;
 }
 
 .profile_img {
@@ -23,7 +23,6 @@
 
 .chat_info_top {
   display: flex;
-  justify-content: center;
   align-items: end;
 }
 
@@ -70,8 +69,8 @@
 }
 
 .item_img {
-  max-width: 60px;
-  max-height: 60px;
+  width: 60px;
+  height: 60px;
   border-radius: 5px;
 }
 
