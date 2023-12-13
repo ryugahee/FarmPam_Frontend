@@ -7,6 +7,7 @@ import {
   sendMessage,
   getSellerId,
   createChat,
+  getFarmMoney,
 } from "@/api/http";
 
 const store = createStore({
@@ -14,7 +15,6 @@ const store = createStore({
     return {
       amount: 0,
       user: {
-        // TODO: 유저정보를 DB에서 조회해서 값 주입시키기
         id: "",
         name: "",
         nickname: "",
@@ -85,6 +85,9 @@ const store = createStore({
     },
     setNewChatId(state, newChatId) {
       state.newChatId = newChatId;
+    },
+    setFarmMoney(state, farmMoney) {
+      state.user.farmMoney = farmMoney;
     },
   },
   actions: {
@@ -157,6 +160,16 @@ const store = createStore({
         })
         .catch(function () {
           console.log("createChat Error");
+        });
+    },
+
+    findFarmMoney({ commit }, userId) {
+      return getFarmMoney(userId)
+        .then((response) => {
+          commit("setFarmMoney", response.data);
+        })
+        .catch(function () {
+          console.log("findFarmMoney");
         });
     },
   },
