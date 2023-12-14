@@ -130,7 +130,6 @@
             :key="i"
             @click="removeTag(tag)"
             :tag="tag"
-            required
           >
             <div class="selected-tag">
               {{ tag }}

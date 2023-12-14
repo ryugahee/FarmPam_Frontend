@@ -5,7 +5,7 @@
 }
 
 .detail-profile-box {
-    margin: 5px 0px 5px 20px;
+    margin: 5px 0 5px 20px;
     width: 300px;
     height: 80px;
     display: flex;
@@ -101,7 +101,7 @@
 }
 
 .item-content p {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .delete-btn {
@@ -195,7 +195,7 @@
 
 .make-a-bid .bid-time {
     font-size: 22px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 .bid-input-box{
     margin-left: 20px;

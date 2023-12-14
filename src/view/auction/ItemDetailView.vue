@@ -87,10 +87,8 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import Stomp from "webstomp-client";
 import SocketJS from "sockjs-client";
-import Auction from "@/components/auction/AuctionComponent.vue";
 import index from "vuex";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
-import data from "bootstrap/js/src/dom/data";
 import {requireRefreshToken} from "@/api/tokenApi.vue";
 
 export default {
