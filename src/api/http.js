@@ -83,7 +83,6 @@ function sendMessage(chatMessage, chatId) {
   );
 }
 
-
 function getSellerId(itemId) {
   return instance.get(`/item/detail/${itemId}/seller`, {
     headers: {
@@ -101,6 +100,18 @@ function createChat(newChatInfo) {
   });
 }
 
+function getFarmMoney(userId) {
+  return instance.get(`/farmmoney`, {
+    params: {
+      userId: userId,
+    },
+    headers: {
+      "Content-Type": "text/plain",
+      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
+    },
+  });
+}
+
 export default instance;
 export {
   getChatIds,
@@ -110,4 +121,5 @@ export {
   sendMessage,
   getSellerId,
   createChat,
+  getFarmMoney,
 };

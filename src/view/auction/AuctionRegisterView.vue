@@ -246,7 +246,8 @@ export default {
       const arrayAsString = tagArray.join(",");
       formData.append("tagNames", arrayAsString);
 
-      formData.append("userId", "first");
+      formData.append("userId", localStorage.getItem("username"));
+
 
       await this.$http
         .post("/item/new", formData, {

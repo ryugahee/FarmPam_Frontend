@@ -16,10 +16,10 @@
             :id="chargingInput"
             readonly
           />
-          <label for="chargingInput">충전 금액</label>
+          <label for="chargingInput">{{ subtitle }}</label>
         </div>
         <div class="amount">
-          <p>현재 Farm 머니</p>
+          <p>{{ currentFarmMoneyTitle }}</p>
           <p class="farm-money">{{ farmMoney.toLocaleString() }}원</p>
         </div>
       </div>
@@ -82,6 +82,14 @@ import Header from "@/components/user/HeaderComponent.vue";
 export default {
   name: "ChargingView",
   components: { Logo, Header },
+
+  created() {
+    this.myId = this.$store.state.user.id;
+    this.$store.dispatch("findFarmMoney", this.myId).then(() => {
+      this.farmMoney = this.$store.state.user.farmMoney;
+    });
+  },
+
   data() {
     return {
       title: "충전",
@@ -92,6 +100,7 @@ export default {
       five: "+5만",
       ten: "+10만",
       inputFarmMoney: "",
+      currentFarmMoneyTitle: "현재 Farm 머니",
     };
   },
   computed: {
