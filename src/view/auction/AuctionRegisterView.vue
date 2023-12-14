@@ -161,6 +161,7 @@
 <script>
 import LOGO from "@/components/user/LogoComponent.vue";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
+import {requireRefreshToken} from "@/api/tokenApi.vue";
 
 export default {
   name: "AuctionRegisterView",
@@ -259,7 +260,10 @@ export default {
             // this.$router.go(-1);  디테일 페이지로 변경
           }
         })
-        .catch(() => {
+        .catch((err) => {
+          if(err.response.data == "please send refreshToken")
+            console.log("리프레시 토큰 요청");
+          requireRefreshToken();
           window.alert("상품 등록 실패");
         });
     },

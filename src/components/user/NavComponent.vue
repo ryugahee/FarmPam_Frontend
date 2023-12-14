@@ -48,6 +48,7 @@
 import ItemPost from "@/components/item/ItemPostComponent.vue";
 import {InfiniteLoading} from "infinite-loading-vue3-ts";
 import LoadingSpinner from "@/components/user/LoadingSpinner.vue";
+import {requireRefreshToken} from "@/api/tokenApi.vue";
 
 export default {
   name: "NavBar",
@@ -109,8 +110,11 @@ export default {
         } else {
           $state.complete();
         }
-      }).catch((error) => {
-        console.error(error);
+      }).catch((err) => {
+        if(err.response.data == "please send refreshToken") {
+          console.log("리프레시 토큰 요청");
+          requireRefreshToken();
+        }
       });
     },
 
