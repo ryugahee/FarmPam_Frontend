@@ -17,7 +17,14 @@
     </div>
     <div>
       <ItemPost :items="items"/>
-      <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
+      <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
+        <template #spinner>
+          <LoadingSpinner />
+        </template>
+        <template #no-more>
+          <LoadComplete></LoadComplete>
+        </template>
+      </infinite-loading>
     </div>
     <NavBar/>
   </div>
@@ -28,10 +35,12 @@ import LOGO from "@/components/user/LogoComponent.vue";
 import ItemPost from "@/components/item/ItemPostComponent.vue";
 import NavBar from "@/components/user/NavComponent.vue";
 import {InfiniteLoading} from "infinite-loading-vue3-ts";
+import LoadingSpinner from "@/components/user/LoadingSpinner.vue";
 
 export default {
   name: "ItemView",
   components: {
+    LoadingSpinner,
     InfiniteLoading,
     LOGO,
     ItemPost,

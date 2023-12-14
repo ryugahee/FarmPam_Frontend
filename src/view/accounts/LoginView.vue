@@ -70,7 +70,7 @@ export default {
           const username = res.data.username;
           const roles = res.data.roles;
 
-          // console.log("응답 : " + JSON.stringify (res));
+              // console.log("응답 : " + JSON.stringify (res));
           console.log("엑세스 토큰: " + res.data.accessToken);
           console.log("리프레시 토큰: " + res.data.refreshToken);
           console.log("유저네임: " + res.data.username);

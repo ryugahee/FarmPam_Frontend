@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="item-detail-img">
-      <img :src="itemImg" alt="경매 상품 이미지" />
+      <img :src="imgUrl" alt="경매 상품 이미지" />
     </div>
     <div class="item-content">
       <p class="content-title">{{ itemTitle }} {{ weight }}kg</p>
@@ -101,7 +101,7 @@ export default {
       profileImg: require("../../../public/assets/img/profile1.png"),
       nickName: "그랜드팜",
       review: 4.5,
-      itemImg: require("../../../public/assets/img/apple.png"),
+      itemImg: "",
       currentPrice: [],
       myPrice: [],
       bidModal: true,
@@ -152,16 +152,16 @@ export default {
           }
 
       );
-
       // 디테일 불러오기
-      this.$http
-        .get(`/item/detail/${this.$route.params.id}`)
+      this.$http.get(`/item/detail/${this.$route.params.id}`)
         .then((res) => {
           this.itemTitle = res.data.itemTitle;
           this.itemDetail = res.data.itemDetail;
           this.weight = res.data.weight;
           this.time = res.data.time;
           this.tagNames = res.data.tagNames;
+
+          console.log("정보 불러오니?: " + res.data);
 
           // 시간 출력 디자인
           this.remainingTime = res.data.time;
@@ -171,7 +171,6 @@ export default {
           console.error(error);
         });
     },
-
 
     sendBidPrice(){
 
@@ -261,7 +260,7 @@ export default {
 
       this.$store.dispatch("findSellerId", this.$route.params.id).then(() => {
         const sellerId = this.$store.state.sellerId;
-        const userId = this.$store.state.user.id;
+        const userId = localStorage.getItem("username");
 
         if (sellerId !== userId) {
           const newChatInfo = {

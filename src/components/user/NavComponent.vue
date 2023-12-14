@@ -5,7 +5,7 @@
       <transition name="slide-up">
         <div class="nav-modal" v-if="!modal">
 
-          <div class="search-fix">
+          <div class="nav-search-fix">
             <div class="search-bar">
               <input v-model="keyword" class="search-box" @keyup.enter="btnClick" placeholder="검색할 물품을 입력하세요."/>
               <button class="search-btn" @click="btnClick"><img src="../../../public/assets/img/search-green.png" alt="" /></button>
@@ -14,7 +14,14 @@
 
           <div class="nav-item-post">
             <ItemPost :items="items"/>
-            <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
+            <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
+              <template #spinner>
+                <LoadingSpinner />
+              </template>
+              <template #no-more>
+                <LoadComplete></LoadComplete>
+              </template>
+            </infinite-loading>
           </div>
         </div>
       </transition>
@@ -40,10 +47,12 @@
 <script>
 import ItemPost from "@/components/item/ItemPostComponent.vue";
 import {InfiniteLoading} from "infinite-loading-vue3-ts";
+import LoadingSpinner from "@/components/user/LoadingSpinner.vue";
 
 export default {
   name: "NavBar",
   components: {
+    LoadingSpinner,
 
     InfiniteLoading,
     ItemPost
@@ -124,7 +133,6 @@ export default {
       this.page = 0;
       this.items = [];
       this.$refs.infiniteLoading.stateChanger.reset();
-      this.keyword = '';
     },
     chats() {
       this.$router.push("/chats");

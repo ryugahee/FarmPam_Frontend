@@ -155,7 +155,7 @@ export default {
   },
   data() {
     return {
-      userName: "chan",
+      userName: "",
       itemTitle: "",
       minPrice: "",
       time: 0,
@@ -221,11 +221,6 @@ export default {
       formData.append("weight", this.weight);
       formData.append("time", this.time);
 
-
-      console.log("경매시간: " + this.time)
-      console.log("무게: " + this.weight)
-
-
       for (let i = 0; i < this.files.length; i++) {
         formData.append("files", this.files[i].file);
       }
@@ -234,7 +229,8 @@ export default {
       const arrayAsString = tagArray.join(",");
       formData.append("tagNames", arrayAsString);
 
-      formData.append("userId", this.$store.state.user.id);
+      // formData.append("userId", this.$store.state.user.id);
+      formData.append("userId", "gg");
 
       await this.$http
         .post("/item/new", formData, {

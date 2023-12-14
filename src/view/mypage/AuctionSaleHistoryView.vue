@@ -16,7 +16,14 @@
     </div>
     <div>
       <ItemPost :items="items"/>
-      <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler"></infinite-loading>
+      <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
+        <template #spinner>
+          <LoadingSpinner />
+        </template>
+        <template #no-more>
+          <LoadComplete></LoadComplete>
+        </template>
+      </infinite-loading>
     </div>
     <NavBar/>
   </div>
@@ -28,10 +35,12 @@ import HeaderComponent from "@/components/user/HeaderComponent.vue";
 import NavBar from "@/components/user/NavComponent.vue";
 import ItemPost from "@/components/item/ItemPostComponent.vue";
 import {InfiniteLoading} from "infinite-loading-vue3-ts";
+import LoadingSpinner from "@/components/user/LoadingSpinner.vue";
 
 export default {
   name: "AuctionSaleHistoryView",
   components: {
+    LoadingSpinner,
     InfiniteLoading,
     ItemPost,
     NavBar,
@@ -58,7 +67,7 @@ export default {
       }
       this.page = 0;
       this.items = [];
-      this.sortType = 'latest';
+      this.sortType = 'latest'; //최신&soldoutFalse&userId auctioning
       this.$refs.infiniteLoading.stateChanger.reset();
     },
     tab2Click() {
@@ -68,7 +77,7 @@ export default {
       }
       this.page = 0;
       this.items = [];
-      this.sortType = 'time';
+      this.sortType = 'completed';  //Asc&soldoutTrue&userId completed
       this.$refs.infiniteLoading.stateChanger.reset();
     },
 
@@ -79,6 +88,8 @@ export default {
           sortType: this.sortType
         },
       }).then((res) => {
+        console.log("타입뭐얌?: " + this.sortType)
+        console.log("거래완료 데이터? : " + res.data);
         if (res.data.length) {
           console.log("페이지: " + this.page)
 
