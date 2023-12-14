@@ -84,7 +84,10 @@ export default {
   components: { Logo, Header },
 
   created() {
-    this.myId = this.$store.state.user.id;
+    if (localStorage.getItem("accessToken") == null) {
+      this.$router.replace("/home");
+    }
+    this.myId = localStorage.getItem("username");
     this.$store.dispatch("findFarmMoney", this.myId).then(() => {
       this.farmMoney = this.$store.state.user.farmMoney;
     });
