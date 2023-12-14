@@ -1,4 +1,5 @@
 <template>
+  <client-only>
   <div>
     <!-- 헤더 -->
     <div class="adminHeader">
@@ -13,7 +14,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">판매자</th>
+              <th scope="col">경매현황</th>
               <th scope="col">품목</th>
               <th scope="col">무게</th>
               <th scope="col">거래일</th>
@@ -56,11 +57,13 @@
       </div>
 
       <!-- 경매중 -->
-      <div class="auctionIng"></div>
+      <!-- <div class="auctionIng"> -->
+      <AutionOngoing />
+      <!-- </div> -->
     </div>
 
+    <!-- 시세 -->
     <div class="adminContainer">
-      <!-- 시세 -->
       <div class="chart-container">
         <!-- <div class="adminSearchContainer"> -->
         <input
@@ -75,7 +78,8 @@
         />
         <!-- </div> -->
         <div v-if="chartDatas.length == 0">
-          <h3>품목 '{{ this.keyword }}'은 없어요</h3>
+          <!-- <h3>품목 '{{ this.keyword }}'은 없어요</h3> -->
+          <h3>No data</h3>
         </div>
         <!-- <div v-else> -->
         <div
@@ -89,83 +93,64 @@
 
         <div class="paginations2">
           <a href="#" class="page-link">&laquo;</a>
-          <a href="#" class="page-link">1</a>
-          <a href="#" class="page-link">2</a>
-          <a href="#" class="page-link">3</a>
+          <div v-for="(pages, index) in marketValueTotalPage" :key="index">
+            <a class="page-link" @click="allMarketValue(index)">
+              {{ index + 1 }}
+            </a>
+          </div>
           <a href="#" class="page-link">&raquo;</a>
+          <!-- <a href="#" class="page-link">1</a>
+          <a href="#" class="page-link">2</a>
+          <a href="#" class="page-link">3</a> -->
         </div>
         <!-- </div> -->
       </div>
 
       <!-- 회원 현황 -->
-      <div class="memberReport"></div>
+      <div class="memberReport">
+        <MemberReport />
+      </div>
     </div>
   </div>
+</client-only>
 </template>
 
 <script>
 import axios from "axios";
 import ChartView from "./ChartView.vue";
-import { onMounted } from "vue";
+import MemberReport from "./MemberReport.vue";
+import { onMounted, ref } from "vue";
+import AutionOngoing from "./AutionOngoing.vue";
+import {requireRefreshToken} from "@/api/tokenApi.vue";
+import http from "@/api/http";
 
 export default {
   name: "App",
-  components: { ChartView },
+  components: { ChartView, AutionOngoing, MemberReport },
+  setup() {
 
-  methods: {
-    searchMarketValue() {
-      this.chartDatas = [];
+  
 
-      console.log("시세 검색 요청 보내기 : ", this.keyword);
+    const marketValuePageNum = ref(0);
+    const marketValueTotalPage = ref(0);
+    const keyword = ref("");
+    const chartDatas = ref([]);
+    const dayList = ref([]);
+    const priceList = ref([]);
+    const itemName = ref("");
 
-      axios
-        .post("api/item/marketValue", { itemType: this.keyword })
-        .then((res) => {
-          console.log(res.data);
+    //전체 시세 조회
+    const allMarketValue = (pageNum) => {
+      console.log("페이지 요청 : ", pageNum);
 
-          const dayList = res.data.dayList;
-          const priceList = res.data.priceList;
-          const itemName = res.data.itemList[0];
+      chartDatas.value = [];
 
-          if (itemName.length != 0) {
-            this.chartDatas.push({
-              labels: dayList,
-              datasets: [
-                {
-                  borderWidth: 1,
-                  label: itemName,
-                  backgroundColor: "rgb(255,255,255, 0)",
-                  pointBackgroundColor: "#64CCA2",
-                  fill: true,
-                  tension: 0.1,
-                  borderColor: "#64CCA2",
-                  pointBorderColor: "#64CCA2",
-                  pointBorderWidth: 1,
-                  data: priceList,
-                },
-              ],
-            });
-          }
-
-          // console.log("배열 확인 : ", itemName[0]);
-
-          // this.chartDatas[0].labels = dayList;
-
-          // this.chartDatas[0].datasets[0].label = itemName;
-          // this.chartDatas[0].datasets[0].data = priceList;
+      http
+        .get("/item/allMarketValues", {
+          params: {
+            pageNum: pageNum,
+          },
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-
-  data() {
-    onMounted(() => {
-      console.log("전체 시세 조회 요청");
-
-      axios
-        .get("/api/item/allMarketValues")
         .then((res) => {
           console.log(res.data);
 
@@ -178,58 +163,129 @@ export default {
               console.log("KEY : ", key);
               console.log("VALUES : ", values);
 
-              this.chartDatas.push({
-                labels: values[1], // 변수
-                datasets: [
-                  {
-                    borderWidth: 1,
-                    label: key,
-                    backgroundColor: "rgb(255,255,255, 0)",
-                    pointBackgroundColor: "#64CCA2",
-                    fill: true,
-                    tension: 0.1,
-                    borderColor: "#64CCA2",
-                    pointBorderColor: "#64CCA2",
-                    pointBorderWidth: 1,
-                    data: values[0], // 변수
-                  },
-                ],
-              });
+              if (key == "totalPage") {
+                marketValueTotalPage.value = values[0];
+                console.log("총 페이지???: ", marketValueTotalPage.value);
+              }
+              if (key !== "totalPage") {
+                chartDatas.value.push({
+                  labels: values[1], // 변수
+                  datasets: [
+                    {
+                      borderWidth: 1,
+                      label: key,
+                      backgroundColor: "rgb(255,255,255, 0)",
+                      pointBackgroundColor: "#64CCA2",
+                      fill: true,
+                      tension: 0.1,
+                      borderColor: "#64CCA2",
+                      pointBorderColor: "#64CCA2",
+                      pointBorderWidth: 1,
+                      data: values[0], // 변수
+                    },
+                  ],
+                });
+              }
+
+              console.log("배열 데이터 확인 : ", chartDatas.value);
             });
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data);
+          if(err.response.data == "please send refreshToken"){
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
+    };
+
+    //시세 품목 검색
+    const searchMarketValue = () => {
+      chartDatas.value = [];
+
+      console.log("시세 검색 요청 보내기 : ", keyword.value);
+
+      http
+        .post("item/marketValue", { itemType: keyword.value })
+        .then((res) => {
+          console.log(res.data);
+
+          // const dayList = res.data.dayList;
+          // const priceList = res.data.priceList;
+          // const itemName = res.data.itemList[0];
+
+          if (Object.keys(res.data).length !== 0) {
+            const keys = Object.keys(res.data);
+
+            keys.forEach((key) => {
+              const values = res.data[key];
+
+              console.log("KEY : ", key);
+              console.log("VALUES : ", values);
+
+              if (key == "totalPage") {
+                marketValueTotalPage.value = values[0];
+                console.log("총 페이지???: ", marketValueTotalPage.value);
+              }
+              if (key !== "totalPage") {
+                chartDatas.value.push({
+                  labels: values[1], // 변수
+                  datasets: [
+                    {
+                      borderWidth: 1,
+                      label: key,
+                      backgroundColor: "rgb(255,255,255, 0)",
+                      pointBackgroundColor: "#64CCA2",
+                      fill: true,
+                      tension: 0.1,
+                      borderColor: "#64CCA2",
+                      pointBorderColor: "#64CCA2",
+                      pointBorderWidth: 1,
+                      data: values[0], // 변수
+                    },
+                  ],
+                });
+              }
+            });
+          }
+          // console.log("배열 확인 : ", itemName[0]);
+
+          // this.chartDatas[0].labels = dayList;
+
+          // this.chartDatas[0].datasets[0].label = itemName;
+          // this.chartDatas[0].datasets[0].data = priceList;
+        })
+        .catch((err) => {
+          
+        });
+    };
+
+    onMounted(() => {
+      console.log("전체 시세 조회 요청");
+
+      console.log("페이지 요청 : ", marketValuePageNum.value);
+
+      // checkAccessToken();
+
+      allMarketValue(marketValuePageNum.value);
     });
 
     return {
-      dayList: [],
-      priceList: [],
-      itemName: "",
-      keyword: "",
-      chartDatas: [
-        //   {
-        //     labels: [],
-        //     datasets: [
-        //       {
-        //         borderWidth: 1,
-        //         label: "", //변수
-        //         backgroundColor: "rgb(255,255,255, 0)",
-        //         pointBackgroundColor: "#64CCA2",
-        //         fill: true, // 채우기
-        //         tension: 0.1,
-        //         borderColor: "#64CCA2",
-        //         pointBorderColor: "#64CCA2",
-        //         pointBorderWidth: 1,
-        //         data: [], //변수
-        //       },
-        //     ],
-        //   },
-      ],
+      dayList,
+      priceList,
+      itemName,
+      keyword,
+      marketValuePageNum,
+      marketValueTotalPage,
+      chartDatas,
+      allMarketValue,
+      searchMarketValue,
     };
   },
 };
+
+
 </script>
 
 <style scoped>
@@ -365,5 +421,6 @@ body {
   min-width: 850px;
   height: 530px;
   border: #333 solid 1px;
+  margin: 10px 30px;
 }
 </style>
