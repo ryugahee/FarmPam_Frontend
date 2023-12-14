@@ -114,9 +114,9 @@ export default {
       bidModal: true,
       bidStatus: true,
       bidId: "",
-      userName: "chan",
-      bidPrice: "",
-      bidList: [],
+      userName:"",
+      bidPrice:"",
+      bidList:[],
       receiveList: [],
       // 불러온 아이템 정보
       items: [],
@@ -140,7 +140,7 @@ export default {
   methods: {
     connect() {
       this.receiveBidList();
-
+      this.userName = this.$store.state.user.id;
       //소켓 연결
       const serverURL = "http://localhost:8080/bid";
       let socket = new SocketJS(serverURL);
