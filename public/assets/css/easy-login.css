@@ -7,7 +7,21 @@
     justify-content: center;
     /* background: antiquewhite; */
   }
-  
+  .phoneButton{
+    width: 120px;
+    margin-top: 10px;
+    margin-left: 5px;
+    height: 30px;
+    font-size: 12px;
+    border: 50px;
+  }
+  .col {
+    display: flex; /* 부모 요소를 Flex Container로 설정 */
+  justify-content:left;
+  }
+  .phoneState{
+    margin: 10px 0 0 20px;
+  }
   .advice {
       font-size: 25px;
       margin-top: 100px;

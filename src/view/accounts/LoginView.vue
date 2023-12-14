@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <div class="logo">
+      <div class="login-logo">
         <img src="../../../public/assets/img/Logo.png" alt="" />
       </div>
 
@@ -33,11 +33,17 @@
       <div class="line">또는</div>
 
       <div class="easyLogin">
-        <img src="../../../public/assets/img/kakao.png" alt="" />
+        <a href="http://localhost:8080/oauth2/authorization/kakao">
+          <img src="../../../public/assets/img/kakao.png" alt=""/>
+        </a>
         <br />
-        <img src="../../../public/assets/img/google.png" alt="" />
+        <a href="http://localhost:8080/oauth2/authorization/google">
+          <img src="../../../public/assets/img/google.png" alt="" />
+        </a>
         <br />
-        <img src="../../../public/assets/img/naver.png" alt="" />
+        <a href="http://localhost:8080/oauth2/authorization/naver">
+          <img src="../../../public/assets/img/naver.png" alt="" />
+        </a>
       </div>
     </div>
   </div>
