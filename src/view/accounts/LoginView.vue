@@ -26,7 +26,7 @@
       </div>
 
       <div class="finder">
-        <button>아이디 찾기</button> &nbsp; &nbsp; &nbsp; | 
+        <button>아이디 찾기</button> &nbsp; &nbsp; &nbsp; |
         <button>비밀번호 찾기</button>
       </div>
 
@@ -98,11 +98,20 @@ export default {
           expireCookie("refreshToken");
           expireCookie("username");
 
-          router.replace(`${res.data.redirectPage}`);
+          console.log("로그인 결과 확인 : ", res.data.redirectPage);
+
+          if (res.data.redirectPage) {
+            router.replace(`${res.data.redirectPage}`);
+          } else {
+            window.alert("로그인 실패");
+          }
         })
         .catch((err) => {
-          console.log(err);
-          window.alert("로그인 정보가 존재하지 않습니다.");
+          if (err.response.data.errMsg) {
+            window.alert(err.response.data.errMsg);
+          } else {
+            window.alert("로그인 실패");
+          }
         });
     };
 
