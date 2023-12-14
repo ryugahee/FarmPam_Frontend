@@ -31,14 +31,6 @@
         <div class="icons"><img src="../../../public/assets/img/sale1.png" alt=""/></div>
         <div @click="goSalesHistory">판매 내역</div>
       </div>
-      <div class="list">
-        <div class="icons"><img src="../../../public/assets/img/receipt.png" alt=""/></div>
-        <div>참여 이력</div>
-      </div>
-      <div class="list">
-        <div class="icons"><img src="../../../public/assets/img/inquiry.png" alt=""/></div>
-        <div>문의 하기</div>
-      </div>
       <NavComponent/>
     </div>
   </div>
