@@ -1,11 +1,19 @@
 import axios from "axios";
+import { reactive } from "vue";
 
 const instance = axios.create({
   timeout: 10000,
   baseURL: "/api",
   headers: {
     "content-type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    username: localStorage.getItem("username"),
   },
+});
+
+const state = reactive({
+  items: [],
+  errMsg: "",
 });
 
 // 채팅 아이디 가져오기
@@ -75,7 +83,6 @@ function sendMessage(chatMessage, chatId) {
   );
 }
 
-
 function getSellerId(itemId) {
   return instance.get(`/item/detail/${itemId}/seller`, {
     headers: {
@@ -93,6 +100,18 @@ function createChat(newChatInfo) {
   });
 }
 
+function getFarmMoney(userId) {
+  return instance.get(`/farmmoney`, {
+    params: {
+      userId: userId,
+    },
+    headers: {
+      "Content-Type": "text/plain",
+      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
+    },
+  });
+}
+
 export default instance;
 export {
   getChatIds,
@@ -102,4 +121,5 @@ export {
   sendMessage,
   getSellerId,
   createChat,
+  getFarmMoney,
 };

@@ -47,7 +47,14 @@
     </div>
     <div class="main">
       <div>
-        <input class="title-box" type="text" v-model="itemTitle" @input="onChange" placeholder=" 제목" required>
+        <input
+          class="title-box"
+          type="text"
+          v-model="itemTitle"
+          @input="onChange"
+          placeholder=" 제목"
+          required
+        />
       </div>
       <div>
         <select class="type-box" v-model="city" required>
@@ -94,7 +101,8 @@
       </div>
 
       <div class="content-itemDetail">
-      <textarea class="itemDetail-box"
+        <textarea
+          class="itemDetail-box"
           type="text"
           v-model="itemDetail"
           placeholder=" 상품 설명"
@@ -132,7 +140,14 @@
         </div>
       </div>
       <div>
-        <input class="weight-box" type="text" :value="weight" @input="inputWeight($event)" placeholder=" 무게"> kg
+        <input
+          class="weight-box"
+          type="text"
+          :value="weight"
+          @input="inputWeight($event)"
+          placeholder=" 무게"
+        />
+        kg
       </div>
     </div>
     <div class="btn-container">
@@ -179,7 +194,6 @@ export default {
       }
 
       for (let i = 0; i < this.$refs.files.files.length; i++) {
-
         if (this.files.length + this.$refs.files.files.length > 5) {
           return;
         }
@@ -187,10 +201,10 @@ export default {
         for (let i = 0; i < this.$refs.files.files.length; i++) {
           const fileType = this.$refs.files.files[i].name.toLowerCase();
           if (
-              !fileType.includes("jpg") &&
-              !fileType.includes("png") &&
-              !fileType.includes("gif") &&
-              !fileType.includes("JPEG")
+            !fileType.includes("jpg") &&
+            !fileType.includes("png") &&
+            !fileType.includes("gif") &&
+            !fileType.includes("JPEG")
           ) {
             alert(`이미지 파일(JPG,JPEG,GIF,PNG)만 첨부해주세요.`);
             return;
@@ -229,8 +243,8 @@ export default {
       const arrayAsString = tagArray.join(",");
       formData.append("tagNames", arrayAsString);
 
-      // formData.append("userId", this.$store.state.user.id);
-      formData.append("userId", "gg");
+      formData.append("userId", localStorage.getItem("username"));
+
 
       await this.$http
         .post("/item/new", formData, {
@@ -244,9 +258,10 @@ export default {
             console.log(res);
             // this.$router.go(-1);  디테일 페이지로 변경
           }
-        }).catch(() => {
-            window.alert("상품 등록 실패");
-          });
+        })
+        .catch(() => {
+          window.alert("상품 등록 실패");
+        });
     },
 
     addTag() {
@@ -278,16 +293,15 @@ export default {
       const regex = /^\d+(\.\d{0,1})?$/;
       if (regex.test(inputValue)) {
         this.weight = inputValue;
-        console.log("무게: " + this.weight)
+        console.log("무게: " + this.weight);
       } else {
-        alert("소수점 첫째짜리까지 입력 가능합니다.")
+        alert("소수점 첫째짜리까지 입력 가능합니다.");
         event.target.value = this.weight;
       }
-
     },
-    onChange(event){
-      console.log(event.target.value)
-    }
+    onChange(event) {
+      console.log(event.target.value);
+    },
   },
 };
 </script>
