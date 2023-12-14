@@ -248,6 +248,7 @@ export default {
 
       formData.append("userId", localStorage.getItem("username"));
 
+
       await this.$http
         .post("/item/new", formData, {
           headers: {
