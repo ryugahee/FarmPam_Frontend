@@ -8,21 +8,27 @@
       <div class="detail-profile-box" @click="profile">
         <img :src="profileImg" alt="profileImg" />
         <h3>{{ nickName }}</h3>
-        <div class="review-avg">
+
+<!--        <div class="review-avg">
           <div>
             <img src="../../../public/assets/img/filled-star.png" alt="star" />
           </div>
           <div>
             <span> {{ review }} </span>
           </div>
-        </div>
+        </div>-->
+        {{ city }}
       </div>
       <div>
         <button class="detail-chat-btn" @click="createdChat">채팅하기</button>
       </div>
     </div>
     <div class="item-detail-img">
-      <img :src="itemImg" alt="경매 상품 이미지" />
+      <div class="image-container" :style="{ transform: `translateX(${translateX}%)` }">
+        <div v-for="(image, index) in images" :key="index" class="image-slide">
+          <img :src="image.imgUrl" alt="Slide"/>
+        </div>
+      </div>
     </div>
     <div class="item-content">
       <p class="content-title">{{ itemTitle }} {{ weight }}kg</p>
@@ -95,6 +101,7 @@ import Auction from "@/components/auction/AuctionComponent.vue";
 import index from "vuex";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
 import data from "bootstrap/js/src/dom/data";
+import {requireRefreshToken} from "@/api/tokenApi.vue";
 
 export default {
   name: "ItemDetailView",
@@ -108,7 +115,7 @@ export default {
       profileImg: require("../../../public/assets/img/profile1.png"),
       nickName: "그랜드팜",
       review: 4.5,
-      itemImg: require("../../../public/assets/img/apple.png"),
+      itemImg: "",
       currentPrice: [],
       myPrice: [],
       bidModal: true,
@@ -124,9 +131,13 @@ export default {
       itemTitle: "",
       itemDetail: "",
       time: "",
+      city: "",
       tagNames: [],
       timer: null,
       remainingTime: "",
+      images: [],
+      currentIndex: 0,
+      translateX: 0,
     };
   },
   components: {
@@ -136,6 +147,12 @@ export default {
   inject: ["$http"],
   created() {
     this.connect();
+  },
+  mounted() {
+    setInterval(() => {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.translateX = -this.currentIndex * 100;
+    }, 2000);
   },
   methods: {
     connect() {
@@ -160,21 +177,25 @@ export default {
       );
 
       // 디테일 불러오기
-      this.$http
-        .get(`/item/detail/${this.$route.params.id}`)
+      this.$http.get(`/item/detail/${this.$route.params.id}`)
         .then((res) => {
           this.itemTitle = res.data.itemTitle;
           this.itemDetail = res.data.itemDetail;
           this.weight = res.data.weight;
           this.time = res.data.time;
+          this.city = res.data.city;
           this.tagNames = res.data.tagNames;
+          this.images = res.data.itemImgDtoList;
 
           // 시간 출력 디자인
           this.remainingTime = res.data.time;
           this.startTimer();
         })
-        .catch((error) => {
-          console.error(error);
+        .catch((err) => {
+          if(err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -300,7 +321,32 @@ export default {
 
       return formattedTime;
     },
+
+    //사진 슬라이드
+    onTouchStart(e) {
+      this.touchStartX = e.touches[0].clientX;
+    },
+    onTouchMove(e) {
+      this.touchEndX = e.touches[0].clientX;
+    },
+    onTouchEnd() {
+      const touchDiff = this.touchStartX - this.touchEndX;
+      if (touchDiff > 50) {
+        this.goNextSlide();
+      } else if (touchDiff < -50) {
+        this.goPrevSlide();
+      }
+    },
+    goNextSlide() {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.translateX = -this.currentIndex * 100;
+    },
+    goPrevSlide() {
+      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      this.translateX = -this.currentIndex * 100;
+    },
   },
+
 };
 </script>
 

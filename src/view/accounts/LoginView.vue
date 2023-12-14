@@ -26,7 +26,7 @@
       </div>
 
       <div class="finder">
-        <button>아이디 찾기</button> &nbsp; &nbsp; &nbsp; | 
+        <button>아이디 찾기</button> &nbsp; &nbsp; &nbsp; |
         <button>비밀번호 찾기</button>
       </div>
 
