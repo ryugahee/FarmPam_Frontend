@@ -139,7 +139,9 @@ export default {
         this.$refs.infiniteLoading.stateChanger.reset();
         this.$router.push({ path: "/items", query: { keyword: this.keyword } });
       } else {
-        this.$router.push("/items");
+        this.page = 0;
+        this.items = [];
+        this.$refs.infiniteLoading.stateChanger.reset();
       }
     },
 
