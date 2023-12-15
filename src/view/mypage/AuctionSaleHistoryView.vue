@@ -58,6 +58,10 @@ export default {
       sortType: '',
     }
   },
+  created() {
+    this.myId = localStorage.getItem("username");
+    console.log("myId: " + this.myId)
+  },
   inject: ["$http"],
   methods: {
 
@@ -89,22 +93,23 @@ export default {
           sortType: this.sortType
         },
       }).then((res) => {
-        console.log("타입뭐얌?: " + this.sortType)
-        console.log("거래완료 데이터? : " + res.data);
+        console.log("타입: " + this.sortType)
         if (res.data.length) {
-          console.log("페이지: " + this.page)
+
+          console.log("페이지: " + this.page);
 
           this.items.push(...res.data);
           this.items.forEach(item => {
             item.remainingTime = item.time;
             this.startStopwatch(item);
-          });
 
+          });
           this.page ++
           $state.loaded();
           if (res.data.length  < 1) {
             $state.complete();
           }
+
         } else {
           $state.complete();
         }
