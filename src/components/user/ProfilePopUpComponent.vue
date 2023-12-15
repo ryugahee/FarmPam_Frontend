@@ -9,7 +9,7 @@
       <div class="pop-up-profile">
         <div class="pop-up-profile-box">
           <img class="pop-up-profile-img" src="../../../public/assets/img/profile1.png" alt=""/>
-          <span> {{ username }} </span>
+          <span> 닉네임넣기 </span>
         </div>
       </div>
       <div class="pop-up-money-box">

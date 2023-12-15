@@ -3,7 +3,7 @@
     <div class="post-img-box" v-for="(item, i) in items" :key="i">
       <router-link :to='"/auction/detail/" + item.id'>
         <div class="post-img">
-          <img src="" class="thumbnail-img"/>
+          <img :src="item.itemImgDtoList[0].imgUrl" class="thumbnail-img"/>
           <div class="remaining-time">
             <div class="time-bg">
               <p> {{ formatTime(item.remainingTime) }} 남음 </p>
@@ -15,7 +15,7 @@
           <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
           <p></p>
           <p class="current-bid-price">현재 입찰가</p>
-          <h3 class="price"> 원 </h3>
+          <h3 class="price"> {{ getCurrentPrice(item.id) }}원 </h3>
         </div>
       </router-link>
     </div>
@@ -35,8 +35,11 @@ export default {
 
   data() {
     return {
-
+      currentPrice: "",
     }
+  },
+  created(){
+
   },
 
   inject: ["$http"],
@@ -52,6 +55,21 @@ export default {
     },
     padTime(time) {
       return (time < 10 ? '0' : '') + time;
+    },
+
+    async getCurrentPrice(itemId){
+        console.log(itemId);
+
+        await this.$http.get(`/bidPost/${itemId}`).then((res) =>{
+
+          this.currentPrice = res.data;
+          console.log(this.currentPrice);
+          return res.data;
+        }).catch((err) =>{
+          console.log(err);
+        });
+        return this.currentPrice;
+
     },
   }
 }

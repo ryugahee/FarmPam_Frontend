@@ -96,7 +96,7 @@
           <option value="10800">3시간</option>
           <option value="21600">6시간</option>
           <option value="43200">12시간</option>
-          <option value="20">24시간</option>
+          <option value="60">24시간</option>
         </select>
       </div>
 
@@ -130,7 +130,6 @@
             :key="i"
             @click="removeTag(tag)"
             :tag="tag"
-            required
           >
             <div class="selected-tag">
               {{ tag }}
@@ -143,8 +142,7 @@
         <input
           class="weight-box"
           type="text"
-          :value="weight"
-          @input="inputWeight($event)"
+          v-model="weight"
           placeholder=" 무게"
         />
         kg
@@ -161,6 +159,7 @@
 <script>
 import LOGO from "@/components/user/LogoComponent.vue";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
+import {requireRefreshToken} from "@/api/tokenApi.vue";
 
 export default {
   name: "AuctionRegisterView",
@@ -170,7 +169,7 @@ export default {
   },
   data() {
     return {
-      userName: "chan",
+      userName: "",
       itemTitle: "",
       minPrice: "",
       time: 0,
@@ -235,9 +234,6 @@ export default {
       formData.append("weight", this.weight);
       formData.append("time", this.time);
 
-      console.log("경매시간: " + this.time);
-      console.log("무게: " + this.weight);
-
       for (let i = 0; i < this.files.length; i++) {
         formData.append("files", this.files[i].file);
       }
@@ -256,13 +252,12 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            console.log(res);
-            // this.$router.go(-1);  디테일 페이지로 변경
-          }
+          this.$router.push("/items");
         })
-        .catch(() => {
+        .catch((err) => {
+          if(err.response.data == "please send refreshToken")
+            console.log("리프레시 토큰 요청");
+          requireRefreshToken();
           window.alert("상품 등록 실패");
         });
     },
@@ -284,22 +279,6 @@ export default {
       let index = this.tags.indexOf(tag);
       if (index !== -1) {
         this.tags.splice(index, 1);
-      }
-    },
-    // 유효성 검사
-    inputWeight(event) {
-      const inputValue = event.target.value;
-      if (inputValue.trim() === "") {
-        this.weight = "";
-        return;
-      }
-      const regex = /^\d+(\.\d{0,1})?$/;
-      if (regex.test(inputValue)) {
-        this.weight = inputValue;
-        console.log("무게: " + this.weight);
-      } else {
-        alert("소수점 첫째짜리까지 입력 가능합니다.");
-        event.target.value = this.weight;
       }
     },
     onChange(event) {
