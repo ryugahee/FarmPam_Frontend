@@ -91,6 +91,21 @@ function getFarmMoney(userId) {
   });
 }
 
+function getUser(username) {
+  return instance.get("/user", {
+    params: {
+      username: username,
+    },
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  });
+}
+
+function successPayment(username, paymentInfo) {
+  return instance.post("/payment/success", { username, paymentInfo });
+}
+
 export default instance;
 export {
   getChatIds,
@@ -101,4 +116,6 @@ export {
   getSellerId,
   createChat,
   getFarmMoney,
+  getUser,
+  successPayment,
 };

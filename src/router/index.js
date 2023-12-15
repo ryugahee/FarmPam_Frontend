@@ -24,19 +24,18 @@ import AuctionSaleHistoryView from "@/view/mypage/AuctionSaleHistoryView.vue";
 import AuctionView from "@/view/auction/AuctionView.vue";
 import Admin from "@/view/admin/AdminView.vue";
 import Chart from "@/view/admin/ChartView.vue";
+import ChargingHistoryView from "@/view/charging/ChargingHistoryView.vue";
 
 import AddressView from "@/components/user/AddressComponent.vue";
 
-
 const routes = [
-
   {
     path: "/",
     redirect: "/login",
     component: UserTemplate,
     children: [
       {
-        path:"/auctionTest",
+        path: "/auctionTest",
         component: AuctionView,
       },
       {
@@ -57,7 +56,7 @@ const routes = [
       },
       {
         path: "/register",
-        name: 'Register',
+        name: "Register",
         component: RegisterView,
       },
       {
@@ -122,13 +121,19 @@ const routes = [
         path: "/address",
         name: "address",
         component: AddressView,
-      }
+      },
+      {
+        path: "/chargingHistory",
+        name: "chargingHistory",
+        component: ChargingHistoryView,
+      },
     ],
   },
   {
     path: "/pay",
     name: "pay",
     component: PayView,
+    props: true,
   },
   {
     path: "/success",
@@ -142,12 +147,12 @@ const routes = [
   },
   {
     path: "/admin",
-    component: Admin
+    component: Admin,
   },
   {
     path: "/chart",
-    component: Chart
-  }
+    component: Chart,
+  },
 ];
 
 const router = createRouter({

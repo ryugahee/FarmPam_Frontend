@@ -14,17 +14,17 @@
       <div class="result wrapper">
         <button
           class="button"
-          onclick="location.href='https://docs.tosspayments.com/guides/payment-widget/integration';"
+          @click="goMyPage"
           style="margin-top: 30px; margin-right: 10px"
         >
-          연동 문서
+          마이 페이지로 이동
         </button>
         <button
           class="button"
-          onclick="location.href='https://discord.gg/A4fRFXQhRu';"
+          @click="goCharging"
           style="margin-top: 30px; background-color: #e8f3ff; color: #1b64da"
         >
-          실시간 문의
+          충전 페이지로 이동
         </button>
       </div>
     </div>
@@ -32,8 +32,17 @@
 </template>
 <script>
 export default {
-  name: "FailView"
-}
+  name: "FailView",
+  methods: {
+    goMyPage() {
+      this.$router.push(`/user`);
+    },
+
+    goCharging() {
+      this.$router.push(`/charging`);
+    },
+  },
+};
 </script>
 <style scoped>
 @import "../../../public/assets/css/tosspayments-style.css";

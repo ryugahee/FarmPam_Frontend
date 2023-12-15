@@ -20,7 +20,7 @@
         </div>
         <div class="amount">
           <p>{{ currentFarmMoneyTitle }}</p>
-          <p class="farm-money">{{ farmMoney.toLocaleString() }}원</p>
+          <p class="farm-money">{{ farmMoney.toLocaleString() }} 원</p>
         </div>
       </div>
       <div class="bottom-wrapper">
@@ -97,7 +97,7 @@ export default {
     return {
       title: "충전",
       subtitle: "충전 금액",
-      farmMoney: this.$store.getters.getUserFarmMoney,
+      farmMoney: 0,
       one: "+1만",
       three: "+3만",
       five: "+5만",
@@ -132,7 +132,8 @@ export default {
       this.inputFarmMoney = newValue !== "0" ? newValue : "";
     },
     charge() {
-      this.$store.commit("charging", Number(this.inputFarmMoney));
+      this.$store.state.amount = Number(this.inputFarmMoney);
+      this.$router.push({ path: "/pay" });
     },
   },
 };
