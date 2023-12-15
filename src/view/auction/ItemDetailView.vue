@@ -145,7 +145,7 @@ export default {
   methods: {
     connect() {
       this.receiveBidList();
-      this.userName = this.$store.state.user.id;
+      this.userName = localStorage.getItem("username");
       //소켓 연결
       const serverURL = "http://localhost:8080/bid";
       let socket = new SocketJS(serverURL);
@@ -216,6 +216,7 @@ export default {
         .post("/bid-list", JSON.stringify(msg), {})
         .then((res) => {
           this.receiveList = res.data;
+          console.log("receiveData"+this.receiveList.at(0))
           this.currentPrice = this.receiveList.at(-1);
         })
         .catch((err) => {
