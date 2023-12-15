@@ -202,9 +202,10 @@ export default {
           content,
         };
         this.stompClient.send("/bid-push", JSON.stringify(msg), {});
-        this.stompClient.subscribe("/myBid-price", (res) => {
-          this.myPrice = res.body;
-        });
+        this.stompClient.send("/bid-current", msg);
+        // this.stompClient.subscribe("/myBid-price", (res) => {
+        //   this.myPrice = res.body;
+        // });
       }
     },
     receiveBidList() {

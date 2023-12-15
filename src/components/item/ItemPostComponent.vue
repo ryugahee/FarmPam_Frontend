@@ -15,8 +15,8 @@
           <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
           <p></p>
           <p class="current-bid-price">현재 입찰가</p>
-          <h3 class="price"> {{ currentPrice }}원 </h3>
-          <p style="display: none"> {{getCurrentPrice(item.id)}} </p>
+          <h3 class="price" v-if="currentPrice !== undefined"> {{ currentPrice[i] }}원 </h3>
+<!--          <p style="display: none"> {{getCurrentPrice}} </p>-->
         </div>
       </router-link>
     </div>
@@ -25,6 +25,9 @@
 </template>
 
 <script>
+import SocketJS from "sockjs-client";
+import Stomp from "webstomp-client";
+
 export default {
   name: 'ItemPost',
   components: {
@@ -36,11 +39,11 @@ export default {
 
   data() {
     return {
-      currentPrice: "",
+      currentPrice: [],
     }
   },
   created(){
-
+    this.connect();
   },
 
   inject: ["$http"],
@@ -58,19 +61,23 @@ export default {
       return (time < 10 ? '0' : '') + time;
     },
 
-    async getCurrentPrice(itemId){
-        console.log(itemId);
-
-        await this.$http.get(`/bidPost/${itemId}`).then((res) =>{
-
-          this.currentPrice = res.data;
-          console.log(this.currentPrice);
-          return res.data;
-        }).catch((err) =>{
-          console.log(err);
-        });
-        return this.currentPrice;
-
+    connect(){
+      const serverURL = "http://localhost:8080/bid";
+      let socket = new SocketJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect(
+          {},
+          (frame) => {
+            this.connected = true;
+            this.stompClient.subscribe("/bidPost", (res) => {
+              this.currentPrice = JSON.parse(res.body);
+              console.log(this.currentPrice);
+            });
+          },
+          (error) => {
+            this.connected = false;
+          }
+      );
     },
   }
 }
