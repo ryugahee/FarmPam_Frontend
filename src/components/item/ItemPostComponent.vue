@@ -3,7 +3,7 @@
     <div class="post-img-box" v-for="(item, i) in items" :key="i">
       <router-link :to='"/auction/detail/" + item.id'>
         <div class="post-img">
-          <img :src="item.itemImgDtoList[0].imgUrl" class="thumbnail-img"/>
+          <img :src="item.itemImgDtoList[0].imgUrl" class="thumbnail-img" alt="thumbnail-img"/>
           <div class="remaining-time">
             <div class="time-bg">
               <p> {{ formatTime(item.remainingTime) }} 남음 </p>
