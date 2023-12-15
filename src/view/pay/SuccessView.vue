@@ -10,23 +10,33 @@
           />
           결제 성공
         </h2>
-        <p>paymentKey = {{ this.$route.query.paymentKey }}</p>
-        <p>orderId = {{ this.$route.query.orderId }}</p>
-        <p>amount = {{ this.$route.query.amount }}</p>
+        <h3>{{ this.$store.state.user.nickname }} 님</h3>
+        <p v-if="amount !== undefined">
+          {{ this.amount.toLocaleString() }} 원을 충전 하셨습니다.
+        </p>
+        <div class="amount">
+          <p>충전 후 Farm 머니</p>
+          <p
+            class="farm-money"
+            v-if="this.$store.state.user.farmMoney !== undefined"
+          >
+            {{ this.$store.state.user.farmMoney.toLocaleString() }} 원
+          </p>
+        </div>
         <div class="result wrapper">
           <button
             class="button"
-            onclick="location.href='https://docs.tosspayments.com/guides/payment-widget/integration';"
+            @click="goMyPage"
             style="margin-top: 30px; margin-right: 10px"
           >
-            연동 문서
+            마이 페이지로 이동
           </button>
           <button
             class="button"
-            onclick="location.href='https://discord.gg/A4fRFXQhRu';"
+            @click="goChargingHistory"
             style="margin-top: 30px; background-color: #e8f3ff; color: #1b64da"
           >
-            실시간 문의
+            충전 내역
           </button>
         </div>
       </div>
@@ -39,12 +49,15 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { confirmPayment } from "@/confirmPayment";
+import { useStore } from "vuex";
 
 export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
+    const store = useStore();
     const confirmed = ref(false);
+    const amount = ref(0);
 
     onMounted(async () => {
       const requestData = {
@@ -61,28 +74,49 @@ export default {
             router.push(`/fail?message=${json.message}&code=${json.code}`);
           } else {
             confirmed.value = true;
+            store.dispatch("successPayment", {
+              username: localStorage.getItem("username"),
+              paymentInfo: json,
+            });
+
+            amount.value = json.totalAmount;
+            console.log(amount);
           }
         } catch (error) {}
       }
 
+      async function getUser() {
+        store.dispatch("findUser", localStorage.getItem("username"));
+      }
+
       confirm();
+      getUser();
     });
 
     return {
       confirmed,
+      amount,
     };
   },
 
-  mounted() {
-    // #TODO: 데이터베이스를 활용해서 FarmMoney를 업데이트 하기
-    this.$store.commit("addFarmMoney");
+  created() {
+    if (localStorage.getItem("accessToken") == null) {
+      this.$router.replace("/home");
+    }
+  },
 
-    setTimeout(() => {
-      this.$router.push("/home");
-    }, 5000);
+  methods: {
+    goMyPage() {
+      this.$router.push(`/user`);
+    },
+
+    goChargingHistory() {
+      this.$router.push(`/chargingHistory`);
+    },
   },
 };
 </script>
-<style>
+<style scoped>
 @import "../../../public/assets/css/tosspayments-style.css";
+@import "../../../public/assets/css/charging-page-style.css";
 </style>
