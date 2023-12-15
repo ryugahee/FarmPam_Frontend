@@ -9,8 +9,7 @@
         />
         결제 실패
       </h2>
-      <p>code = {{ this.$route.query.code }}</p>
-      <p>message = {{ this.$route.query.message }}</p>
+      <p>{{ this.$route.query.message }}</p>
       <div class="result wrapper">
         <button
           class="button"
