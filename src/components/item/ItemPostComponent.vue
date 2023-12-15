@@ -15,7 +15,8 @@
           <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
           <p></p>
           <p class="current-bid-price">현재 입찰가</p>
-          <h3 class="price"> {{ getCurrentPrice(item.id) }}원 </h3>
+          <h3 class="price"> {{ currentPrice }}원 </h3>
+          <p style="display: none"> {{getCurrentPrice(item.id)}} </p>
         </div>
       </router-link>
     </div>
