@@ -37,6 +37,8 @@ import NavBar from "@/components/user/NavComponent.vue";
 import {InfiniteLoading} from "infinite-loading-vue3-ts";
 import LoadingSpinner from "@/components/user/LoadingSpinner.vue";
 import {requireRefreshToken} from "@/api/tokenApi.vue";
+import SocketJS from "sockjs-client";
+import Stomp from "webstomp-client";
 
 export default {
   name: "ItemView",
@@ -49,11 +51,13 @@ export default {
   },
   data() {
     return {
-
+      bidIds: [],
       keyword: '',
       items: [],
       sortType: 'latest',
-      page: 0
+      page: 0,
+      receiveList: [],
+      currentPrice: [],
     }
   },
 
@@ -84,10 +88,10 @@ export default {
     },
 
     infiniteHandler($state) {
+      // this.webSocketConnection();
       this.$http.get("/item/list", {
         params: {
           page: this.page,
-
           sortType: this.sortType,
           keyword: this.keyword
         },
@@ -115,6 +119,46 @@ export default {
           requireRefreshToken();
         }
       });
+    },
+
+    webSocketConnection(){
+      this.receiveBidList();
+      this.userName = localStorage.getItem("username");
+      //소켓 연결
+      const serverURL = "http://localhost:8080/bid";
+      let socket = new SocketJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect(
+          {},
+          (frame) => {
+            this.connected = true;
+            this.stompClient.subscribe("/bidList", (res) => {
+              this.receiveList = JSON.parse(res.body);
+              this.currentPrice = this.receiveList.at(-1);
+            });
+          },
+          (error) => {
+            this.connected = false;
+          });
+
+    },
+    receiveBidList() {
+      //입찰내역 호출
+      this.bidId = this.$route.params.id;
+      const msg = {
+        bidId: this.bidId,
+      };
+
+      this.$http
+          .post("/bid-list", JSON.stringify(msg), {})
+          .then((res) => {
+            this.receiveList = res.data;
+            console.log("receiveData"+this.receiveList.at(0))
+            this.currentPrice = this.receiveList.at(-1);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
     },
 
     startStopwatch(item) {

@@ -48,6 +48,7 @@
       <div class="current-price">
         <span>현재 입찰가</span>
         <span> {{ currentPrice.content }}원 </span>
+
       </div>
       <div class="my-price">
         <span>내 입찰가</span>
