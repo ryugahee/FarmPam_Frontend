@@ -9,6 +9,7 @@ import {
   createChat,
   getFarmMoney,
 } from "@/api/http";
+import { requireRefreshToken } from "@/api/tokenApi.vue";
 
 const store = createStore({
   state() {
@@ -97,8 +98,12 @@ const store = createStore({
         .then((response) => {
           commit("setChatIds", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findChatIds Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -109,8 +114,12 @@ const store = createStore({
           commit("setChatPreviewInfos", response.data);
           console.log(store.state.chatPreviewInfos);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findChatPreviewInfos Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -119,8 +128,12 @@ const store = createStore({
         .then((response) => {
           commit("setChatDetailInfo", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findChatDetailInfo Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -129,8 +142,12 @@ const store = createStore({
         .then((response) => {
           commit("setChatMessages", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findChatMessages Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -139,8 +156,12 @@ const store = createStore({
         .then(() => {
           store.dispatch("findChatMessages", chatId);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("sendMessage Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -149,8 +170,12 @@ const store = createStore({
         .then((response) => {
           commit("setSellerId", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findSellerId Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
     createChat({ commit }, newChatInfo) {
@@ -158,8 +183,12 @@ const store = createStore({
         .then((response) => {
           commit("setNewChatId", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("createChat Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -168,8 +197,12 @@ const store = createStore({
         .then((response) => {
           commit("setFarmMoney", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findFarmMoney");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
   },
