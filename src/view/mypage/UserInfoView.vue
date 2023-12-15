@@ -1,121 +1,240 @@
 <template>
   <div>
-    <LOGO/>
+    <LOGO />
     <div class="header">
       <div>
-        <button class="btn-left" @click="goBack"><img src="../../../public/assets/img/left2.png" alt=""/></button>
+        <button class="btn-left" @click="goBack">
+          <img src="../../../public/assets/img/left2.png" alt="" />
+        </button>
       </div>
       <div class="page-name">
         <p>프로필 수정</p>
       </div>
       <div>
-        <button class="btn-upload">완료</button>
+        <button @click="updateUserInfo" class="btn-upload">완료</button>
       </div>
     </div>
 
-
-    <div class="img-user-container" v-if="!file">
+    <div class="img-user-container" v-if="!preview">
       <div class="img-user">
-        <img src="../../../public/assets/img/person2.png" alt=""/>
+        <img src="../../../public/assets/img/person2.png" alt="" />
       </div>
       <div class="user-icon">
         <label for="file">
-          <img src="../../../public/assets/img/camera1.png" class="icon-cam" alt=""/>
+          <img
+            src="../../../public/assets/img/camera1.png"
+            class="icon-cam"
+            alt=""
+          />
         </label>
-        <input type="file" id="file" ref="file" @change="userImageUpload" style="display: none"/>
+        <input
+          type="file"
+          id="file"
+          ref="file"
+          @change="userImageUpload"
+          style="display: none"
+        />
       </div>
     </div>
     <div class="img-user-container" v-else>
       <label for="file">
-        <img :src="preview" class="preview-user" alt=""/>
+        <img :src="preview" class="preview-user" alt="" />
       </label>
-      <input type="file" id="file" ref="file" @change="userImageUpload" style="display: none"/>
+      <input
+        type="file"
+        id="file"
+        ref="file"
+        @change="userImageUpload"
+        style="display: none"
+      />
     </div>
 
     <div class="user-info-main">
-      <dl class="flex">
-        <dt>닉네임</dt>
-        <dd><input type="text">팜파미</dd>
-      </dl>
-      <dl class="flex">
-        <dt>아이디</dt>
-        <dd><input type="text">farmi123</dd>
-      </dl>
-      <dl class="flex">
-        <dt>비밀번호</dt>
-        <dd><input type="password">********</dd>
-      </dl>
-      <dl class="flex">
-        <dt>이메일</dt>
-        <dd><input type="text">farm@gmail.com</dd>
-      </dl>
-      <dl class="flex">
-        <dt>전화번호</dt>
-        <dd><input type="text">010-1234-5678</dd>
-      </dl>
-      <dl class="flex">
-        <dt>우편번호</dt>
-        <dd><input type="text" v-model="zipcode">546-601</dd>
-      </dl>
-      <dl class="flex">
-        <dt>도로명주소</dt>
-        <dd><input type="text" v-model="streetadr">센텀동로 40</dd>
-      </dl>
-      <dl class="flex">
-        <dt>상세주소</dt>
-        <dd><input type="text" v-model="detailadr">1호</dd>
-      </dl>
-      <dl class="flex">
-        <dt>상점소개</dt>
-        <dd></dd>
-      </dl>
-      <textarea class="store-Intro" type="text" placeholder="&#10; 상점 소개를 적어주세요"></textarea>
+      <div class="flex">
+        <div>닉네임</div>
+        <div><input type="text" v-model="nickname" /></div>
+      </div>
+
+      <hr />
+
+      <div class="flex">
+        <div>이름</div>
+        <div><input type="text" v-model="realName" /></div>
+      </div>
+
+      <hr />
+
+      <div class="flex">
+        <div>아이디</div>
+        <div><input type="text" readonly v-model="username" /></div>
+      </div>
+
+      <hr />
+
+      <div class="flex">
+        <div>비밀번호</div>
+        <div><input type="password" /></div>
+      </div>
+
+      <hr />
+      <div class="flex">
+        <div>이메일</div>
+        <div><input type="text" v-model="email" /></div>
+      </div>
+
+      <hr />
+      <div class="flex">
+        <div>전화번호</div>
+        <div><input type="text" v-model="phoneNumber" /></div>
+      </div>
+
+      <hr />
+      <div class="flex">
+        <div>우편번호</div>
+        <div><input type="text" v-model="mailCode" /></div>
+      </div>
+
+      <hr />
+      <div class="flex">
+        <div>도로명주소</div>
+        <div><input type="text" v-model="streetAddress" /></div>
+      </div>
+
+      <hr />
+      <div class="flex">
+        <div>상세주소</div>
+        <div><input type="text" v-model="detailAddress" /></div>
+      </div>
+
+      <!-- <div class="flex">
+        <div>상점소개</div>
+        <div></div>
+      </div>
+      <textarea
+        class="store-Intro"
+        type="text"
+        placeholder="&#10; 상점 소개를 적어주세요"
+      ></textarea> -->
     </div>
 
-
-    <NavComponent/>
+    <NavComponent />
   </div>
 </template>
 
 <script>
 import LOGO from "@/components/user/LogoComponent.vue";
 import NavComponent from "@/components/user/NavComponent.vue";
+import { ref, onMounted } from "vue"; // ref와 onMounted를 가져옴
+import instance from "@/api/http";
 
 export default {
-  components: {NavComponent, LOGO},
-  data() {
-    return {
-      file: "",
-      preview: "",
+  components: { NavComponent, LOGO },
+  setup() {
+    const mailCode = ref(0);
+    const username = ref("");
+    const realName = ref("");
+    const nickname = ref("");
+    const phoneNumber = ref("");
+    const age = ref(0);
+    const email = ref("");
+    const streetAddress = ref("");
+    const detailAddress = ref("");
+    const file = ref(null); // file을 ref로 선언
+    const preview = ref(""); // 미리보기 이미지를 ref로 선언
 
-      zipcode: "",
-      streetadr: "",
-      detailadr: "",
-    }
-  },
-  methods: {
-    userImageUpload() {
+    const userImageUpload = (event) => {
+      const selectedFile = event.target.files[0];
+      const fileType = selectedFile.name.toLowerCase();
 
-      const fileType = this.$refs.file.files[0].name.toLowerCase();
-      if (!fileType.includes('jpg') && !fileType.includes('png') && !fileType.includes('gif') && !fileType.includes('JPEG')) {
-        alert(
-            `이미지 파일(JPG,JPEG,GIF,PNG)만 첨부해주세요.`
-        )
-        return
+      if (
+        !fileType.includes("jpg") &&
+        !fileType.includes("png") &&
+        !fileType.includes("gif") &&
+        !fileType.includes("jpeg")
+      ) {
+        alert(`이미지 파일(JPG, JPEG, GIF, PNG)만 첨부해주세요.`);
+        return;
       }
 
-      this.file = this.$refs.file.files[0]
-      this.preview = URL.createObjectURL(this.file)
-    },
+      file.value = selectedFile;
+      preview.value = URL.createObjectURL(selectedFile);
+    };
 
-    goBack() {
-      this.$router.go(-1);
-    },
+    const getUserInfo = () => {
+      instance
+        .post("/getUserInfo")
+        .then((res) => {
+          console.log("유저 정보", res.data);
+          const data = res.data;
+          mailCode.value = data.mailCode;
+          username.value = data.username;
+          realName.value = data.realName;
+          nickname.value = data.nickname;
+          phoneNumber.value = data.phoneNumber;
+          age.value = data.age;
+          email.value = data.email;
+          streetAddress.value = data.streetAddress;
+          detailAddress.value = data.detailAddress;
+        })
+        .catch((err) => {
+          console.error("유저 정보 조회 오류:", err);
+        });
+    };
 
+    const updateUserInfo = () => {
+      const formData = new FormData();
 
-  }
+      formData.append("realName", realName);
+      formData.append("nickname", nickname);
+      formData.append("phoneNumber", phoneNumber);
+      formData.append("age", age);
+      formData.append("email", email);
+      formData.append("mailCode", mailCode);
+      formData.append("streetAddress", streetAddress);
+      formData.append("detailAddress", detailAddress);
+      formData.append("file", file.value);
 
-}
+      instance
+        .post("/updateUserInfo", formData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const goBack = () => {
+      let result = confirm("변경사항을 저장하지 않고 나가시겠어요?");
+      if (result) {
+        // TODO: 뒤로 가기 로직 작성
+        // this.$router.go(-1);
+      }
+    };
+
+    onMounted(() => {
+      // console.log("유저 정보 조회 요청");
+      getUserInfo();
+    });
+
+    return {
+      mailCode,
+      username,
+      realName,
+      nickname,
+      phoneNumber,
+      age,
+      email,
+      streetAddress,
+      detailAddress,
+      file,
+      preview,
+      userImageUpload,
+      goBack,
+      updateUserInfo,
+    };
+  },
+};
 </script>
 
 <style scoped>

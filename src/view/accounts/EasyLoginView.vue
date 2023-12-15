@@ -1,85 +1,95 @@
 <template>
   <div class="container">
+    <div class="advice">
+      <p>간편 로그인 완료를 위해</p>
+      <p>추가 정보를 입력해주세요</p>
+    </div>
+    <div class="easyLoginForm">
+      <label for="itemname"><span>* </span>이름</label>
+      <input
+        type="text"
+        class="txt-input"
+        id="itemname"
+        v-model="state.form.realName"
+      />
+    </div>
 
-      <div class="advice">
-        <p>간편 로그인 완료를 위해</p>
-        <p>추가 정보를 입력해주세요</p>
-      </div>
-      <div class="easyLoginForm">
-        <label for="itemname"><span>* </span>이름</label>
-        <input
-          type="text"
-          class="txt-input"
-          id="itemname"
-          v-model="state.form.realName"
-        />
-      </div>
-
-      <div class="easyLoginForm">
-        <label for="itempw"><span>* </span>전화번호</label>
-        <input
-          type="text"
-          class="txt-input"
-          id="itempw"
-          v-model="state.form.phoneNumber"
-        />
-        <div class="col">
+    <div class="easyLoginForm">
+      <label for="itempw"><span>* </span>전화번호</label>
+      <input
+        type="text"
+        class="txt-input"
+        id="itempw"
+        v-model="state.form.phoneNumber"
+      />
+      <div class="col">
+        <div v-show="phoneState !== '인증 진행중'">
           <button @click="sendPhoneNumber" class="phoneButton">
             휴대폰 인증 번호 발송
           </button>
-          <div v-if="phoneState == '인증 진행중'">
-            <div class="phoneState">
-              {{ phoneState }}
-            </div>
-            <div class="phoneState">
-              {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
-            </div>
-            <input type="number" v-model="phoneCheckNum" />
-            <button @click="compareSMSNumber">인증하기</button>
+        </div>
+
+        <div class="checkIng" v-show="phoneState == '인증 진행중'">
+          <div class="phoneState">
+            <!-- {{ phoneState }} -->
+          </div>
+
+          <input id="checkCodeInput" type="number" v-model="phoneCheckNum" />
+
+          <button class="checkCodeInputBtn" @click="compareSMSNumber">
+            인증하기
+          </button>
+          <div class="phoneState">
+            {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
           </div>
         </div>
       </div>
+    </div>
 
+    <div class="easyLoginForm">
+      <label for="itemnew"><span>* </span>닉네임</label>
+      <input
+        type="text"
+        class="txt-input"
+        id="itempw"
+        v-model="state.form.nickname"
+      />
+    </div>
+
+    <div class="colBox">
       <div class="easyLoginForm">
-        <label for="itemnew"><span>* </span>닉네임</label>
-        <input type="text" class="txt-input" id="itempw" value="" />
-      </div>
-
-      <div class="colBox">
-        <div class="easyLoginForm">
-          <label for="itemnew"><span>* </span>우편번호</label>
-          <input
-            type="text"
-            class="txt-input"
-            id="mail"
-            v-model="state.form.mailCode"
-          />
-
-          <button class="mailButton" @click="search">우편번호 찾기</button>
-        </div>
-      </div>
-
-      <div class="easyLoginForm">
-        <label for="itemnew"><span>* </span>도로명주소</label>
+        <label for="itemnew"><span>* </span>우편번호</label>
         <input
           type="text"
           class="txt-input"
-          id="itemnew"
-          v-model="state.form.streetAddress"
+          id="mail"
+          v-model="state.form.mailCode"
         />
-      </div>
-      <div class="easyLoginForm">
-        <label for="itemnew"><span>* </span>상세주소</label>
-        <input
-          type="text"
-          class="txt-input"
-          id="itemnew"
-          v-model="state.form.detailAddress"
-        />
-      </div>
 
-      <button @click="register">회원가입 하기</button>
+        <button class="mailButton" @click="search">우편번호 찾기</button>
+      </div>
+    </div>
 
+    <div class="easyLoginForm">
+      <label for="itemnew"><span>* </span>도로명주소</label>
+      <input
+        type="text"
+        class="txt-input"
+        id="itemnew"
+        v-model="state.form.streetAddress"
+      />
+    </div>
+    <div class="easyLoginForm">
+      <label for="itemnew"><span>* </span>상세주소</label>
+      <input
+        type="text"
+        class="txt-input"
+        id="itemnew"
+        v-model="state.form.detailAddress"
+      />
+    </div>
+
+    <button class="registerBtn" @click="register">회원가입 하기</button>
   </div>
 </template>
 
@@ -142,28 +152,47 @@ export default {
     let timer = ref(null);
     let minutes = ref(1);
     let seconds = ref(0);
-    const phoneCheckNum = ref(0);
+    const phoneCheckNum = ref(null);
 
     const register = () => {
-      instance
-        .post("/additionalInfo", state.form)
-        .then((res) => {
-          console.log(res.data);
-          router.replace("home");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const isEmptyField = Object.values(state.form).some(
+        (value) => value === ""
+      );
+
+      if (!isEmptyField) {
+        instance
+          .post("/additionalInfo", state.form)
+          .then((res) => {
+            console.log(res.data);
+            router.replace("home");
+          })
+          .catch((err) => {
+            console.log(err);
+            if (err.data) {
+              alert(err.data);
+            }
+          });
+      } else {
+        alert("항목을 모두 작성해주세요.");
+      }
     };
 
     //인증 번호 확인
     const compareSMSNumber = () => {
+      console.log(
+        "smsNumber : ",
+        phoneCheckNum.value,
+        ", phoneNumber : ",
+        state.form.phoneNumber
+      );
       instance
         .post("/compareSMSNumber", {
-          phoneCheckNum: phoneCheckNum,
+          smsNumber: phoneCheckNum.value,
           phoneNumber: state.form.phoneNumber,
         })
-        .then((res) => {})
+        .then((res) => {
+          alert("휴대폰 인증에 성공하였습니다.");
+        })
         .catch((err) => {
           console.log(err);
         });
@@ -171,17 +200,20 @@ export default {
 
     //인증 번호 발송
     const sendPhoneNumber = () => {
+      clearInterval(timer.value);
       console.log("휴대폰 번호 인증 시작");
       instance
         .post("/checkPhoneNumber", state.form.phoneNumber)
         .then((res) => {
           alert("인증번호 발송 성공");
           phoneState.value = "인증 진행중";
-          timer = setInterval(() => {
+
+          // 타이머 설정
+          let countdown = setInterval(() => {
             if (minutes.value === 0 && seconds.value === 0) {
-              console.log("인증필요??");
+              console.log("인증 필요");
               phoneState.value = "인증 필요";
-              clearInterval(timer.value);
+              clearInterval(countdown); // 타이머 종료
             } else {
               if (seconds.value === 0) {
                 minutes.value -= 1;
@@ -190,13 +222,11 @@ export default {
                 seconds.value -= 1;
               }
             }
-          }, 1000);
+          }, 1000000);
         })
         .catch((err) => {
           console.log(err);
         });
-
-        clearInterval(timer.value);
     };
 
     const search = () => {

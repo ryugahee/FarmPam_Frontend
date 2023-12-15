@@ -44,7 +44,7 @@ export function requireRefreshToken() {
   axios
     .post("http://localhost:8080/api/requireRefreshToken", null, {
       headers: {
-        AuthorizationRefresh: `Bearer ${refreshToken}123`,
+        AuthorizationRefresh: `Bearer ${refreshToken}`,
         username: localStorage.getItem("username"),
       },
     })
