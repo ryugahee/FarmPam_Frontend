@@ -25,9 +25,12 @@
 <script>
 /* eslint-disable */
 import { loadPaymentWidget, ANONYMOUS } from "@tosspayments/payment-widget-sdk";
+import { BIconThermometerSnow } from "bootstrap-vue";
 import { nanoid } from "nanoid";
 
 export default {
+  props: {},
+
   data() {
     return {
       paymentWidget: null,
@@ -36,9 +39,27 @@ export default {
       clientKey: "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm",
       // TODO: customerKey는 구매자와 1:1 관계로 무작위한 고유값을 생성하세요.
       customerKey: nanoid(),
-      amount: this.$store.getters.getAmount,
+      amount: this.$store.state.amount,
+      user: [],
     };
   },
+
+  created() {
+    if (localStorage.getItem("accessToken") == null) {
+      this.$router.replace("/home");
+    }
+    if (this.$store.state.amount === 0) {
+      this.$router.replace("/charging");
+      alert("금액을 다시 입력해주세요");
+    }
+
+    this.$store
+      .dispatch("findUser", localStorage.getItem("username"))
+      .then(() => {
+        this.user = this.$store.state.user;
+      });
+  },
+
   methods: {
     async requestPayment() {
       try {

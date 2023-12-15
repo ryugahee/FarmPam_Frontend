@@ -8,6 +8,9 @@ import {
   getSellerId,
   createChat,
   getFarmMoney,
+  chargeFarmMoney,
+  getUser,
+  successPayment,
 } from "@/api/http";
 import { requireRefreshToken } from "@/api/tokenApi.vue";
 
@@ -54,19 +57,10 @@ const store = createStore({
     };
   },
   mutations: {
-    charging(state, data) {
-      state.amount = data;
-    },
-    setUserInfo(state, id, name, nickname, email, mobilePhone, farmMoney) {
-      state.user.id = id;
-      state.user.name = name;
-      state.user.nickname = nickname;
-      state.user.email = email;
-      state.user.mobilePhone = mobilePhone;
-      state.user.farmMoney = farmMoney;
+    setUser(state, user) {
+      state.user = user;
     },
     addFarmMoney(state) {
-      // TODO: 팜머니 업데이트 체크
       state.user.farmMoney += state.amount;
     },
     setChatIds(state, chatIds) {
@@ -199,6 +193,49 @@ const store = createStore({
         })
         .catch(function (err) {
           console.log("findFarmMoney");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
+
+        });
+    },
+
+    charging({ commit }, farmMoney) {
+      return chargeFarmMoney(farmMoney)
+        .then((response) => {
+          commit("setFarmMoney", response.data);
+        })
+        .catch(function (err) {
+          console.log("charging error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
+        });
+    },
+
+    findUser({ commit }, username) {
+      return getUser(username)
+        .then((response) => {
+          commit("setUser", response.data);
+        })
+        .catch(function (err) {
+          console.log("findUser error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
+        });
+    },
+
+    successPayment({ commit }, { username, paymentInfo }) {
+      return successPayment(username, paymentInfo)
+        .then((response) => {
+          commit("setFarmMoney", response.data);
+        })
+        .catch(function (err) {
+          console.log("successPayment error");
           if (err.response.data == "please send refreshToken") {
             console.log("리프레시 토큰 요청");
             requireRefreshToken();
