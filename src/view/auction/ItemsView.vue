@@ -10,7 +10,7 @@
     </div>
     <div class="select-box">
       <select class="select" v-model="sortType" @change="fetchData">
-        <option value="join" >참여순</option>
+        <option value="join">참여순</option>
         <option value="latest">최신순</option>
         <option value="time">종료임박순</option>
       </select>
@@ -181,7 +181,7 @@ export default {
         this.page = 0;
         this.items = [];
         this.$refs.infiniteLoading.stateChanger.reset();
-        this.$router.push({ path: "/items", query: { keyword: this.keyword } });
+        this.$router.push({path: "/items", query: {keyword: this.keyword}});
       } else {
         this.page = 0;
         this.items = [];
