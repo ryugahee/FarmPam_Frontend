@@ -24,7 +24,6 @@ function getChatIds(userId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
@@ -40,7 +39,6 @@ function getChatPreviewInfos(chatIds, userId) {
     {
       headers: {
         "Content-Type": "application/json",
-        "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
       },
     }
   );
@@ -54,7 +52,6 @@ function getChatDetailInfo(chatId, userId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
@@ -66,38 +63,21 @@ function getChatMessages(chatId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
 
 function sendMessage(chatMessage, chatId) {
-  return instance.post(
-    `/chats/chatMessage`,
-    { chatMessage, chatId },
-    {
-      headers: {
-        "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
-      },
-    }
-  );
+  return instance.post(`/chats/chatMessage`, { chatMessage, chatId });
 }
 
 function getSellerId(itemId) {
-  return instance.get(`/item/detail/${itemId}/seller`, {
-    headers: {
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
-    },
-  });
+  return instance.get(`/item/detail/${itemId}/seller`);
 }
 
 function createChat(newChatInfo) {
   console.log(newChatInfo);
-  return instance.post(`/chats`, newChatInfo, {
-    headers: {
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
-    },
-  });
+  return instance.post(`/chats`, newChatInfo);
 }
 
 function getFarmMoney(userId) {
@@ -107,7 +87,6 @@ function getFarmMoney(userId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
