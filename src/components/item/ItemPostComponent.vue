@@ -13,9 +13,9 @@
         <div class="post-content">
           <h5> {{ item.itemTitle }} {{ item.weight }}kg</h5>
           <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
-          <p>{{item}}</p>
+          <p></p>
           <p class="current-bid-price">현재 입찰가</p>
-          <h3 class="price">원 </h3>
+          <h3 class="price"> {{ getCurrentPrice(item.id) }}원 </h3>
         </div>
       </router-link>
     </div>
@@ -35,8 +35,11 @@ export default {
 
   data() {
     return {
-
+      currentPrice: "",
     }
+  },
+  created(){
+
   },
 
   inject: ["$http"],
@@ -52,6 +55,21 @@ export default {
     },
     padTime(time) {
       return (time < 10 ? '0' : '') + time;
+    },
+
+    async getCurrentPrice(itemId){
+        console.log(itemId);
+
+        await this.$http.get(`/bidPost/${itemId}`).then((res) =>{
+
+          this.currentPrice = res.data;
+          console.log(this.currentPrice);
+          return res.data;
+        }).catch((err) =>{
+          console.log(err);
+        });
+        return this.currentPrice;
+
     },
   }
 }

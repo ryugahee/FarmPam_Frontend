@@ -19,7 +19,7 @@
       <ItemPost :items="items"/>
       <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
         <template #spinner>
-          <LoadingSpinner/>
+          <LoadingSpinner />
         </template>
         <template #no-more>
           <LoadComplete></LoadComplete>
@@ -37,8 +37,8 @@ import NavBar from "@/components/user/NavComponent.vue";
 import {InfiniteLoading} from "infinite-loading-vue3-ts";
 import LoadingSpinner from "@/components/user/LoadingSpinner.vue";
 import {requireRefreshToken} from "@/api/tokenApi.vue";
-// import SocketJS from "sockjs-client";
-// import Stomp from "webstomp-client";
+import SocketJS from "sockjs-client";
+import Stomp from "webstomp-client";
 
 export default {
   name: "ItemView",
@@ -51,13 +51,13 @@ export default {
   },
   data() {
     return {
+      bidIds: [],
       keyword: '',
       items: [],
       sortType: 'latest',
       page: 0,
-
-      // currentPrice: [],
-
+      receiveList: [],
+      currentPrice: [],
     }
   },
 
@@ -66,7 +66,7 @@ export default {
     if (this.$route.query.keyword) {
       this.keyword = this.$route.query.keyword;
     }
-    if (this.$refs.InfiniteLoading) {
+    if(this.$refs.InfiniteLoading){
       this.$refs.InfiniteLoading.stateChanger.reset();
     }
   },
@@ -84,12 +84,45 @@ export default {
       }
       this.page = 0;
       this.items = [];
-      // this.currentPrice = [];
       this.$refs.infiniteLoading.stateChanger.reset();
     },
 
     infiniteHandler($state) {
-      /*this.receiveBidList();
+      // this.webSocketConnection();
+      this.$http.get("/item/list", {
+        params: {
+          page: this.page,
+          sortType: this.sortType,
+          keyword: this.keyword
+        },
+      }).then((res) => {
+        if (res.data.length) {
+          console.log("페이지: " + this.page)
+
+          this.items.push(...res.data);
+          this.items.forEach(item => {
+            item.remainingTime = item.time;
+            this.startStopwatch(item);
+          });
+
+          this.page ++
+          $state.loaded();
+          if (res.data.length  < 1) {
+            $state.complete();
+          }
+        } else {
+          $state.complete();
+        }
+      }).catch((err) => {
+        if(err.response.data == "please send refreshToken") {
+          console.log("리프레시 토큰 요청");
+          requireRefreshToken();
+        }
+      });
+    },
+
+    webSocketConnection(){
+      this.receiveBidList();
       this.userName = localStorage.getItem("username");
       //소켓 연결
       const serverURL = "http://localhost:8080/bid";
@@ -106,44 +139,30 @@ export default {
           },
           (error) => {
             this.connected = false;
-          }
-      );*/
-      //rdb
-      this.$http.get("/item/list", {
-        params: {
-          page: this.page,
-
-          sortType: this.sortType,
-          keyword: this.keyword
-        },
-      }).then((res) => {
-        if (res.data.length) {
-          console.log("페이지: " + this.page)
-
-          this.items.push(...res.data);
-          this.items.forEach(item => {
-            item.remainingTime = item.time;
-            this.startStopwatch(item);
           });
 
-          this.page++
-          $state.loaded();
-          if (res.data.length < 1) {
-            $state.complete();
-          }
-        } else {
-          $state.complete();
-        }
-      }).catch((err) => {
-        if (err.response.data == "please send refreshToken") {
-          console.log("리프레시 토큰 요청");
-          requireRefreshToken();
-        }
-      });
+    },
+    receiveBidList() {
+      //입찰내역 호출
+      this.bidId = this.$route.params.id;
+      const msg = {
+        bidId: this.bidId,
+      };
+
+      this.$http
+          .post("/bid-list", JSON.stringify(msg), {})
+          .then((res) => {
+            this.receiveList = res.data;
+            console.log("receiveData"+this.receiveList.at(0))
+            this.currentPrice = this.receiveList.at(-1);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
     },
 
     startStopwatch(item) {
-      if (item.timer) {
+      if(item.timer) {
         clearInterval(item.timer);
       }
       item.timer = setInterval(() => {
