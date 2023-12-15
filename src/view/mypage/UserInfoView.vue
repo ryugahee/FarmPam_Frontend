@@ -33,43 +33,38 @@
     </div>
 
     <div class="user-info-main">
-      <dl class="flex">
+      <dl class="info-flex">
         <dt>닉네임</dt>
         <dd><input type="text">팜파미</dd>
       </dl>
-      <dl class="flex">
+      <dl class="info-flex">
         <dt>아이디</dt>
         <dd><input type="text">farmi123</dd>
       </dl>
-      <dl class="flex">
+      <dl class="info-flex">
         <dt>비밀번호</dt>
         <dd><input type="password">********</dd>
       </dl>
-      <dl class="flex">
+      <dl class="info-flex">
         <dt>이메일</dt>
         <dd><input type="text">farm@gmail.com</dd>
       </dl>
-      <dl class="flex">
+      <dl class="info-flex">
         <dt>전화번호</dt>
         <dd><input type="text">010-1234-5678</dd>
       </dl>
-      <dl class="flex">
+      <dl class="info-flex">
         <dt>우편번호</dt>
         <dd><input type="text" v-model="zipcode">546-601</dd>
       </dl>
-      <dl class="flex">
+      <dl class="info-flex">
         <dt>도로명주소</dt>
         <dd><input type="text" v-model="streetadr">센텀동로 40</dd>
       </dl>
-      <dl class="flex">
+      <dl class="info-flex">
         <dt>상세주소</dt>
         <dd><input type="text" v-model="detailadr">1호</dd>
       </dl>
-      <dl class="flex">
-        <dt>상점소개</dt>
-        <dd></dd>
-      </dl>
-      <textarea class="store-Intro" type="text" placeholder="&#10; 상점 소개를 적어주세요"></textarea>
     </div>
 
 
