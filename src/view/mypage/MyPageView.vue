@@ -9,7 +9,9 @@
           alt=""
         />
       </div>
-      <div class="user-nickname"><p>팜파미</p></div>
+      <div class="user-nickname">
+        <p>{{ this.$store.state.user.nickname }}</p>
+      </div>
       <div>
         <button class="btn-user-info" @click="goUserInfo">프로필 수정</button>
       </div>
@@ -19,7 +21,9 @@
       <div class="pay-box">
         <div class="pay-money">
           <div class="farmpay">Farm pay</div>
-          <div class="charge">150,000원</div>
+          <div class="charge">
+            {{ Number(this.$store.state.user.farmMoney).toLocaleString() }}
+          </div>
         </div>
         <div class="pay-charge">
           <div class="charge" @click="goCharging" style="cursor: pointer">
@@ -77,6 +81,14 @@ export default {
     },
   },
   components: { NavComponent, LOGO },
+
+  created() {
+    if (localStorage.getItem("accessToken") == null) {
+      this.$router.replace("/home");
+    }
+
+    this.$store.dispatch("findUser", localStorage.getItem("username"));
+  },
 
   methods: {
     goUserInfo() {
