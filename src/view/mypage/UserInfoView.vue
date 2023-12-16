@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="img-user-container" v-if="!preview">
+    <div class="img-user-container" v-if="!preview && !imageUrl">
       <div class="img-user">
         <img src="../../../public/assets/img/person2.png" alt="" />
       </div>
@@ -30,20 +30,30 @@
         <input
           type="file"
           id="file"
-          ref="file"
           @change="userImageUpload"
           style="display: none"
         />
       </div>
     </div>
-    <div class="img-user-container" v-else>
+    <div class="img-user-container" v-if="preview">
       <label for="file">
         <img :src="preview" class="preview-user" alt="" />
       </label>
       <input
         type="file"
         id="file"
-        ref="file"
+        @change="userImageUpload"
+        style="display: none"
+      />
+    </div>
+
+    <div class="img-user-container" v-if="imageUrl && !preview">
+      <label for="file">
+        <img :src="imageUrl" class="preview-user" alt="" />
+      </label>
+      <input
+        type="file"
+        id="file"
         @change="userImageUpload"
         style="display: none"
       />
@@ -60,6 +70,13 @@
       <div class="flex">
         <div>이름</div>
         <div><input type="text" v-model="realName" /></div>
+      </div>
+
+      <hr />
+
+      <div class="flex">
+        <div>나이</div>
+        <div><input type="text" v-model="age" /></div>
       </div>
 
       <hr />
@@ -126,6 +143,7 @@ import LOGO from "@/components/user/LogoComponent.vue";
 import NavComponent from "@/components/user/NavComponent.vue";
 import { ref, onMounted } from "vue"; // ref와 onMounted를 가져옴
 import instance from "@/api/http";
+import router from "@/router";
 
 export default {
   components: { NavComponent, LOGO },
@@ -138,8 +156,9 @@ export default {
     const age = ref(0);
     const email = ref("");
     const streetAddress = ref("");
+    const imageUrl = ref("");
     const detailAddress = ref("");
-    const file = ref(null); // file을 ref로 선언
+    let file = ref(null); // file을 ref로 선언
     const preview = ref(""); // 미리보기 이미지를 ref로 선언
 
     const userImageUpload = (event) => {
@@ -161,6 +180,10 @@ export default {
     };
 
     const getUserInfo = () => {
+      console.log("파일 : ", file);
+
+      console.log("이미지 : ", imageUrl);
+
       instance
         .post("/getUserInfo")
         .then((res) => {
@@ -175,6 +198,7 @@ export default {
           email.value = data.email;
           streetAddress.value = data.streetAddress;
           detailAddress.value = data.detailAddress;
+          imageUrl.value = data.imageUrl;
         })
         .catch((err) => {
           console.error("유저 정보 조회 오류:", err);
@@ -184,18 +208,23 @@ export default {
     const updateUserInfo = () => {
       const formData = new FormData();
 
-      formData.append("realName", realName);
-      formData.append("nickname", nickname);
-      formData.append("phoneNumber", phoneNumber);
-      formData.append("age", age);
-      formData.append("email", email);
-      formData.append("mailCode", mailCode);
-      formData.append("streetAddress", streetAddress);
-      formData.append("detailAddress", detailAddress);
+      formData.append("realName", realName.value);
+      formData.append("username", username.value);
+      formData.append("nickname", nickname.value);
+      formData.append("phoneNumber", phoneNumber.value);
+      formData.append("age", age.value);
+      formData.append("email", email.value);
+      formData.append("mailCode", mailCode.value);
+      formData.append("streetAddress", streetAddress.value);
+      formData.append("detailAddress", detailAddress.value);
       formData.append("file", file.value);
 
       instance
-        .post("/updateUserInfo", formData)
+        .post("/updateUserInfo", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data; charset=UTF-8",
+          },
+        })
         .then((res) => {
           console.log(res);
         })
@@ -208,7 +237,7 @@ export default {
       let result = confirm("변경사항을 저장하지 않고 나가시겠어요?");
       if (result) {
         // TODO: 뒤로 가기 로직 작성
-        // this.$router.go(-1);
+        router.go(-1);
       }
     };
 
@@ -229,6 +258,7 @@ export default {
       detailAddress,
       file,
       preview,
+      imageUrl,
       userImageUpload,
       goBack,
       updateUserInfo,

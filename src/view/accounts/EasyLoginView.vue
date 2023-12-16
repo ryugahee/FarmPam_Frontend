@@ -222,7 +222,7 @@ export default {
                 seconds.value -= 1;
               }
             }
-          }, 1000000);
+          }, 1000);
         })
         .catch((err) => {
           console.log(err);
