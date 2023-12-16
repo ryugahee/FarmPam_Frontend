@@ -13,13 +13,23 @@
       </div>
       <div class="pop-up-profile">
         <div class="pop-up-profile-box">
-          <img
+          <div v-if="imageUrl">
+            <img
             class="pop-up-profile-img"
-            src="../../../public/assets/img/profile1.png"
+            :src="imageUrl"
             alt=""
           />
-          <span> {{ username }} </span>
-
+          </div>
+          <div v-else >
+            <img
+            class="pop-up-profile-img"
+            src="../../../public/assets/img/person2.png"
+            style="background-color: grey; border-radius: 100%;"
+            alt=""
+          />
+          </div>
+          
+          <span> {{ username }} &nbsp; 님</span>
         </div>
       </div>
       <div class="pop-up-money-box">
@@ -53,29 +63,73 @@
 <script>
 import ItemPost from "@/components/item/ItemPostComponent.vue";
 import instance from "@/api/http";
+import router from "@/router";
+import { onMounted, ref } from "vue";
 
 export default {
   name: "ProfilePopUp",
   components: {
     ItemPost,
   },
-  data() {
-    return {
-      username: "그랜드팜파라밤밤",
-      farmMoney: 150000,
+
+  setup() {
+    const farmMoney = ref(1000);
+    const username = ref("");
+    const imageUrl = ref("");
+
+    const getUserInfo = () => {
+      instance
+        .post("/getUserInfo")
+        .then((res) => {
+          console.log("유저 정보", res.data);
+          const data = res.data;
+          username.value = data.username;
+          imageUrl.value = data.imageUrl;
+
+        })
+        .catch((err) => {
+          console.error("유저 정보 조회 오류:", err);
+        });
     };
-  },
-  methods: {
-    logout() {
+
+    const logout = () => {
       localStorage.clear();
 
       instance.post("/userLogout").catch((err) => {
         console.log(err);
       });
 
-      this.$router.push("/login");
-    },
+      router.push("/login");
+    };
+
+    onMounted(() => {
+      getUserInfo();
+    });
+
+    return {
+      logout,
+      farmMoney,
+      username,
+        imageUrl
+    };
   },
+  // data() {
+  //   return {
+  //     username: "그랜드팜파라밤밤",
+  //     farmMoney: 150000,
+  //   };
+  // },
+  // methods: {
+  //   logout() {
+  //     localStorage.clear();
+
+  //     instance.post("/userLogout").catch((err) => {
+  //       console.log(err);
+  //     });
+
+  //     this.$router.push("/login");
+  //   },
+  // },
 };
 </script>
 

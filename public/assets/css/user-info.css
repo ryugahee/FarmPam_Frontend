@@ -82,7 +82,7 @@
 input {
   /* border: #bbbbbb solid 1px; */
   width: 200px;
-  /* margin-left: 50px !important; */
+  margin-left: 50px !important;
 }
 
 .flex > div:first-child {
@@ -92,4 +92,5 @@ input {
 hr {
   border-color: #c7c7c7 !important;
   height: 1px;
+}
 }

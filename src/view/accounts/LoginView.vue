@@ -26,8 +26,8 @@
       </div>
 
       <div class="finder">
-        <button>아이디 찾기</button> &nbsp; &nbsp; &nbsp; |
-        <button>비밀번호 찾기</button>
+        <button @click="$router.push('/findId')">아이디 찾기</button> &nbsp; &nbsp; &nbsp; |
+        <button @click="$router.push('/findPw')">비밀번호 찾기</button>
       </div>
 
       <div class="line">또는</div>
@@ -56,6 +56,46 @@ import router from "@/router";
 export default {
   setup() {
     onMounted(() => {
+
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+      }
+
+      const accessToken = getCookie("accessToken");
+      const refreshToken = getCookie("refreshToken");
+      const username = getCookie("username");
+      const roles = getCookie("roles");
+
+      if (accessToken !== undefined && accessToken.length !== 0) {
+        localStorage.setItem("accessToken", accessToken);
+      }
+      if (refreshToken !== undefined && refreshToken.length !== 0) {
+        localStorage.setItem("refreshToken", refreshToken);
+      }
+      if (username !== undefined && username.length !== 0) {
+        localStorage.setItem("username", username);
+      }
+      if (roles !== undefined && roles.length !== 0) {
+        localStorage.setItem("roles", roles);
+      }
+
+      // 읽어온 쿠키 값들을 활용하여 원하는 작업 수행
+      console.log("Access Token:", accessToken);
+      console.log("Refresh Token:", refreshToken);
+      console.log("Username:", username);
+      console.log("roles:", roles);
+
+      function expireCookie(name) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      }
+
+      expireCookie("accessToken");
+      expireCookie("refreshToken");
+      expireCookie("username");
+      expireCookie("roles");
+
       if (localStorage.getItem("username")) {
         router.replace("home");
       }
