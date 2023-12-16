@@ -16,27 +16,17 @@
       <h2>이 달의 Farmer</h2>
     </div>
     <div class="farmer-profile-wrapper">
-      <div class="farmer-profile" v-for="fpBox in farmerProfile" :key="fpBox">
+      <div class="farmer-profile" v-for="fpBox in users" :key="fpBox">
         <div class="fp">
-          <img class="farmer-profile-image" :src="fpBox.fpImg" alt=""/>
+          <img class="farmer-profile-image" :src="fpBox.fpImg" alt="userProfile"/>
           <div class="farmer">
-            <span class="farmer-nickname"> {{ fpBox.fpName }} </span>
+            <span class="farmer-nickname"> {{ fpBox.nickname }} </span>
             <img class="medal" :src="fpBox.medal" alt=""/>
           </div>
         </div>
       </div>
     </div>
-<!--    <div class="month-pam">
-      <h2>이 달의 팖</h2>
-    </div>
-    <div class="pam-box">
-      <div class="pam-image" v-for="pamBox in pamThumbnail" :key="pamBox">
-        <div class="pam">
-          <img :src="pamBox.pamImg" alt=""/>
-          <p> {{ pamBox.productName }} </p>
-        </div>
-      </div>
-    </div>-->
+    <p>{{users}}</p>
     <NavBar/>
   </div>
 </template>
@@ -80,20 +70,7 @@ export default {
           medal: require("../../../public/assets/img/bronze.png")
         }
       ],
-      pamThumbnail: [
-        {
-          pamImg: require("../../../public/assets/img/thumbnail1.png"),
-          productName: "샤인머스켓"
-        },
-        {
-          pamImg: require("../../../public/assets/img/thumbnail2.png"),
-          productName: "복숭아"
-        },
-        {
-          pamImg: require("../../../public/assets/img/thumbnail3.png"),
-          productName: "유자"
-        }
-      ]
+      users: [],
     }
   },
   components: {
@@ -101,7 +78,30 @@ export default {
     SearchBar,
     NavBar
   },
+  created() {
+    this.load()
+  },
+  inject: ["$http"],
   methods: {
+    //사용자 랭킹
+    load() {
+      this.$http.get("/home/rank")
+          .then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+              this.users = res.data;
+              console.log(res);
+            }
+          })
+          .catch(() => {
+            window.alert("실패");
+      })
+
+    },
+
+
+
+    //이미지
     onTouchStart(e) {
       this.touchStartX = e.touches[0].clientX;
     },

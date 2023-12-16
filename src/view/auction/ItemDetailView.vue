@@ -38,7 +38,7 @@
     <div class="item-footer">
       <div class="current-price">
         <span>현재 입찰가</span>
-        <span> {{ currentPrice.content }}원 </span>
+        <span v-if="currentPrice && currentPrice.content"> {{ currentPrice.content }}원 </span>
 
 
       </div>
@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="btn-a-bid" @click="sendBidPrice">
-          <p class="bid-time">{{ formatTime(remainingTime) }}</p>
+          <p class="bid-time" v-if="item && item.remainingTime">{{ formatTime(remainingTime) }}</p>
           입찰하기
         </div>
       </div>

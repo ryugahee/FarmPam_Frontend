@@ -43,7 +43,8 @@ export default {
   data() {
     return {
       currentInfo: [],
-      currentPrice: "",
+      // currentPrice: "",
+      currentPrice: { content: undefined },
     }
   },
   created() {

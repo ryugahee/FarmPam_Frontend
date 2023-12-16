@@ -79,7 +79,7 @@ export default {
         this.tab1 = false;
       }
 
-      this.sortType = 'completed';  //Asc&soldoutTrue&userId completed
+      this.sortType = 'completed';
       this.loadData()
     },
 
