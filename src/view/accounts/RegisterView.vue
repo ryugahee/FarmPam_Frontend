@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <row>
-      <div class="advice">회원가입</div>
+      <div class="advice" style="margin-left: 45px">회원가입</div>
 
       <div class="easyLoginForm">
         <label for="itemname"><span>* </span>이름</label>
@@ -26,27 +26,31 @@
       <div class="easyLoginForm">
         <label for="itemnew"><span>* </span>비밀번호</label>
         <input
-          type="text"
+          type="password"
           class="txt-input"
           id="itemnew"
           v-model="state.form.password"
+          @input="checkPasswordMatch"
         />
       </div>
 
       <div class="easyLoginForm">
         <label for="itemnew"><span>* </span>비밀번호 확인</label>
         <input
-          type="text"
+          type="password"
           class="txt-input"
           id="itemnew"
           v-model="userPWCheck"
+          @input="checkPasswordMatch"
         />
       </div>
-
+      <span v-if="!passwordsMatch" style="margin-left: 45px"
+        >비밀번호가 일치하지 않습니다.</span
+      >
       <div class="easyLoginForm">
         <label for="itemname"><span>* </span>이메일</label>
         <input
-          type="text"
+          type="email"
           class="txt-input"
           id="itemname"
           v-model="state.form.email"
@@ -61,6 +65,12 @@
           id="itempw"
           v-model="state.form.phoneNumber"
         />
+
+        <div class="col">
+          <button @click="sendPhoneNumber" class="phoneButton">
+            휴대폰 인증 번호 발송
+          </button>
+        </div>
       </div>
 
       <div class="easyLoginForm">
@@ -105,18 +115,31 @@
         />
       </div>
 
-      <button @click="submit">회원가입 하기</button>
+      <div v-if="!state.form.username || !state.form.realName">
+        <div style="margin-left: 40px">항목을 모두 작성해주세요</div>
+      </div>
+      <div v-else>
+        <button class="registerBtn" @click="submit">회원가입 하기</button>
+      </div>
     </row>
   </div>
 </template>
 
 <script>
-import { reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
+import router from "@/router";
 export default {
   name: "RegisterView",
   inject: ["$http"],
   data() {
+    const passwordsMatch = ref(false);
+    onMounted(() => {
+      if (localStorage.getItem("username")) {
+        router.replace("home");
+      }
+    });
+
     const state = reactive({
       form: {
         realName: "",
@@ -136,6 +159,7 @@ export default {
     return {
       state,
       userPWCheck: "",
+      passwordsMatch,
     };
   },
   methods: {
@@ -156,6 +180,14 @@ export default {
           console.log(err);
           window.alert("회원가입을 진행 할 수 없습니다.");
         });
+    },
+
+    checkPasswordMatch() {
+      if (this.state.form.password !== this.userPWCheck) {
+        this.passwordsMatch = false;
+      } else {
+        this.passwordsMatch = true;
+      }
     },
 
     search() {

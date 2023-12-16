@@ -1,13 +1,16 @@
 import axios from "axios";
 import { reactive } from "vue";
 
+const username = localStorage.getItem("username");
+const encodedUsername = btoa(unescape(encodeURIComponent(username)));
+
 const instance = axios.create({
   timeout: 10000,
   baseURL: "/api",
   headers: {
     "content-type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    username: localStorage.getItem("username"),
+    username: encodedUsername ,
   },
 });
 
