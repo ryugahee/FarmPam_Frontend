@@ -16,11 +16,8 @@
         </p>
         <div class="amount">
           <p>충전 후 Farm 머니</p>
-          <p
-            class="farm-money"
-            v-if="this.$store.state.user.farmMoney !== undefined"
-          >
-            {{ this.$store.state.user.farmMoney.toLocaleString() }} 원
+          <p class="farm-money" v-if="this.$store.state.user !== undefined">
+            {{ Number(this.$store.state.user.farmMoney).toLocaleString() }} 원
           </p>
         </div>
         <div class="result wrapper">

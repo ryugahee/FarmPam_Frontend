@@ -106,6 +106,17 @@ function successPayment(username, paymentInfo) {
   return instance.post("/payment/success", { username, paymentInfo });
 }
 
+function getChargingHistory(username) {
+  return instance.get("/payments", {
+    params: {
+      username: username,
+    },
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  });
+}
+
 export default instance;
 export {
   getChatIds,
@@ -118,4 +129,5 @@ export {
   getFarmMoney,
   getUser,
   successPayment,
+  getChargingHistory,
 };

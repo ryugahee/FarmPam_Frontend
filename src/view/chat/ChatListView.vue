@@ -11,9 +11,16 @@
             <div class="chat_preview">
               <div class="profile_img_div">
                 <img
+                  v-if="chatPreviewInfo(index).toNickNameThumbnailUrl"
                   class="profile_img"
                   :src="chatPreviewInfo(index).toNickNameThumbnailUrl"
                   alt="엑박"
+                />
+                <img
+                  v-else
+                  class="profile_img"
+                  src="../../../public/assets/img/person2.png"
+                  style="background-color: #d9d9d9"
                 />
               </div>
               <div class="wrapper_info">
