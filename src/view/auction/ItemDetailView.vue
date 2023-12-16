@@ -44,7 +44,7 @@
       </div>
       <div class="my-price">
         <span>내 입찰가</span>
-        <span> {{ myPrice.toLocaleString() }}원 </span>
+        <span> {{ myPrice.content }}원 </span>
       </div>
 
       <!--      bid modal-->
@@ -106,7 +106,8 @@ export default {
       nickName: "닉네임,프사",
       itemImg: "",
       currentPrice: [],
-      myPrice: [],
+      myPriceList: [],
+      myPrice:[],
       bidModal: true,
       bidStatus: true,
       bidId: "",
@@ -138,6 +139,7 @@ export default {
   inject: ["$http"],
   created() {
     this.connect();
+
   },
   mounted() {
     setInterval(() => {
@@ -149,6 +151,7 @@ export default {
     connect() {
       this.receiveBidList();
       this.userName = localStorage.getItem("username");
+      this.myBidPrice()
       //소켓 연결
       const serverURL = "http://localhost:8080/bid";
       let socket = new SocketJS(serverURL);
@@ -194,11 +197,14 @@ export default {
         });
     },
 
-    // myBidPrice(){
-    //   this.$http.post(`/bid-myPrice/${this.$route.params.id}`).then()
-    //
-    //
-    // },
+    myBidPrice(){
+      this.$http.post(`/bid-myPrice/${this.$route.params.id}`, this.userName).then((res) =>{
+            this.myPriceList = res.data();
+            this.myPrice = this.myPrice.at(0);
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
 
 
     sendBidPrice() {
