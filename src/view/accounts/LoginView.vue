@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <div class="logo">
+      <div class="login-logo">
         <img src="../../../public/assets/img/Logo.png" alt="" />
       </div>
 
@@ -33,22 +33,34 @@
       <div class="line">또는</div>
 
       <div class="easyLogin">
-        <img src="../../../public/assets/img/kakao.png" alt="" />
+        <a href="http://localhost:8080/oauth2/authorization/kakao">
+          <img src="../../../public/assets/img/kakao.png" alt="" />
+        </a>
         <br />
-        <img src="../../../public/assets/img/google.png" alt="" />
+        <a href="http://localhost:8080/oauth2/authorization/google">
+          <img src="../../../public/assets/img/google.png" alt="" />
+        </a>
         <br />
-        <img src="../../../public/assets/img/naver.png" alt="" />
+        <a href="http://localhost:8080/oauth2/authorization/naver">
+          <img src="../../../public/assets/img/naver.png" alt="" />
+        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import axios from "axios";
 import router from "@/router";
 export default {
   setup() {
+    onMounted(() => {
+      if (localStorage.getItem("username")) {
+        router.replace("home");
+      }
+    });
+
     const state = reactive({
       form: {
         username: "",
@@ -85,10 +97,12 @@ export default {
           // console.log("유저네임: " + res.data.username);
           // console.log("역할 : " + res.data.roles);
 
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("refreshToken", refreshToken);
-          localStorage.setItem("username", username);
-          localStorage.setItem("roles", roles);
+          if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+            localStorage.setItem("username", username);
+            localStorage.setItem("roles", roles);
+          }
 
           function expireCookie(name) {
             document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
@@ -98,11 +112,20 @@ export default {
           expireCookie("refreshToken");
           expireCookie("username");
 
-          router.replace(`${res.data.redirectPage}`);
+          console.log("로그인 결과 확인 : ", res.data.redirectPage);
+
+          if (res.data.redirectPage) {
+            router.replace(`${res.data.redirectPage}`);
+          } else {
+            window.alert("로그인 실패");
+          }
         })
         .catch((err) => {
-          console.log(err);
-          window.alert("로그인 정보가 존재하지 않습니다.");
+          if (err.response.data.errMsg) {
+            window.alert(err.response.data.errMsg);
+          } else {
+            window.alert("로그인 실패");
+          }
         });
     };
 
