@@ -1,13 +1,16 @@
 import axios from "axios";
 import { reactive } from "vue";
 
+const username = localStorage.getItem("username");
+const encodedUsername = btoa(unescape(encodeURIComponent(username)));
+
 const instance = axios.create({
   timeout: 10000,
   baseURL: "/api",
   headers: {
     "content-type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-    username: localStorage.getItem("username"),
+    username: encodedUsername ,
   },
 });
 
@@ -24,7 +27,6 @@ function getChatIds(userId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
@@ -40,7 +42,6 @@ function getChatPreviewInfos(chatIds, userId) {
     {
       headers: {
         "Content-Type": "application/json",
-        "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
       },
     }
   );
@@ -54,7 +55,6 @@ function getChatDetailInfo(chatId, userId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
@@ -66,38 +66,21 @@ function getChatMessages(chatId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
     },
   });
 }
 
 function sendMessage(chatMessage, chatId) {
-  return instance.post(
-    `/chats/chatMessage`,
-    { chatMessage, chatId },
-    {
-      headers: {
-        "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
-      },
-    }
-  );
+  return instance.post(`/chats/chatMessage`, { chatMessage, chatId });
 }
 
 function getSellerId(itemId) {
-  return instance.get(`/item/detail/${itemId}/seller`, {
-    headers: {
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
-    },
-  });
+  return instance.get(`/item/detail/${itemId}/seller`);
 }
 
 function createChat(newChatInfo) {
   console.log(newChatInfo);
-  return instance.post(`/chats`, newChatInfo, {
-    headers: {
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
-    },
-  });
+  return instance.post(`/chats`, newChatInfo);
 }
 
 function getFarmMoney(userId) {
@@ -107,7 +90,32 @@ function getFarmMoney(userId) {
     },
     headers: {
       "Content-Type": "text/plain",
-      "X-AUTH-TOKEN": localStorage.getItem("accessToken"),
+    },
+  });
+}
+
+function getUser(username) {
+  return instance.get("/user", {
+    params: {
+      username: username,
+    },
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  });
+}
+
+function successPayment(username, paymentInfo) {
+  return instance.post("/payment/success", { username, paymentInfo });
+}
+
+function getChargingHistory(username) {
+  return instance.get("/payments", {
+    params: {
+      username: username,
+    },
+    headers: {
+      "Content-Type": "text/plain",
     },
   });
 }
@@ -122,4 +130,7 @@ export {
   getSellerId,
   createChat,
   getFarmMoney,
+  getUser,
+  successPayment,
+  getChargingHistory,
 };

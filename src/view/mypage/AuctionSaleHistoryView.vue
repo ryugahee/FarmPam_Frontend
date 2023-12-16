@@ -58,6 +58,10 @@ export default {
       sortType: '',
     }
   },
+  created() {
+    this.myId = localStorage.getItem("username");
+    console.log("myId: " + this.myId)
+  },
   inject: ["$http"],
   methods: {
 
@@ -66,19 +70,22 @@ export default {
       if (this.tab1) {
         this.tab2 = false;
       }
-      this.page = 0;
-      this.items = [];
       this.sortType = 'latest'; //최신&soldoutFalse&userId auctioning
-      this.$refs.infiniteLoading.stateChanger.reset();
+      this.loadData()
     },
     tab2Click() {
       this.tab2 = true;
       if (this.tab2) {
         this.tab1 = false;
       }
+
+      this.sortType = 'completed';  //Asc&soldoutTrue&userId completed
+      this.loadData()
+    },
+
+    loadData() {
       this.page = 0;
       this.items = [];
-      this.sortType = 'completed';  //Asc&soldoutTrue&userId completed
       this.$refs.infiniteLoading.stateChanger.reset();
     },
 
@@ -89,22 +96,26 @@ export default {
           sortType: this.sortType
         },
       }).then((res) => {
-        console.log("타입뭐얌?: " + this.sortType)
-        console.log("거래완료 데이터? : " + res.data);
+        console.log("타입: " + this.sortType)
         if (res.data.length) {
-          console.log("페이지: " + this.page)
 
-          this.items.push(...res.data);
+          console.log("페이지: " + this.page);
+
+          this.items.push(...res.data.filter(item => item.userId === this.myId));
+
+
+          // this.items.push(...res.data);
           this.items.forEach(item => {
             item.remainingTime = item.time;
             this.startStopwatch(item);
-          });
 
+          });
           this.page ++
           $state.loaded();
           if (res.data.length  < 1) {
             $state.complete();
           }
+
         } else {
           $state.complete();
         }

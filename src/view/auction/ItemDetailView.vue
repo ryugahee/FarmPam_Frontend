@@ -8,18 +8,10 @@
       <div class="detail-profile-box" @click="profile">
         <img :src="profileImg" alt="profileImg" />
         <h3>{{ nickName }}</h3>
-
-<!--        <div class="review-avg">
-          <div>
-            <img src="../../../public/assets/img/filled-star.png" alt="star" />
-          </div>
-          <div>
-            <span> {{ review }} </span>
-          </div>
-        </div>-->
         {{ city }}
       </div>
       <div>
+<!--        <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>-->
         <button class="detail-chat-btn" @click="createdChat">채팅하기</button>
       </div>
     </div>
@@ -32,7 +24,6 @@
     </div>
     <div class="item-content">
       <p class="content-title">{{ itemTitle }} {{ weight }}kg</p>
-      <!--      <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>-->
       <div>
         <div class="tags-container">
           <span v-for="(tag, index) in tagNames" :key="index" class="tag-item">
@@ -48,6 +39,8 @@
       <div class="current-price">
         <span>현재 입찰가</span>
         <span> {{ currentPrice.content }}원 </span>
+
+
       </div>
       <div class="my-price">
         <span>내 입찰가</span>
@@ -83,7 +76,6 @@
           입찰하기
         </div>
       </div>
-
       <!--      아이템 디테일-->
       <div class="make-a-bid" v-if="bidModal" @click="bidModal = !bidModal">
         <p class="bid-time">{{ formatTime(remainingTime) }}</p>
@@ -97,10 +89,8 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import Stomp from "webstomp-client";
 import SocketJS from "sockjs-client";
-import Auction from "@/components/auction/AuctionComponent.vue";
 import index from "vuex";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
-import data from "bootstrap/js/src/dom/data";
 import {requireRefreshToken} from "@/api/tokenApi.vue";
 
 export default {
@@ -113,19 +103,19 @@ export default {
   data() {
     return {
       profileImg: require("../../../public/assets/img/profile1.png"),
-      nickName: "그랜드팜",
-      review: 4.5,
+      nickName: "닉네임,프사",
       itemImg: "",
       currentPrice: [],
       myPrice: [],
       bidModal: true,
       bidStatus: true,
       bidId: "",
-      userName:"",
       bidPrice:"",
       bidList:[],
       receiveList: [],
+
       // 불러온 아이템 정보
+      userName:"",
       items: [],
       weight: "",
       itemTitle: "",
@@ -138,6 +128,7 @@ export default {
       images: [],
       currentIndex: 0,
       translateX: 0,
+      seller: ""
     };
   },
   components: {
@@ -169,12 +160,15 @@ export default {
           this.stompClient.subscribe("/bidList", (res) => {
             this.receiveList = JSON.parse(res.body);
             this.currentPrice = this.receiveList.at(-1);
+
+
           });
         },
         (error) => {
           this.connected = false;
-        }
+        },
       );
+
 
       // 디테일 불러오기
       this.$http.get(`/item/detail/${this.$route.params.id}`)
@@ -186,6 +180,7 @@ export default {
           this.city = res.data.city;
           this.tagNames = res.data.tagNames;
           this.images = res.data.itemImgDtoList;
+          this.seller = res.data.userName;
 
           // 시간 출력 디자인
           this.remainingTime = res.data.time;
@@ -199,6 +194,13 @@ export default {
         });
     },
 
+    // myBidPrice(){
+    //   this.$http.post(`/bid-myPrice/${this.$route.params.id}`).then()
+    //
+    //
+    // },
+
+
     sendBidPrice() {
       if (this.stompClient && this.stompClient.connected) {
         const data = {
@@ -211,9 +213,8 @@ export default {
           content,
         };
         this.stompClient.send("/bid-push", JSON.stringify(msg), {});
-        this.stompClient.subscribe("/myBid-price", (res) => {
-          this.myPrice = res.body;
-        });
+        this.stompClient.send("/bid-current", msg);
+        // this.stompClient.send("/bid-myPrice", JSON.stringify(msg), {});
       }
     },
     receiveBidList() {
@@ -320,6 +321,10 @@ export default {
       const formattedTime = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 
       return formattedTime;
+    },
+    //채팅 & 삭제 버튼
+    isSeller() {
+
     },
 
     //사진 슬라이드

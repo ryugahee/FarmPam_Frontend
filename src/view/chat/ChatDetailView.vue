@@ -43,6 +43,10 @@ export default {
     },
   },
   created() {
+    if (localStorage.getItem("accessToken") == null) {
+      this.$router.replace("/home");
+    }
+
     this.myId = localStorage.getItem("username");
     this.$store
       .dispatch("findChatDetailInfo", {
