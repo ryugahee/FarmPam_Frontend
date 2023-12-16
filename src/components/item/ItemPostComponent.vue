@@ -15,7 +15,7 @@
           <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
           <p></p>
           <p class="current-bid-price">현재 입찰가</p>
-          <h3 class="price" v-if="currentPrice !== undefined"> {{ currentPrice[i] }}원 </h3>
+          <h3 class="price" v-if="currentInfo !== undefined"> {{ currentInfo[i] }}원 </h3>
 <!--          <p style="display: none"> {{getCurrentPrice}} </p>-->
         </div>
       </router-link>
@@ -39,7 +39,8 @@ export default {
 
   data() {
     return {
-      currentPrice: [],
+      currentInfo: [],
+      currentPrice: "",
     }
   },
   created(){
@@ -62,6 +63,7 @@ export default {
     },
 
     connect(){
+      this.receiveBidPrice();
       const serverURL = "http://localhost:8080/bid";
       let socket = new SocketJS(serverURL);
       this.stompClient = Stomp.over(socket);
@@ -70,7 +72,8 @@ export default {
           (frame) => {
             this.connected = true;
             this.stompClient.subscribe("/bidPost", (res) => {
-              this.currentPrice = JSON.parse(res.body);
+              this.currentInfo = JSON.parse(res.body);
+              this.currentPrice = this.currentInfo;
               console.log(this.currentPrice);
             });
           },
@@ -79,6 +82,13 @@ export default {
           }
       );
     },
+    receiveBidPrice(){
+      this.$http.get("/bidPost").then((res) => {
+        this.currentInfo = res.data;
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>

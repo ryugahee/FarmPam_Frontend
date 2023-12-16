@@ -113,6 +113,7 @@ export default {
       bidPrice:"",
       bidList:[],
       receiveList: [],
+
       // 불러온 아이템 정보
       userName:"",
       items: [],
@@ -159,12 +160,15 @@ export default {
           this.stompClient.subscribe("/bidList", (res) => {
             this.receiveList = JSON.parse(res.body);
             this.currentPrice = this.receiveList.at(-1);
+
+
           });
         },
         (error) => {
           this.connected = false;
-        }
+        },
       );
+
 
       // 디테일 불러오기
       this.$http.get(`/item/detail/${this.$route.params.id}`)
@@ -190,6 +194,13 @@ export default {
         });
     },
 
+    // myBidPrice(){
+    //   this.$http.post(`/bid-myPrice/${this.$route.params.id}`).then()
+    //
+    //
+    // },
+
+
     sendBidPrice() {
       if (this.stompClient && this.stompClient.connected) {
         const data = {
@@ -203,9 +214,7 @@ export default {
         };
         this.stompClient.send("/bid-push", JSON.stringify(msg), {});
         this.stompClient.send("/bid-current", msg);
-        // this.stompClient.subscribe("/myBid-price", (res) => {
-        //   this.myPrice = res.body;
-        // });
+        // this.stompClient.send("/bid-myPrice", JSON.stringify(msg), {});
       }
     },
     receiveBidList() {
