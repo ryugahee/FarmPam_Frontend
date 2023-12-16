@@ -11,6 +11,7 @@ import {
   chargeFarmMoney,
   getUser,
   successPayment,
+  getChargingHistory,
 } from "@/api/http";
 import { requireRefreshToken } from "@/api/tokenApi.vue";
 
@@ -23,7 +24,7 @@ const store = createStore({
         name: "",
         nickname: "",
         email: "",
-        mobilePhone: "",
+        mobilePhone: "01000000000",
         farmMoney: 0,
       },
       chatIds: [0],
@@ -54,6 +55,8 @@ const store = createStore({
       sellerId: "grandFarm",
 
       newChatId: 0,
+
+      chargingHistory: [],
     };
   },
   mutations: {
@@ -83,6 +86,9 @@ const store = createStore({
     },
     setFarmMoney(state, farmMoney) {
       state.user.farmMoney = farmMoney;
+    },
+    setChargingHistory(state, chargingHistory) {
+      state.chargingHistory = chargingHistory;
     },
   },
   actions: {
@@ -197,7 +203,6 @@ const store = createStore({
             console.log("리프레시 토큰 요청");
             requireRefreshToken();
           }
-
         });
     },
 
@@ -236,6 +241,20 @@ const store = createStore({
         })
         .catch(function (err) {
           console.log("successPayment error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
+        });
+    },
+
+    findChargingHistory({ commit }, username) {
+      return getChargingHistory(username)
+        .then((response) => {
+          commit("setChargingHistory", response.data);
+        })
+        .catch(function (err) {
+          console.log("findChargingHistory error");
           if (err.response.data == "please send refreshToken") {
             console.log("리프레시 토큰 요청");
             requireRefreshToken();

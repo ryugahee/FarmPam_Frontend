@@ -20,7 +20,9 @@
         </div>
         <div class="amount">
           <p>{{ currentFarmMoneyTitle }}</p>
-          <p class="farm-money">{{ farmMoney.toLocaleString() }} 원</p>
+          <p class="farm-money" v-if="farmMoney !== undefined">
+            {{ Number(farmMoney).toLocaleString() }} 원
+          </p>
         </div>
       </div>
       <div class="bottom-wrapper">
