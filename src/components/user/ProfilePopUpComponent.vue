@@ -19,6 +19,7 @@
             alt=""
           />
           <span> {{ username }} </span>
+
         </div>
       </div>
       <div class="pop-up-money-box">

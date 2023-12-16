@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="month-pam">
+<!--    <div class="month-pam">
       <h2>이 달의 팖</h2>
     </div>
     <div class="pam-box">
@@ -36,7 +36,7 @@
           <p> {{ pamBox.productName }} </p>
         </div>
       </div>
-    </div>
+    </div>-->
     <NavBar/>
   </div>
 </template>

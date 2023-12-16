@@ -4,6 +4,7 @@
   align-items: center;
 }
 .btn-upload {
+
   width: 45px;
   height: 20px;
   font-size: larger;
@@ -12,6 +13,7 @@
   margin-right: 10px;
   margin-top: 0px;
   margin-left: 0px;
+
 }
 .img-user-container {
   display: flex;
@@ -51,10 +53,17 @@
   margin: 20px 20px 0 20px;
 }
 
+
 .flex {
   display: flex;
   justify-content: left;
   margin: 20px 0 20px 0;
+
+.info-flex {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 20px 0;
+
 }
 .user-info-main dl dt {
   font-size: 22px;

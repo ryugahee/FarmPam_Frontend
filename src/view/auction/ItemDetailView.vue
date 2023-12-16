@@ -8,25 +8,22 @@
       <div class="detail-profile-box" @click="profile">
         <img :src="profileImg" alt="profileImg" />
         <h3>{{ nickName }}</h3>
-        <div class="review-avg">
-          <div>
-            <img src="../../../public/assets/img/filled-star.png" alt="star" />
-          </div>
-          <div>
-            <span> {{ review }} </span>
-          </div>
-        </div>
+        {{ city }}
       </div>
       <div>
+<!--        <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>-->
         <button class="detail-chat-btn" @click="createdChat">채팅하기</button>
       </div>
     </div>
     <div class="item-detail-img">
-      <img :src="itemImg" alt="경매 상품 이미지" />
+      <div class="image-container" :style="{ transform: `translateX(${translateX}%)` }">
+        <div v-for="(image, index) in images" :key="index" class="image-slide">
+          <img :src="image.imgUrl" alt="Slide"/>
+        </div>
+      </div>
     </div>
     <div class="item-content">
       <p class="content-title">{{ itemTitle }} {{ weight }}kg</p>
-      <!--      <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>-->
       <div>
         <div class="tags-container">
           <span v-for="(tag, index) in tagNames" :key="index" class="tag-item">
@@ -42,6 +39,8 @@
       <div class="current-price">
         <span>현재 입찰가</span>
         <span> {{ currentPrice.content }}원 </span>
+
+
       </div>
       <div class="my-price">
         <span>내 입찰가</span>
@@ -77,7 +76,6 @@
           입찰하기
         </div>
       </div>
-
       <!--      아이템 디테일-->
       <div class="make-a-bid" v-if="bidModal" @click="bidModal = !bidModal">
         <p class="bid-time">{{ formatTime(remainingTime) }}</p>
@@ -91,10 +89,9 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import Stomp from "webstomp-client";
 import SocketJS from "sockjs-client";
-import Auction from "@/components/auction/AuctionComponent.vue";
 import index from "vuex";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
-import data from "bootstrap/js/src/dom/data";
+import {requireRefreshToken} from "@/api/tokenApi.vue";
 
 export default {
   name: "ItemDetailView",
@@ -106,27 +103,32 @@ export default {
   data() {
     return {
       profileImg: require("../../../public/assets/img/profile1.png"),
-      nickName: "그랜드팜",
-      review: 4.5,
-      itemImg: require("../../../public/assets/img/apple.png"),
+      nickName: "닉네임,프사",
+      itemImg: "",
       currentPrice: [],
       myPrice: [],
       bidModal: true,
       bidStatus: true,
       bidId: "",
-      userName:"",
       bidPrice:"",
       bidList:[],
       receiveList: [],
+
       // 불러온 아이템 정보
+      userName:"",
       items: [],
       weight: "",
       itemTitle: "",
       itemDetail: "",
       time: "",
+      city: "",
       tagNames: [],
       timer: null,
       remainingTime: "",
+      images: [],
+      currentIndex: 0,
+      translateX: 0,
+      seller: ""
     };
   },
   components: {
@@ -137,10 +139,16 @@ export default {
   created() {
     this.connect();
   },
+  mounted() {
+    setInterval(() => {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.translateX = -this.currentIndex * 100;
+    }, 2000);
+  },
   methods: {
     connect() {
       this.receiveBidList();
-      this.userName = this.$store.state.user.id;
+      this.userName = localStorage.getItem("username");
       //소켓 연결
       const serverURL = "http://localhost:8080/bid";
       let socket = new SocketJS(serverURL);
@@ -152,31 +160,46 @@ export default {
           this.stompClient.subscribe("/bidList", (res) => {
             this.receiveList = JSON.parse(res.body);
             this.currentPrice = this.receiveList.at(-1);
+
+
           });
         },
         (error) => {
           this.connected = false;
-        }
+        },
       );
 
+
       // 디테일 불러오기
-      this.$http
-        .get(`/item/detail/${this.$route.params.id}`)
+      this.$http.get(`/item/detail/${this.$route.params.id}`)
         .then((res) => {
           this.itemTitle = res.data.itemTitle;
           this.itemDetail = res.data.itemDetail;
           this.weight = res.data.weight;
           this.time = res.data.time;
+          this.city = res.data.city;
           this.tagNames = res.data.tagNames;
+          this.images = res.data.itemImgDtoList;
+          this.seller = res.data.userName;
 
           // 시간 출력 디자인
           this.remainingTime = res.data.time;
           this.startTimer();
         })
-        .catch((error) => {
-          console.error(error);
+        .catch((err) => {
+          if(err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
+
+    // myBidPrice(){
+    //   this.$http.post(`/bid-myPrice/${this.$route.params.id}`).then()
+    //
+    //
+    // },
+
 
     sendBidPrice() {
       if (this.stompClient && this.stompClient.connected) {
@@ -190,9 +213,8 @@ export default {
           content,
         };
         this.stompClient.send("/bid-push", JSON.stringify(msg), {});
-        this.stompClient.subscribe("/myBid-price", (res) => {
-          this.myPrice = res.body;
-        });
+        this.stompClient.send("/bid-current", msg);
+        // this.stompClient.send("/bid-myPrice", JSON.stringify(msg), {});
       }
     },
     receiveBidList() {
@@ -206,6 +228,7 @@ export default {
         .post("/bid-list", JSON.stringify(msg), {})
         .then((res) => {
           this.receiveList = res.data;
+          console.log("receiveData"+this.receiveList.at(0))
           this.currentPrice = this.receiveList.at(-1);
         })
         .catch((err) => {
@@ -299,7 +322,36 @@ export default {
 
       return formattedTime;
     },
+    //채팅 & 삭제 버튼
+    isSeller() {
+
+    },
+
+    //사진 슬라이드
+    onTouchStart(e) {
+      this.touchStartX = e.touches[0].clientX;
+    },
+    onTouchMove(e) {
+      this.touchEndX = e.touches[0].clientX;
+    },
+    onTouchEnd() {
+      const touchDiff = this.touchStartX - this.touchEndX;
+      if (touchDiff > 50) {
+        this.goNextSlide();
+      } else if (touchDiff < -50) {
+        this.goPrevSlide();
+      }
+    },
+    goNextSlide() {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      this.translateX = -this.currentIndex * 100;
+    },
+    goPrevSlide() {
+      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      this.translateX = -this.currentIndex * 100;
+    },
   },
+
 };
 </script>
 

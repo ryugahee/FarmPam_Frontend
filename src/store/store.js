@@ -8,7 +8,12 @@ import {
   getSellerId,
   createChat,
   getFarmMoney,
+  chargeFarmMoney,
+  getUser,
+  successPayment,
+  getChargingHistory,
 } from "@/api/http";
+import { requireRefreshToken } from "@/api/tokenApi.vue";
 
 const store = createStore({
   state() {
@@ -19,7 +24,7 @@ const store = createStore({
         name: "",
         nickname: "",
         email: "",
-        mobilePhone: "",
+        mobilePhone: "01000000000",
         farmMoney: 0,
       },
       chatIds: [0],
@@ -50,22 +55,15 @@ const store = createStore({
       sellerId: "grandFarm",
 
       newChatId: 0,
+
+      chargingHistory: [],
     };
   },
   mutations: {
-    charging(state, data) {
-      state.amount = data;
-    },
-    setUserInfo(state, id, name, nickname, email, mobilePhone, farmMoney) {
-      state.user.id = id;
-      state.user.name = name;
-      state.user.nickname = nickname;
-      state.user.email = email;
-      state.user.mobilePhone = mobilePhone;
-      state.user.farmMoney = farmMoney;
+    setUser(state, user) {
+      state.user = user;
     },
     addFarmMoney(state) {
-      // TODO: 팜머니 업데이트 체크
       state.user.farmMoney += state.amount;
     },
     setChatIds(state, chatIds) {
@@ -89,6 +87,9 @@ const store = createStore({
     setFarmMoney(state, farmMoney) {
       state.user.farmMoney = farmMoney;
     },
+    setChargingHistory(state, chargingHistory) {
+      state.chargingHistory = chargingHistory;
+    },
   },
   actions: {
     // 내가 참여중인 채팅방 아이디 찾기
@@ -97,8 +98,12 @@ const store = createStore({
         .then((response) => {
           commit("setChatIds", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findChatIds Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -109,8 +114,12 @@ const store = createStore({
           commit("setChatPreviewInfos", response.data);
           console.log(store.state.chatPreviewInfos);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findChatPreviewInfos Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -119,8 +128,12 @@ const store = createStore({
         .then((response) => {
           commit("setChatDetailInfo", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findChatDetailInfo Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -129,8 +142,12 @@ const store = createStore({
         .then((response) => {
           commit("setChatMessages", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findChatMessages Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -139,8 +156,12 @@ const store = createStore({
         .then(() => {
           store.dispatch("findChatMessages", chatId);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("sendMessage Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -149,8 +170,12 @@ const store = createStore({
         .then((response) => {
           commit("setSellerId", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findSellerId Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
     createChat({ commit }, newChatInfo) {
@@ -158,8 +183,12 @@ const store = createStore({
         .then((response) => {
           commit("setNewChatId", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("createChat Error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
 
@@ -168,8 +197,68 @@ const store = createStore({
         .then((response) => {
           commit("setFarmMoney", response.data);
         })
-        .catch(function () {
+        .catch(function (err) {
           console.log("findFarmMoney");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
+        });
+    },
+
+    charging({ commit }, farmMoney) {
+      return chargeFarmMoney(farmMoney)
+        .then((response) => {
+          commit("setFarmMoney", response.data);
+        })
+        .catch(function (err) {
+          console.log("charging error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
+        });
+    },
+
+    findUser({ commit }, username) {
+      return getUser(username)
+        .then((response) => {
+          commit("setUser", response.data);
+        })
+        .catch(function (err) {
+          console.log("findUser error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
+        });
+    },
+
+    successPayment({ commit }, { username, paymentInfo }) {
+      return successPayment(username, paymentInfo)
+        .then((response) => {
+          commit("setFarmMoney", response.data);
+        })
+        .catch(function (err) {
+          console.log("successPayment error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
+        });
+    },
+
+    findChargingHistory({ commit }, username) {
+      return getChargingHistory(username)
+        .then((response) => {
+          commit("setChargingHistory", response.data);
+        })
+        .catch(function (err) {
+          console.log("findChargingHistory error");
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     },
   },

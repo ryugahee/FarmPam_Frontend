@@ -137,7 +137,6 @@
     <NavComponent />
   </div>
 </template>
-
 <script>
 import LOGO from "@/components/user/LogoComponent.vue";
 import NavComponent from "@/components/user/NavComponent.vue";

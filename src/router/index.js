@@ -24,6 +24,7 @@ import AuctionSaleHistoryView from "@/view/mypage/AuctionSaleHistoryView.vue";
 import AuctionView from "@/view/auction/AuctionView.vue";
 import Admin from "@/view/admin/AdminView.vue";
 import Chart from "@/view/admin/ChartView.vue";
+import ChargingHistoryView from "@/view/charging/ChargingHistoryView.vue";
 
 const routes = [
   {
@@ -133,6 +134,13 @@ const routes = [
         component: ChargingView,
         meta: { requiresAuth: true },
       },
+   
+      {
+        path: "/chargingHistory",
+        name: "chargingHistory",
+        component: ChargingHistoryView,
+      },
+
     ],
   },
   {
@@ -140,6 +148,8 @@ const routes = [
     name: "pay",
     component: PayView,
     meta: { requiresAuth: true },
+    props: true,
+
   },
   {
     path: "/success",
@@ -157,11 +167,13 @@ const routes = [
     path: "/admin",
     component: Admin,
     meta: { requireAdmin: true },
+
   },
   {
     path: "/chart",
     component: Chart,
     meta: { requireAdmin: true },
+
   },
 ];
 
