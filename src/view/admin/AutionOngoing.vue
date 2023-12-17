@@ -3,62 +3,59 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">경매중</th>
-          <th scope="col">품목</th>
-          <th scope="col">무게</th>
-          <th scope="col">거래일</th>
+          <th scope="col">경매현황</th>
+          <th scope="col">지역</th>
+          <th scope="col">제목</th>
+          <th scope="col">최소 금액</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">핀</th>
-          <td>당근</td>
-          <td>5kg</td>
-          <td>2023-08-30</td>
-        </tr>
-        <tr>
-          <th scope="row">제이크</th>
-          <td>당근</td>
-          <td>5kg</td>
-          <td>2023-08-30</td>
-        </tr>
-        <tr>
-          <th scope="row">비모</th>
-          <td>당근</td>
-          <td>5kg</td>
-          <td>2023-08-30</td>
-        </tr>
-        <tr>
-          <th scope="row">마셀린</th>
-          <td>당근</td>
-          <td>5kg</td>
-          <td>2023-08-30</td>
+        <tr v-for="(auction, index) in auctions" :key="index">
+          <th scope="row" v-if="!auction.isSoldout">
+            완료된 경매
+            <!-- {{ auction.isSoldout }} -->
+          </th>
+          <th v-else>
+            진행중 경매
+          </th>
+          <td>{{ auction.city }}</td>
+          <td>{{ auction.itemTitle }}</td>
+          <td>{{ auction.minPrice }}</td>
         </tr>
       </tbody>
     </table>
-    <div class="paginations">
-      <!-- <a href="#" class="page-link">&laquo;</a> -->
+    <!-- <div class="paginations">
+      <a href="#" class="page-link">&laquo;</a>
       <a href="#" class="page-link">1</a>
       <a href="#" class="page-link">2</a>
       <a href="#" class="page-link">3</a>
-      <!-- <a href="#" class="page-link">&raquo;</a> -->
-    </div>
+      <a href="#" class="page-link">&raquo;</a>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import axios from "axios";
+import instance from '@/api/http';
 export default {
   setup() {
-    //작동 중지해놓은 상태
-    const getAuctionOngoing = () => {
-      console.log("경매중 경매 요청");
+    const auctions = ref([{ id: 1 }]);
 
-      axios
-        .get("api/item/getAuctionOngoing")
+
+    const getAuctionOngoing = (pageNum) => {
+      instance
+        .get("/item/list", {
+          params: {
+            page: 0,
+            sortType: "ongoing",
+          },
+        })
         .then((res) => {
-          console.log("경매중 경매: ", res.data);
+          console.log("완료된 경매 : ", res);
+
+          auctions.value = [...res.data];
+
         })
         .catch((err) => {
           console.log(err);
@@ -66,17 +63,23 @@ export default {
     };
 
     onMounted(() => {
-      //   getAuctionOngoing();
+        getAuctionOngoing();
     });
 
     return {
       getAuctionOngoing,
+      auctions
     };
   },
 };
 </script>
 
 <style scoped>
+
+.auctionReport {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
 .paginations {
   display: flex; 
   justify-content: center; 
@@ -111,4 +114,5 @@ th, td {
 .page-link:hover {
   background-color: #f2f2f2;
 }
+
 </style>

@@ -81,7 +81,7 @@ export default {
       );
     },
     receiveBidPrice() {
-      this.$http.get("/bidPost").then((res) => {
+      this.$http.get("/bid-Post").then((res) => {
         this.currentInfo = res.data;
       }).catch((err) => {
         console.log(err)

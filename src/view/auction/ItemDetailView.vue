@@ -11,8 +11,8 @@
         {{ city }}
       </div>
       <div>
-<!--        <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>-->
-        <button class="detail-chat-btn" @click="createdChat">채팅하기</button>
+        <button type="button" class="delete-btn" @click="deleteItem()" v-if="myBid">삭제</button>
+        <button class="detail-chat-btn" @click="createdChat" v-if="!myBid">채팅하기</button>
       </div>
     </div>
     <div class="item-detail-img">
@@ -42,25 +42,35 @@
 
 
       </div>
-      <div class="my-price">
+      <div class="my-price" v-if="!myBid">
         <span>내 입찰가</span>
+        <span> {{ myPrice.content }}원 </span>
+      </div>
+      <div class="my-price" v-if="myBid">
+        <span>시작 입찰가</span>
         <span> {{ myPrice.content }}원 </span>
       </div>
 
       <!--      bid modal-->
-      <div class="bid-bg" v-if="!bidModal">
+      <div class="bid-bgList" v-if="!bidModal" ref="chatBox" @click="bidModal = !bidModal">
         <div v-for="(item, index) in receiveList" :key="item.id">
-          <p class="bid-Message">
-            {{ index + 1 }} 번째 입찰 가격 {{ item.content }}
-          </p>
+          <div class="bid-container">
+            <p class="bid-Message">
+              {{ index + 1 }} 번째 입찰 가격 {{ item.content }} 원
+            </p>
+          </div>
         </div>
+      </div>
+
+
+      <div class="bid-bg" v-if="!bidModal">
         <div class="bid-btn">
-          <div class="current-price-bid-box">
+          <div class="bid-font">
             <span>현재 입찰가</span>
             <span> {{ currentPrice.content }}원 </span>
           </div>
           <div>
-            <p class="bid-text">입찰할 금액(직접입력)</p>
+            <p class="bid-text" v-if="!myBid">입찰할 금액(직접입력)</p>
           </div>
           <div>
             <input
@@ -68,18 +78,34 @@
               class="bid-input-box"
               type="text"
               placeholder="입찰가 입력."
-            /><span class="bid-won">원</span>
+              v-if="!myBid"
+            /><span class="bid-won" v-if="!myBid">원</span>
+
+            <div v-if="!myBid" class="my-FarmPay">
+              <span>내 팜페이: {{Number(farmMoney).toLocaleString() }} 원</span>
+            </div>
+
+            <div class="current-price-bid-box" v-if="myBid">
+              <span>시작 입찰가</span>
+              <span> {{ myPrice.content }}원 </span>
+            </div>
           </div>
+
         </div>
-        <div class="btn-a-bid" @click="sendBidPrice">
+        <div class="btn-a-bid" @click="sendBidPrice" v-if="!myBid">
           <p class="bid-time">{{ formatTime(remainingTime) }}</p>
           입찰하기
+        </div>
+        <div class="btn-a-bid" v-if="myBid">
+          <p class="bid-time">{{ formatTime(remainingTime) }}</p>
+          내 경매 입니다.
         </div>
       </div>
       <!--      아이템 디테일-->
       <div class="make-a-bid" v-if="bidModal" @click="bidModal = !bidModal">
         <p class="bid-time">{{ formatTime(remainingTime) }}</p>
-        <p>입찰하기</p>
+        <p v-if="!myBid">입찰하기</p>
+        <p v-if="myBid">입찰내역 보기</p>
       </div>
     </div>
   </div>
@@ -112,11 +138,12 @@ export default {
       myPrice:[],
       bidModal: true,
       bidStatus: true,
+      myBid: false,
       bidId: "",
       bidPrice:"",
       bidList:[],
       receiveList: [],
-
+      farmMoney: 0,
       // 불러온 아이템 정보
       userName:"",
       items: [],
@@ -139,9 +166,9 @@ export default {
     LOGO,
   },
   inject: ["$http"],
+
   created() {
     this.connect();
-
   },
   mounted() {
     setInterval(() => {
@@ -153,7 +180,11 @@ export default {
     connect() {
       this.receiveBidList();
       this.userName = localStorage.getItem("username");
+      this.$store.dispatch("findFarmMoney", this.userName).then(() => {
+        this.farmMoney = this.$store.state.user.farmMoney;
+      });
       this.myBidPrice()
+
       // this.getPublisherInfo();
       //소켓 연결
       const serverURL = "http://localhost:8080/bid";
@@ -166,6 +197,11 @@ export default {
           this.stompClient.subscribe("/bidList", (res) => {
             this.receiveList = JSON.parse(res.body);
             this.currentPrice = this.receiveList.at(-1);
+            this.stompClient.send("/bid-current");
+            this.myBidPrice();
+            this.$nextTick(() => {
+              this.scrollToBottom();
+            });
           });
         },
         (error) => {
@@ -198,8 +234,12 @@ export default {
     },
 
     myBidPrice(){
-      this.$http.post(`/bid-myPrice/${this.$route.params.id}`, this.userName).then((res) =>{
-            this.myPriceList = res.data();
+      const data = {};
+      data.bidId = this.$route.params.id;
+      data.content = this.userName;
+      this.$http.post('/bid-myPrice', data).then((res) =>{
+        const data = res.data;
+            this.myPriceList = data;
             this.myPrice = this.myPriceList.at(-1);
       }).catch((err) => {
         console.log(err);
@@ -219,10 +259,25 @@ export default {
           bidId: this.bidId,
           content,
         };
-        this.stompClient.send("/bid-push", JSON.stringify(msg), {});
-        this.stompClient.send("/bid-current", msg);
+        console.log(this.currentPrice.content);
+        if(this.bidPrice > this.currentPrice.content){
+          try{
+            this.stompClient.send("/bid-push", JSON.stringify(msg), {});
+            alert("입찰에 성공하였습니다.");
+            this.bidPrice = "";
+          }catch(err){
+            alert("입찰에 실패하였습니다.");
+          }
+
+        }else {
+          alert("현재 입찰가보다 낮은가격은 입찰 할 수 없습니다.");
+          this.bidPrice = "";
+        }
+
+
         // this.stompClient.send("/bid-myPrice", JSON.stringify(msg), {});
       }
+
     },
     receiveBidList() {
       //입찰내역 호출
@@ -235,19 +290,17 @@ export default {
         .post("/bid-list", JSON.stringify(msg), {})
         .then((res) => {
           this.receiveList = res.data;
-          console.log("receiveData"+this.receiveList.at(0))
           this.currentPrice = this.receiveList.at(-1);
           this.publisherId = this.receiveList.at(0).userName;
-          console.log("소ㅑㄴ!1111!!!!!!"+this.publisherId);
           if(this.publisherId != null){
+            if(this.userName === this.publisherId){
+              this.myBid = true;
+            }
             const data = {};
             data.bidId = this.publisherId;
-            console.log("소ㅑㄴ!!!!!!!"+data);
             this.$http.post("/publisherInfo", data).then((res) => {
               const data = res.data;
-              console.log("sdfsdfsdfs"+data.nickName)
               this.nickName = data;
-
             })
           }
 
@@ -338,7 +391,8 @@ export default {
             });
           });
         } else {
-          console.log("자기 자신과 채팅할 수 없습니다.");
+          alert("아래의 채팅 리스트를 확인해주세요!\n" +
+              "판매자 본인과는 채팅 할 수 없어요!");
         }
       });
     },
@@ -382,6 +436,11 @@ export default {
       this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
       this.translateX = -this.currentIndex * 100;
     },
+
+    scrollToBottom() {
+      const chatBox = this.$refs.chatBox;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    },
   },
 
 };
@@ -391,7 +450,47 @@ export default {
 @import "../../../public/assets/css/item-detail-page.css";
 @import "../../../public/assets/css/chat-style.css";
 .bid-Message {
+  background-color: #98CB98;
+  border-radius: 5px;
   text-align: center;
-  color: #ffffff;
+  color: black;
+  width: 80%;
+  margin: 10px auto;
+  box-shadow: 5px 5px 5px black;
+
+}
+.bid-font{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  border-bottom: 1px solid #444444;
+}
+
+.bid-container{
+
+  overflow-y: scroll;
+}
+.bid-bgList{
+  margin-top: 100px;
+  margin-bottom: 224px;
+  padding-bottom: 30px;
+  width: 390px;
+  height: 520px;
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 60%);
+  overflow-y: scroll;
+}
+.my-FarmPay{
+  width: 320px;
+  height: 30px;
+  font-size: 20px;
+  margin: 20px auto;
+  text-align: center;
+  color: #0037ff;
 }
 </style>

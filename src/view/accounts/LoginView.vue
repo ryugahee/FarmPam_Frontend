@@ -16,6 +16,7 @@
           placeholder="비밀번호"
           v-model="state.form.password"
           @keyup.enter="login()"
+          type="password"
         />
       </div>
 
@@ -26,7 +27,8 @@
       </div>
 
       <div class="finder">
-        <button @click="$router.push('/findId')">아이디 찾기</button> &nbsp; &nbsp; &nbsp; |
+        <button @click="$router.push('/findId')">아이디 찾기</button> &nbsp;
+        &nbsp;
         <button @click="$router.push('/findPw')">비밀번호 찾기</button>
       </div>
 
@@ -56,7 +58,6 @@ import router from "@/router";
 export default {
   setup() {
     onMounted(() => {
-
       function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -188,5 +189,109 @@ export default {
 };
 </script>
 <style scoped>
-@import "../../../public/assets/css/login-page.css";
+/* @import "../../../public/assets/css/login-page.css"; */
+.container {
+  display: flex;
+  flex-direction: column; /* 세로 방향으로 아이템 정렬 */
+  justify-content: center;
+  width: 390px; /* 가로 크기 */
+  height: 844px; /* 세로 크기 */
+  border: #c0c0c0 1px solid;
+  margin: 0 auto;
+}
+
+.login-logo {
+  margin-top: 50px;
+  justify-content: center;
+  margin-left: 60px;
+}
+
+.logo img {
+  /* margin-left: 20px; */
+}
+
+.loginForm {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.loginForm input {
+  text-align: center;
+  background-color: transparent;
+  border: transparent;
+  border-bottom: #d9d9d9 1px solid;
+  margin-bottom: 30px;
+  width: 250px;
+  font-size: 15px;
+}
+
+.loginForm input:focus {
+  outline: none;
+}
+
+.bottons button {
+  background-color: #98cb98;
+  border: transparent;
+  border-radius: 10%;
+  width: 250px;
+  height: 35px;
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: white;
+  margin-left: 55px;
+}
+
+.bottons button:hover {
+  cursor: pointer;
+}
+
+.finder button {
+  background-color: transparent;
+  border: transparent;
+  width: 85px;
+  margin-left: 30px;
+}
+
+.finder > button:first-child {
+  /* margin-right: 10px; */
+}
+
+.finder button:hover {
+  cursor: pointer;
+}
+
+.line {
+  display: flex;
+  flex-basis: 10%;
+  align-items: center;
+  color: #c0c0c0;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.line::before {
+  content: "";
+  flex-grow: 1;
+  margin: 0 16px;
+  background: #c0c0c0;
+  height: 1px;
+  font-size: 0;
+  line-height: 0;
+}
+
+.line::after {
+  content: "";
+  flex-grow: 1;
+  margin: 0 16px;
+  background: #c0c0c0;
+  height: 1px;
+  font-size: 0;
+  line-height: 0;
+}
+
+.easyLogin img {
+  width: 250px;
+  margin-bottom: 5px;
+  margin-left: 51px;
+}
 </style>

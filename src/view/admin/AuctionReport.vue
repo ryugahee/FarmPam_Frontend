@@ -1,63 +1,91 @@
 <template>
   <div class="auctionReport">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">경매현황</th>
-                <th scope="col">품목</th>
-                <th scope="col">무게</th>
-                <th scope="col">거래일</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">핀</th>
-                <td>당근</td>
-                <td>5kg</td>
-                <td>2023-08-30</td>
-              </tr>
-              <tr>
-                <th scope="row">제이크</th>
-                <td>당근</td>
-                <td>5kg</td>
-                <td>2023-08-30</td>
-              </tr>
-              <tr>
-                <th scope="row">비모</th>
-                <td>당근</td>
-                <td>5kg</td>
-                <td>2023-08-30</td>
-              </tr>
-              <tr>
-                <th scope="row">마셀린</th>
-                <td>당근</td>
-                <td>5kg</td>
-                <td>2023-08-30</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="paginations">
-            <!-- <a href="#" class="page-link">&laquo;</a> -->
-            <a href="#" class="page-link">1</a>
-            <a href="#" class="page-link">2</a>
-            <a href="#" class="page-link">3</a>
-            <!-- <a href="#" class="page-link">&raquo;</a> -->
-          </div>
-        </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">경매현황</th>
+          <th scope="col">지역</th>
+          <th scope="col">제목</th>
+          <th scope="col">최소 금액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(auction, index) in auctions" :key="index">
+          <th scope="row" v-if="!auction.isSoldout">
+            완료된 경매
+            <!-- {{ auction.isSoldout }} -->
+          </th>
+          <th v-else>
+            진행중 경매
+          </th>
+          <td>{{ auction.city }}</td>
+          <td>{{ auction.itemTitle }}</td>
+          <td>{{ auction.minPrice }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
+import instance from "@/api/http";
+import { onMounted, ref } from "vue";
 export default {
+  setup() {
+    const auctions = ref([{ id: 1 }]);
+    const auctionReportPageNum = ref(0);
+    const auctionReportTotalPage = ref(0);
+    let arr = ref([]);
 
-}
+    const getAuctionReport = (pageNum) => {
+      instance
+        .get("/item/list", {
+          params: {
+            page: pageNum,
+            sortType: "completed",
+          },
+        })
+        .then((res) => {
+          console.log("완료된 경매 : ", res);
+
+          auctions.value = [...res.data];
+
+          auctionReportTotalPage.value = res.data.length % 9;
+          generateRange(auctionReportTotalPage.value);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const generateRange = (totalPages) => {
+      arr = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+      console.log("배열 : ", arr);
+    };
+
+    onMounted(() => {
+      getAuctionReport(auctionReportPageNum.value);
+    });
+
+    return {
+      auctions,
+      arr,
+      auctionReportTotalPage,
+      generateRange,
+    };
+  },
+};
 </script>
 
 <style scoped>
-
+.auctionReport {
+  overflow-y: scroll;
+}
 .paginations {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 240px;
 }
 
@@ -66,7 +94,8 @@ export default {
 }
 
 /* th, td 요소 내의 텍스트를 가운데 정렬 */
-th, td {
+th,
+td {
   text-align: center;
 }
 
