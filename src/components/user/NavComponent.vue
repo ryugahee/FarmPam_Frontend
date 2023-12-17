@@ -153,5 +153,60 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/nav-component.css";
+.nav-bar {
+  width: 390px;
+  height: 50px;
+  position: fixed;
+  bottom: -1px;
+  border-top: 1px solid #d9d9d9;
+  background-color: #ffffff;
+  z-index: 3;
+}
+
+.modal-bg {
+  width: 390px;
+  height: 100%;
+  position: fixed;
+  bottom: 50px;
+  background-color: rgba(0, 0, 0, 60%);
+}
+
+.nav-modal {
+  width: 390px;
+  height: 700px;
+  overflow-y: auto;
+  position: fixed;
+  bottom: 50px;
+  transform: translateY(0px);
+  background-color: #ffffff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.nav-modal::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-modal .search {
+  padding: 20px 0 55px 0;
+  top: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(744px);
+}
+
+.nav-menu {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 </style>

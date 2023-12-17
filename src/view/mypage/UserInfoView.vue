@@ -154,6 +154,7 @@ export default {
     const detailAddress = ref("");
     let file = ref(null); // file을 ref로 선언
     const preview = ref(""); // 미리보기 이미지를 ref로 선언
+    const farmMoney = ref(0);
 
     const userImageUpload = (event) => {
       const selectedFile = event.target.files[0];
@@ -189,6 +190,7 @@ export default {
           streetAddress.value = data.streetAddress;
           detailAddress.value = data.detailAddress;
           imageUrl.value = data.imageUrl;
+          farmMoney.value = data.farmMoney;
         })
         .catch((err) => {
           console.error("유저 정보 조회 오류:", err);
@@ -208,6 +210,7 @@ export default {
       formData.append("streetAddress", streetAddress.value);
       formData.append("detailAddress", detailAddress.value);
       formData.append("file", file.value);
+      formData.append("farmMoney", farmMoney.value);
 
       instance
         .post("/updateUserInfo", formData, {

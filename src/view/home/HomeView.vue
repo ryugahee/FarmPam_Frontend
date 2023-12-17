@@ -148,5 +148,109 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/home-page.css";
+.header-title h1 {
+  margin-left: 20px;
+  color: #ff0000;
+}
+
+.image-slider {
+  margin: 0 auto;
+  width: 350px;
+  height: 200px;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-slider .image-container {
+  display: flex;
+  transition: transform 0.7s ease;
+}
+
+.image-slider .image-container .image-slide img {
+  width: 350px;
+  height: 250px;
+  border-radius: 10px;
+}
+
+/*.image-slider .image-container .image-slide p {*/
+/*  font-size: 25px;*/
+/*  color: #FFFFFF;*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*  left: 50%;*/
+/*  transform: translateX(-50%);*/
+/*}*/
+
+.month-farmer {
+  margin: 20px;
+}
+
+.month-farmer h2 {
+  margin-bottom: 10px;
+}
+
+.farmer-profile-wrapper {
+  margin: 0 auto;
+  width: 350px;
+  display: flex;
+}
+
+.farmer-profile-wrapper .farmer-profile {
+  margin: 0 auto;
+  width: 120px;
+  height: 100px;
+}
+
+.farmer-profile-wrapper .farmer-profile .fp {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.farmer-profile-wrapper .farmer-profile .fp .farmer-profile-image {
+  margin: 5px auto;
+  width: 70px;
+  height: 70px;
+}
+
+.farmer-profile-wrapper .farmer-profile .fp .farm {
+  display: flex;
+}
+
+.farmer-profile-wrapper .farmer-profile .fp .farmer .farmer-nickname {
+  font-size: 20px;
+}
+
+.farmer-profile-wrapper .farmer-profile .fp .farmer .medal {
+  margin-bottom: -4px;
+  width: 16px;
+  height: 18px;
+}
+
+.month-pam {
+  margin: 50px 20px 20px;
+}
+
+.pam-box {
+  margin: 0 auto;
+  width: 350px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.pam-box .pam-image .pam {
+  width: 100px;
+  text-align: center;
+}
+
+.pam-box .pam-image .pam img {
+  margin: 5px auto;
+  width: 70px;
+  height: 70px;
+  border-radius: 5px;
+}
+
+.pam-box .pam-image .pam p {
+  font-size: 20px;
+}
 </style>

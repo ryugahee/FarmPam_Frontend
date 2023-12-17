@@ -28,7 +28,10 @@
       <div class="pay-box">
         <div class="pay-money">
           <div class="farmpay">Farm pay</div>
-          <div class="charge">
+          <div
+            class="charge"
+            v-if="this.$store.state.user.farmMoney !== undefined"
+          >
             {{ Number(this.$store.state.user.farmMoney).toLocaleString() }}
           </div>
         </div>

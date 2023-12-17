@@ -254,5 +254,88 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/chat-style.css";
+.chat-box {
+  padding-bottom: 10px;
+  overflow-y: scroll;
+  height: 560px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.chat-box::-webkit-scrollbar {
+  display: none;
+}
+
+.message-input-div {
+  position: fixed;
+  z-index: 3;
+  bottom: 0;
+  width: 390px;
+  height: 70px;
+  background: #ffffff;
+  max-height: 100px;
+}
+
+.message-bar {
+  width: 310px;
+  border-radius: 10px;
+  background: #f3f3f3;
+  font-size: 15px;
+  resize: none;
+  overflow-y: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+  transition: height 0.2s ease;
+  position: absolute;
+  bottom: 20px;
+  left: 15px;
+  min-height: 43px;
+  max-height: 80px;
+  word-wrap: break-word;
+}
+
+.message-bar:focus {
+  outline-color: #98cb98;
+}
+
+.send-button {
+  position: absolute;
+  right: 15px;
+  bottom: 20px;
+}
+
+.message {
+  margin: 10px 0px;
+  min-height: 36px;
+}
+
+.sender {
+  padding: 10px;
+  border-radius: 15px 0px 15px 15px;
+  background: #98cb98;
+  float: right;
+  margin-bottom: 0;
+  max-width: 360px;
+  word-wrap: break-word;
+}
+
+.receiver {
+  padding: 10px;
+  border-radius: 0px 15px 15px 15px;
+  background: #ddd;
+  float: left;
+  margin-bottom: 0;
+  max-width: 360px;
+  word-wrap: break-word;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+svg {
+  align-items: center;
+}
 </style>
