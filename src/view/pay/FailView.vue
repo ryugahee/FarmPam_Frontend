@@ -32,6 +32,14 @@
 <script>
 export default {
   name: "FailView",
+
+  created() {
+    if (localStorage.getItem("accessToken") == null) {
+      this.$router.replace("/login");
+      alert("로그인 후 이용하실 수 있습니다.");
+    }
+  },
+
   methods: {
     goMyPage() {
       this.$router.push(`/user`);

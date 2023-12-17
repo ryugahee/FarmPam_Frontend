@@ -103,4 +103,30 @@
       height: 1px;
     }
   }
+
+  .hr {
+    border-color: #c7c7c7 !important;
+    height: 1px;
+  }
+
+  .store-Intro {
+    width: 350px;
+    height: 120px;
+    border-radius: 5px;
+  }
+
+  .input {
+    /* border: #bbbbbb solid 1px; */
+    width: 200px;
+    /* margin-left: 50px !important; */
+  }
+
+  .flex > div:first-child {
+    width: 80px;
+  }
+
+  .hr {
+    border-color: #c7c7c7 !important;
+    height: 1px;
+  }
 }
