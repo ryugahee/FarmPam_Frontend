@@ -4,9 +4,14 @@
       <router-link :to='"/auction/detail/" + item.id'>
         <div class="post-img">
           <img :src="item.itemImgDtoList[0].imgUrl" class="thumbnail-img" alt="thumbnail-img"/>
-          <div class="remaining-time">
+          <div class="remaining-time" v-if="item.remainingTime > 0">
             <div class="time-bg">
               <p> {{ formatTime(item.remainingTime) }} 남음 </p>
+            </div>
+          </div>
+          <div class="remaining-time" v-else>
+            <div class="time-bg">
+              <p> 경매 종료 </p>
             </div>
           </div>
         </div>
@@ -15,8 +20,8 @@
           <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
           <p></p>
           <p class="current-bid-price">현재 입찰가</p>
-          <h3 class="price" v-if="currentPrice !== undefined"> {{ currentPrice[i] }}원 </h3>
-<!--          <p style="display: none"> {{getCurrentPrice}} </p>-->
+          <h3 class="price" v-if="currentInfo !== undefined"> {{ currentInfo[i] }}원 </h3>
+          <!--          <p style="display: none"> {{getCurrentPrice}} </p>-->
         </div>
       </router-link>
     </div>
@@ -30,19 +35,18 @@ import Stomp from "webstomp-client";
 
 export default {
   name: 'ItemPost',
-  components: {
-
-  },
+  components: {},
   props: {
     items: Array,
   },
 
   data() {
     return {
-      currentPrice: [],
+      currentInfo: [],
+      currentPrice: "",
     }
   },
-  created(){
+  created() {
     this.connect();
   },
 
@@ -61,7 +65,8 @@ export default {
       return (time < 10 ? '0' : '') + time;
     },
 
-    connect(){
+    connect() {
+      this.receiveBidPrice();
       const serverURL = "http://localhost:8080/bid";
       let socket = new SocketJS(serverURL);
       this.stompClient = Stomp.over(socket);
@@ -70,7 +75,8 @@ export default {
           (frame) => {
             this.connected = true;
             this.stompClient.subscribe("/bidPost", (res) => {
-              this.currentPrice = JSON.parse(res.body);
+              this.currentInfo = JSON.parse(res.body);
+              this.currentPrice = this.currentInfo;
               console.log(this.currentPrice);
             });
           },
@@ -79,6 +85,13 @@ export default {
           }
       );
     },
+    receiveBidPrice() {
+      this.$http.get("/bidPost").then((res) => {
+        this.currentInfo = res.data;
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
   }
 }
 </script>

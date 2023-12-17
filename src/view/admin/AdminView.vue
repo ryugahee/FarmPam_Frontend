@@ -1,136 +1,89 @@
 <template>
   <client-only>
-  <div>
-    <!-- 헤더 -->
-    <div class="adminHeader">
-      <img class="adminLogo" src="../../../public/assets/img/adminLogo.png" />
-      <div class="adminName">나무니 님</div>
-      <button class="adminLogoutBtn">로그아웃</button>
-    </div>
-
-    <!-- 경매 현황 -->
-    <div class="adminContainer">
-      <div class="auctionReport">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">경매현황</th>
-              <th scope="col">품목</th>
-              <th scope="col">무게</th>
-              <th scope="col">거래일</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">핀</th>
-              <td>당근</td>
-              <td>5kg</td>
-              <td>2023-08-30</td>
-            </tr>
-            <tr>
-              <th scope="row">제이크</th>
-              <td>당근</td>
-              <td>5kg</td>
-              <td>2023-08-30</td>
-            </tr>
-            <tr>
-              <th scope="row">비모</th>
-              <td>당근</td>
-              <td>5kg</td>
-              <td>2023-08-30</td>
-            </tr>
-            <tr>
-              <th scope="row">마셀린</th>
-              <td>당근</td>
-              <td>5kg</td>
-              <td>2023-08-30</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="paginations1">
-          <a href="#" class="page-link">&laquo;</a>
-          <a href="#" class="page-link">1</a>
-          <a href="#" class="page-link">2</a>
-          <a href="#" class="page-link">3</a>
-          <a href="#" class="page-link">&raquo;</a>
-        </div>
+    <div>
+      <!-- 헤더 -->
+      <div class="adminHeader">
+        <img class="adminLogo" src="../../../public/assets/img/adminLogo.png" />
+        <div class="adminName">나무니 님</div>
+        <button class="adminLogoutBtn">로그아웃</button>
       </div>
 
-      <!-- 경매중 -->
-      <!-- <div class="auctionIng"> -->
-      <AutionOngoing />
-      <!-- </div> -->
-    </div>
+      <!-- 경매 현황 -->
+      <div class="adminContainer">
+        <AuctionReport />
 
-    <!-- 시세 -->
-    <div class="adminContainer">
-      <div class="chart-container">
-        <!-- <div class="adminSearchContainer"> -->
-        <input
-          class="adminSearch"
-          v-model="keyword"
-          @keyup.enter="searchMarketValue()"
-        />
-        <img
-          class="adminSearchLens"
-          src=".././../../public/assets/img/search.png"
-          @click="searchMarketValue()"
-        />
+        <!-- 경매중 -->
+        <!-- <div class="auctionIng"> -->
+        <AutionOngoing />
         <!-- </div> -->
-        <div v-if="chartDatas.length == 0">
-          <!-- <h3>품목 '{{ this.keyword }}'은 없어요</h3> -->
-          <h3>No data</h3>
-        </div>
-        <!-- <div v-else> -->
-        <div
-          class="chart"
-          v-for="(chartData, index) in chartDatas"
-          :key="index"
-        >
-          <ChartView :chartData="chartData" />
-          <!-- {{ chartData }} -->
-        </div>
+      </div>
 
-        <div class="paginations2">
-          <a href="#" class="page-link">&laquo;</a>
-          <div v-for="(pages, index) in marketValueTotalPage" :key="index">
-            <a class="page-link" @click="allMarketValue(index)">
-              {{ index + 1 }}
-            </a>
+      <!-- 시세 -->
+      <div class="adminContainer">
+        <div class="chart-container">
+          <!-- <div class="adminSearchContainer"> -->
+          <input
+            class="adminSearch"
+            v-model="keyword"
+            @keyup.enter="searchMarketValue()"
+          />
+          <img
+            class="adminSearchLens"
+            src=".././../../public/assets/img/search.png"
+            @click="searchMarketValue()"
+          />
+          <!-- </div> -->
+          <div v-if="chartDatas.length == 0">
+            <!-- <h3>품목 '{{ this.keyword }}'은 없어요</h3> -->
+            <h3>No data</h3>
           </div>
-          <a href="#" class="page-link">&raquo;</a>
-          <!-- <a href="#" class="page-link">1</a>
+          <!-- <div v-else> -->
+          <div
+            class="chart"
+            v-for="(chartData, index) in chartDatas"
+            :key="index"
+          >
+            <ChartView :chartData="chartData" />
+            <!-- {{ chartData }} -->
+          </div>
+
+          <div class="paginations2">
+            <!-- <a href="#" class="page-link">&laquo;</a> -->
+            <div v-for="(pages, index) in marketValueTotalPage" :key="index">
+              <a class="page-link" @click="allMarketValue(index)">
+                {{ index + 1 }}
+              </a>
+            </div>
+            <!-- <a href="#" class="page-link">&raquo;</a> -->
+            <!-- <a href="#" class="page-link">1</a>
           <a href="#" class="page-link">2</a>
           <a href="#" class="page-link">3</a> -->
+          </div>
+          <!-- </div> -->
         </div>
-        <!-- </div> -->
-      </div>
 
-      <!-- 회원 현황 -->
-      <div class="memberReport">
-        <MemberReport />
+        <!-- 회원 현황 -->
+        <div class="memberReport">
+          <MemberReport />
+        </div>
       </div>
     </div>
-  </div>
-</client-only>
+  </client-only>
 </template>
 
 <script>
-import axios from "axios";
 import ChartView from "./ChartView.vue";
 import MemberReport from "./MemberReport.vue";
+import AuctionReport from "./AuctionReport.vue";
 import { onMounted, ref } from "vue";
 import AutionOngoing from "./AutionOngoing.vue";
-import {requireRefreshToken} from "@/api/tokenApi.vue";
+import { requireRefreshToken } from "@/api/tokenApi.vue";
 import http from "@/api/http";
 
 export default {
   name: "App",
-  components: { ChartView, AutionOngoing, MemberReport },
+  components: { ChartView, AutionOngoing, MemberReport, AuctionReport },
   setup() {
-
-  
-
     const marketValuePageNum = ref(0);
     const marketValueTotalPage = ref(0);
     const keyword = ref("");
@@ -193,7 +146,7 @@ export default {
         })
         .catch((err) => {
           console.log(err.response.data);
-          if(err.response.data == "please send refreshToken"){
+          if (err.response.data == "please send refreshToken") {
             console.log("리프레시 토큰 요청");
             requireRefreshToken();
           }
@@ -257,7 +210,11 @@ export default {
           // this.chartDatas[0].datasets[0].data = priceList;
         })
         .catch((err) => {
-          
+          console.log(err.response.data);
+          if (err.response.data == "please send refreshToken") {
+            console.log("리프레시 토큰 요청");
+            requireRefreshToken();
+          }
         });
     };
 
@@ -284,8 +241,6 @@ export default {
     };
   },
 };
-
-
 </script>
 
 <style scoped>
@@ -308,8 +263,8 @@ body {
 
 .adminSearchLens {
   position: absolute;
-  margin-left: 525px;
-  margin-top: 15px;
+  margin-left: 580px;
+  margin-top: 17px;
 }
 
 .adminSearchLens:hover {
@@ -340,8 +295,8 @@ body {
   color: aliceblue;
 }
 .auctionReport {
-  width: 850px;
-  min-width: 850px;
+  width: 650px;
+  min-width: 650px;
   height: 500px;
   border: #404040 solid 1px;
   margin: 100px 30px;
@@ -359,18 +314,19 @@ body {
 
 /* 페이지네이션 스타일 */
 .paginations1 {
-  display: flex;
-  justify-content: center;
-  margin-top: 240px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  margin-top: 200px;
 }
 .paginations2 {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  /* margin-bottom: 20px; */
   /* height: 20px; */
-  margin-left: 320px;
-  margin-top: 475px;
+  /* margin-left: 255px; */
+  margin-top: 400px;
 }
 
 .page-link {
@@ -390,10 +346,10 @@ body {
 
 .chart-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
   /* gap: 5px; */
-  width: 850px;
-  min-width: 850px;
+  width: 650px;
+  min-width: 650px;
   height: 530px;
   border: #404040 solid 1px;
   margin: 10px 30px;
@@ -407,7 +363,7 @@ body {
   position: absolute;
   border: #333 solid 1px;
   width: 180px;
-  margin-left: 340px;
+  margin-left: 400px;
   margin-top: 22px;
 }
 .auctionIng {
@@ -417,8 +373,8 @@ body {
   border: #333 solid 1px;
 }
 .memberReport {
-  width: 850px;
-  min-width: 850px;
+  width: 650px;
+  min-width: 650px;
   height: 530px;
   border: #333 solid 1px;
   margin: 10px 30px;

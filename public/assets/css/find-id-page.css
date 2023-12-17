@@ -7,6 +7,11 @@
     justify-content: center;
     /* background: antiquewhite; */
   }
+
+  button {
+    margin-left: 48px !important;
+    border-radius: 10% !important;
+  }
   
   .advice {
       font-size: 30px;

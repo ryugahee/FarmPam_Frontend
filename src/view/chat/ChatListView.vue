@@ -80,7 +80,8 @@ export default {
 
   created() {
     if (localStorage.getItem("accessToken") == null) {
-      this.$router.replace("/home");
+      this.$router.replace("/login");
+      alert("로그인 후 이용하실 수 있습니다.");
     }
 
     this.myId = localStorage.getItem("username");
