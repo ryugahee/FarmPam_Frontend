@@ -9,6 +9,11 @@
   /* background: antiquewhite; */
 }
 
+#idInput{
+  width: 170px;
+  margin-right: 10px;
+}
+
 .colBox {
   display: flex;
   flex-direction: column;

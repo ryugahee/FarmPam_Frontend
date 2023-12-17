@@ -66,15 +66,28 @@
 
   }
 
+
+input {
+  /* border: #bbbbbb solid 1px; */
+  width: 200px;
+  margin-left: 50px !important;
+}
+
   .user-info-main dl dt {
     font-size: 22px;
     width: 100px;
-  }
+
 
   .user-info-main dl dd {
     font-size: large;
     color: #888888;
   }
+
+
+hr {
+  border-color: #c7c7c7 !important;
+  height: 1px;
+}
 
   .store-Intro {
     width: 350px;
@@ -96,4 +109,5 @@
     border-color: #c7c7c7 !important;
     height: 1px;
   }
+
 }

@@ -179,9 +179,6 @@ export default {
     };
 
     const getUserInfo = () => {
-      console.log("파일 : ", file);
-
-      console.log("이미지 : ", imageUrl);
 
       instance
         .post("/getUserInfo")
@@ -233,7 +230,7 @@ export default {
     };
 
     const goBack = () => {
-      let result = confirm("변경사항을 저장하지 않고 나가시겠어요?");
+      let result = confirm("마이페이지를 나가시겠어요?");
       if (result) {
         // TODO: 뒤로 가기 로직 작성
         router.go(-1);

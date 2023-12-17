@@ -20,12 +20,12 @@
       </tbody>
     </table>
     <div class="paginations1">
-      <a href="#" class="page-link">&laquo;</a>
-      <div v-for="(user, index) in users" :key="index">
-        <a href="#" class="page-link">{{ index + 1 }}</a>
+      <!-- <a href="#" class="page-link">&laquo;</a> -->
+      <div v-for="n in memberReportTotalPage" :key="n">
+        <a href="#" class="page-link">{{ n }}</a>
       </div>
 
-      <a href="#" class="page-link">&raquo;</a>
+      <!-- <a href="#" class="page-link">&raquo;</a> -->
     </div>
   </div>
 </client-only>
@@ -38,46 +38,84 @@ import http from "@/api/http";
 export default {
   setup() {
     const users = ref([{ id: 1 }]);
+    const memberReportPageNum = ref(0);
+    const memberReportTotalPage = ref(0);
+    let arr = ref([]);
 
-    const getAllUsers = () => {
+
+    const getAllUsers = (pageNum) => {
       http
-        .get("/getAllUsers")
+        .get("/getAllUsers", {
+      params: {
+        pageNum: pageNum
+      }
+    })
         .then((res) => {
-          users.value = [...res.data];
+          users.value = [...res.data.content];
 
-          console.log("유저 배열 : ", users.value);
+          memberReportTotalPage.value = res.data.totalPages;
+
+          console.log("유저 배열 : ", res.data);
+          // generateRange(memberReportTotalPage.value);
         })
         .catch((err) => {
           console.log(err);
         });
     };
 
+   const generateRange = (totalPages) => {
+      arr = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+      console.log("배열 : " , arr);
+    };
+
     onMounted(() => {
-      getAllUsers();
+      getAllUsers(memberReportPageNum.value);
     });
 
     return {
       users,
+      arr,
+      memberReportTotalPage,
+      generateRange
     };
   },
 };
 </script>
 
 <style scoped>
+
+body{overflow-x: scroll;}
 .paginations1 {
   /* display: flex;
   justify-content: center;
   margin-top: 240px; */
 
-  position: absolute;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+
+  /* position: absolute;
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  justify-content: center; */
+  margin-top: 265px;
   /* height: 20px; */
-  margin-left: 320px;
-  margin-top: 335px;
+  /* margin-left: 230px;
+  margin-top: 265px; */
+}
+.table {
+  margin: 0 auto; /* 좌우 여백을 auto로 설정하여 수평 가운데 정렬 */
 }
 
+/* th, td 요소 내의 텍스트를 가운데 정렬 */
+th, td {
+  text-align: center;
+}
+
+/* th 요소 중 특정 열을 가운데 정렬 */
+.col1 {
+  text-align: center; /* 가운데 정렬을 원하는 특정 열(th)에 클래스 적용 */
+}
 .page-link {
   display: inline-block;
   padding: 8px 12px;
