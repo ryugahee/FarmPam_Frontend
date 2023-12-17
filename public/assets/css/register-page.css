@@ -1,92 +1,102 @@
 .container {
-    width: 390px; /* 가로 크기 */
-    height: 844px; /* 세로 크기 */
-      border: #C0C0C0 1px solid;
-      margin: 0 auto;
-      display: flex;
-    justify-content: center;
-    overflow: auto;
-    /* background: antiquewhite; */
-  }
+  width: 390px; /* 가로 크기 */
+  height: 844px; /* 세로 크기 */
+  border: #c0c0c0 1px solid;
+  margin: 0 auto;
+  display: flex;
+  justify-content: left;
+  overflow: auto;
+  /* background: antiquewhite; */
+}
 
-  .colBox {
-    display: flex;
-    flex-direction: column;
-  }
+.colBox {
+  display: flex;
+  flex-direction: column;
+}
 
-  #mail {
-    width: 150px !important;
-    margin-right: 30px;
-  }
+#mail {
+  width: 150px !important;
+  margin-right: 30px;
+}
 
-  .mailButton {
-    width: 120px;
-  }
-  
-  .advice {
-      font-size: 30px;
-      margin-top: 20px;
-      width: 300px;
-  }
-  
-  
-  input{
-      font-family: 'Noto Sans KR','Noto Sans Korean', "Nanum Gothic", sans-serif;
-      border: 0;
-      outline: none;
-      font-size: 10px;
-  }
-  input::placeholder{
-    color: #d9d9d9
-  }
-  .easyLoginForm{
-  
-    box-sizing: border-box;
-    margin: 10px auto;
-    position: relative;
-  }
-  .easyLoginForm label{
-    display: inline-block;
-    position: absolute;
-    top: -5px;
-    left: 14px;
-    padding: 5px;
-    background: white;
-    font-size: 14px;
-    color: #888;
-    font-weight: bold;
-  }
-  .easyLoginForm.ver2 label{
-    top: initial;
-    bottom: -20px;
-  }
-  .easyLoginForm label span{
-    color: #da4841;
-    vertical-align: -1px;
-  }
-  .easyLoginForm input{
-      width: 100%;
-      border: 1px solid #dddddd !important;
-      font-size: 1rem;
-      line-height: 1.45;
-      letter-spacing: -0.04rem;
-      border-radius: 8px;
-      padding: 10px;
-      margin-top: 12px;
-  }
-  
-  button {
-      background: #90EE90;
-      border: transparent;
-      width: 250px;
-      height: 35px;
-      font-size: 15px;
-      border-radius: 5px;
-      margin-left: 25px;
-      margin-top: 30px;
-  }
-  
-  button:hover {
-      cursor: pointer;
-  }
-  
+.mailButton {
+  width: 120px;
+}
+
+.advice {
+  font-size: 30px;
+  margin-top: 20px;
+  width: 300px;
+}
+
+input {
+  font-family: "Noto Sans KR", "Noto Sans Korean", "Nanum Gothic", sans-serif;
+  border: 0;
+  outline: none;
+  font-size: 10px;
+}
+input::placeholder {
+  color: #d9d9d9;
+}
+.easyLoginForm {
+  box-sizing: border-box;
+  margin: 10px auto;
+  position: relative;
+}
+.easyLoginForm label {
+  display: inline-block;
+  position: absolute;
+  top: -5px;
+  left: 14px;
+  padding: 5px;
+  background: white;
+  font-size: 14px;
+  color: #888;
+  font-weight: bold;
+}
+.easyLoginForm.ver2 label {
+  top: initial;
+  bottom: -20px;
+}
+.col {
+  display: flex; /* 부모 요소를 Flex Container로 설정 */
+  justify-content: left;
+}
+.easyLoginForm label span {
+  color: #da4841;
+  vertical-align: -1px;
+}
+
+.easyLoginForm {
+  margin-left: 30px;
+}
+.easyLoginForm input {
+  width: 80%;
+  margin-left: 10px;
+  border: 1px solid #dddddd !important;
+  font-size: 1rem;
+  line-height: 1.45;
+  letter-spacing: -0.04rem;
+  border-radius: 5%;
+  padding: 10px;
+  margin-top: 12px;
+}
+
+button {
+  background: #90ee90;
+  border: transparent;
+  width: 250px;
+  height: 35px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin-left: 25px;
+  margin-top: 30px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.registerBtn {
+  margin-left: 100px;
+}
