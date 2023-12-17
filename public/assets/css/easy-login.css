@@ -18,7 +18,7 @@
 }
 .checkIng {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .checkCodeInputBtn {
   margin: 15px 0 0 10px;

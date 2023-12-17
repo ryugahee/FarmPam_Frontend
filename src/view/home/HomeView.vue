@@ -1,14 +1,22 @@
 <template>
   <div>
     <LOGO />
-    <SearchBar :style="{position: 'static'}"/>
+    <SearchBar :style="{ position: 'static' }" />
     <div class="header-title">
       <h1>HOT</h1>
     </div>
-    <div class="image-slider" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
-      <div class="image-container" :style="{ transform: `translateX(${translateX}%)` }">
+    <div
+      class="image-slider"
+      @touchstart="onTouchStart"
+      @touchmove="onTouchMove"
+      @touchend="onTouchEnd"
+    >
+      <div
+        class="image-container"
+        :style="{ transform: `translateX(${translateX}%)` }"
+      >
         <div v-for="(image, index) in image" :key="index" class="image-slide">
-          <img :src="image.carouselImg" alt="Slide"/>
+          <img :src="image.carouselImg" alt="Slide" />
         </div>
       </div>
     </div>
@@ -18,15 +26,15 @@
     <div class="farmer-profile-wrapper">
       <div class="farmer-profile" v-for="fpBox in farmerProfile" :key="fpBox">
         <div class="fp">
-          <img class="farmer-profile-image" :src="fpBox.fpImg" alt=""/>
+          <img class="farmer-profile-image" :src="fpBox.fpImg" alt="" />
           <div class="farmer">
             <span class="farmer-nickname"> {{ fpBox.fpName }} </span>
-            <img class="medal" :src="fpBox.medal" alt=""/>
+            <img class="medal" :src="fpBox.medal" alt="" />
           </div>
         </div>
       </div>
     </div>
-<!--    <div class="month-pam">
+    <!--    <div class="month-pam">
       <h2>이 달의 팖</h2>
     </div>
     <div class="pam-box">
@@ -37,7 +45,7 @@
         </div>
       </div>
     </div>-->
-    <NavBar/>
+    <NavBar />
   </div>
 </template>
 
@@ -45,6 +53,7 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import SearchBar from "@/components/user/SearchBarComponent.vue";
 import NavBar from "@/components/user/NavComponent.vue";
+import router from "@/router";
 
 export default {
   name: "HomeView",
@@ -54,52 +63,52 @@ export default {
       translateX: 0,
       image: [
         {
-          carouselImg: require("../../../public/assets/img/sample01.jpg")
+          carouselImg: require("../../../public/assets/img/sample01.jpg"),
         },
         {
-          carouselImg: require("../../../public/assets/img/sample02.jpg")
+          carouselImg: require("../../../public/assets/img/sample02.jpg"),
         },
         {
-          carouselImg: require("../../../public/assets/img/sample03.jpg")
-        }
+          carouselImg: require("../../../public/assets/img/sample03.jpg"),
+        },
       ],
       farmerProfile: [
         {
           fpImg: require("../../../public/assets/img/profile1.png"),
           fpName: "그랜드팜",
-          medal: require("../../../public/assets/img/goldmedal.png")
+          medal: require("../../../public/assets/img/goldmedal.png"),
         },
         {
           fpImg: require("../../../public/assets/img/profile2.png"),
           fpName: "팜파미",
-          medal: require("../../../public/assets/img/silvermedal.png")
+          medal: require("../../../public/assets/img/silvermedal.png"),
         },
         {
           fpImg: require("../../../public/assets/img/profile3.png"),
           fpName: "팜쀼",
-          medal: require("../../../public/assets/img/bronze.png")
-        }
+          medal: require("../../../public/assets/img/bronze.png"),
+        },
       ],
       pamThumbnail: [
         {
           pamImg: require("../../../public/assets/img/thumbnail1.png"),
-          productName: "샤인머스켓"
+          productName: "샤인머스켓",
         },
         {
           pamImg: require("../../../public/assets/img/thumbnail2.png"),
-          productName: "복숭아"
+          productName: "복숭아",
         },
         {
           pamImg: require("../../../public/assets/img/thumbnail3.png"),
-          productName: "유자"
-        }
-      ]
-    }
+          productName: "유자",
+        },
+      ],
+    };
   },
   components: {
     LOGO,
     SearchBar,
-    NavBar
+    NavBar,
   },
   methods: {
     onTouchStart(e) {
@@ -121,17 +130,21 @@ export default {
       this.translateX = -this.currentIndex * 100;
     },
     goPrevSlide() {
-      this.currentIndex = (this.currentIndex - 1 + this.image.length) % this.image.length;
+      this.currentIndex =
+        (this.currentIndex - 1 + this.image.length) % this.image.length;
       this.translateX = -this.currentIndex * 100;
-    }
+    },
   },
   mounted() {
+    if (!localStorage.getItem("username")) {
+      router.replace("login");
+    }
     setInterval(() => {
       this.currentIndex = (this.currentIndex + 1) % this.image.length;
       this.translateX = -this.currentIndex * 100;
     }, 2000);
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

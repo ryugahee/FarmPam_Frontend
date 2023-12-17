@@ -26,7 +26,8 @@
       </div>
 
       <div class="finder">
-        <button @click="$router.push('/findId')">아이디 찾기</button> &nbsp; &nbsp; &nbsp; |
+        <button @click="$router.push('/findId')">아이디 찾기</button> &nbsp;
+        &nbsp;
         <button @click="$router.push('/findPw')">비밀번호 찾기</button>
       </div>
 
@@ -56,7 +57,6 @@ import router from "@/router";
 export default {
   setup() {
     onMounted(() => {
-
       function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);

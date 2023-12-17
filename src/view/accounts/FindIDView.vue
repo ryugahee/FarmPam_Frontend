@@ -1,42 +1,55 @@
 <template>
-    <div class="container">
-        <row>
-            <div class="advice">
-                아이디 찾기
-            </div>
+  <div class="container">
+    <div class="advice">아이디 찾기</div>
 
-
-            <div class="easyLoginForm">
-                <label for="itemname"><span>* </span>전화번호</label>
-                <input type="text" class="txt-input" id="itemname">
-            </div>
-
-            <button @click="sendPhoneNumber">전화번호 인증하기</button>
-            <div class="checkIng" v-show="phoneState == '인증 진행중'">
-          <!-- <div class="phoneState">
-            {{ phoneState }}
-          </div> -->
-
-          <input id="checkCodeInput" type="number" v-model="phoneCheckNum" />
-
-          <button class="checkCodeInputBtn" @click="compareSMSNumber">
-            인증하기
-          </button>
-          <div class="phoneState">
-            {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
-          </div>
-        </div>
-        </row>
+    <div class="easyLoginForm">
+      <label for="itemname"><span>* </span>전화번호</label>
+      <input type="text" class="txt-input" id="itemname" />
     </div>
+
+    <button @click="sendPhoneNumber">전화번호 인증하기</button>
+    <div class="checkIng" v-show="phoneState == '인증 진행중'">
+      <!-- <div style="width: 400px" class="checkIng" v-show="true"> -->
+      <!-- <div class="phoneState">
+        {{ phoneState }}
+      </div> -->
+
+      <input
+        id="checkCodeInput"
+        style="
+          border: rgb(179, 179, 179) solid 1px;
+          margin-left: 50px;
+          width: 90px;
+        "
+        type="number"
+        v-model="phoneCheckNum"
+      />
+      <div class="phoneState" style="position: absolute; margin-left: 170px">
+        {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
+      </div>
+      <br />
+      <button
+        style="
+          width: 70px;
+
+          margin-left: 83px !important;
+        "
+        class="checkCodeInputBtn"
+        @click="compareSMSNumber"
+      >
+        인증하기
+      </button>
+      {{ username }}
+    </div>
+  </div>
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
-import instance from '@/api/http';
+import { reactive, ref } from "vue";
+import instance from "@/api/http";
 export default {
-    setup() {
-
-        const state = reactive({
+  setup() {
+    const state = reactive({
       form: {
         realName: "",
         username: "",
@@ -52,44 +65,44 @@ export default {
       },
     });
 
+    const phoneState = ref("");
+    const phoneCheckNum = ref(null);
+    const minutes = ref(1);
+    const seconds = ref(0);
+    const timer = ref(null);
+    const smsCodeCheck = ref(false);
+    const username = ref("");
 
-        const phoneState = ref("");
-        const phoneCheckNum = ref(null);
-        const minutes = ref(1);
-        const seconds = ref(0);
-        const timer = ref(null);
-        const smsCodeCheck = ref(false);
-
-            //인증번호 발송
-  const sendPhoneNumber = () => {
+    //인증번호 발송
+    const sendPhoneNumber = () => {
       clearInterval(timer);
       console.log("휴대폰 번호 인증 시작");
-    //   instance
-    //   .post("/checkPhoneNumber", state.form.phoneNumber)
-    //   .then((res) => {
-    //     alert("인증번호 발송 성공");
-      phoneState.value = "인증 진행중";
+      instance
+        .post("/checkPhoneNumber", state.form.phoneNumber)
+        .then((res) => {
+          alert("인증번호 발송 성공");
+          phoneState.value = "인증 진행중";
 
-      // 타이머 설정
-    //   let countdown = setInterval(() => {
-    //     if (minutes.value === 0 && seconds.value === 0) {
-    //       console.log("인증 필요");
-    //       phoneState.value = "인증 필요";
-    //       clearInterval(countdown); // 타이머 종료
-    //     } else {
-    //       if (seconds.value === 0) {
-    //         minutes.value -= 1;
-    //         seconds.value = 59;
-    //       } else {
-    //         seconds.value -= 1;
-    //       }
-    //     }
-    //   }, 1000);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    }
+          // 타이머 설정
+          let countdown = setInterval(() => {
+            if (minutes.value === 0 && seconds.value === 0) {
+              console.log("인증 필요");
+              phoneState.value = "인증 필요";
+              clearInterval(countdown); // 타이머 종료
+            } else {
+              if (seconds.value === 0) {
+                minutes.value -= 1;
+                seconds.value = 59;
+              } else {
+                seconds.value -= 1;
+              }
+            }
+          }, 1000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
     const compareSMSNumber = () => {
       console.log(
@@ -106,20 +119,36 @@ export default {
         .then((res) => {
           smsCodeCheck.value = true;
           alert("휴대폰 인증에 성공하였습니다.");
+          findUsername();
         })
         .catch((err) => {
           console.log(err);
         });
-    }
+    };
 
+    const findUsername = () => {
+      instance
+        .post("/findUsername", state.form.phoneNumber)
+        .then((res) => {
+          username.value = res.data;
+        })
+        .catch((err) => {
+          console.log(err.data);
+        });
+    };
 
     return {
-        sendPhoneNumber,
-        compareSMSNumber,
-        phoneState,
-    }
-    },
-}
+      sendPhoneNumber,
+      compareSMSNumber,
+      phoneState,
+      minutes,
+      seconds,
+      timer,
+      smsCodeCheck,
+      username,
+    };
+  },
+};
 </script>
 
 <style scoped>

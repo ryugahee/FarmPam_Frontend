@@ -14,22 +14,18 @@
       <div class="pop-up-profile">
         <div class="pop-up-profile-box">
           <div v-if="imageUrl">
-            <img
-            class="pop-up-profile-img"
-            :src="imageUrl"
-            alt=""
-          />
+            <img class="pop-up-profile-img" :src="imageUrl" alt="" />
           </div>
-          <div v-else >
+          <div v-else>
             <img
-            class="pop-up-profile-img"
-            src="../../../public/assets/img/person2.png"
-            style="background-color: grey; border-radius: 100%;"
-            alt=""
-          />
+              class="pop-up-profile-img"
+              src="../../../public/assets/img/person2.png"
+              style="background-color: grey; border-radius: 100%"
+              alt=""
+            />
           </div>
-          
-          <span> {{ username }} &nbsp; 님</span>
+
+          <span> {{ nickname }} &nbsp; 님</span>
         </div>
       </div>
       <div class="pop-up-money-box">
@@ -71,10 +67,17 @@ export default {
   components: {
     ItemPost,
   },
-
+  //   props: {
+  //     username: {
+  //       type: String,
+  //     },
+  //     imageUrl: {
+  // type: String
+  //     }
+  //   },
   setup() {
     const farmMoney = ref(1000);
-    const username = ref("");
+    const nickname = ref("");
     const imageUrl = ref("");
 
     const getUserInfo = () => {
@@ -83,9 +86,8 @@ export default {
         .then((res) => {
           console.log("유저 정보", res.data);
           const data = res.data;
-          username.value = data.username;
+          nickname.value = data.nickname;
           imageUrl.value = data.imageUrl;
-
         })
         .catch((err) => {
           console.error("유저 정보 조회 오류:", err);
@@ -109,8 +111,8 @@ export default {
     return {
       logout,
       farmMoney,
-      username,
-        imageUrl
+      nickname,
+      imageUrl,
     };
   },
   // data() {

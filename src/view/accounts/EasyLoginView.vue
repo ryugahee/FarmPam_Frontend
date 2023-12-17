@@ -135,6 +135,10 @@ export default {
       expireCookie("refreshToken");
       expireCookie("username");
       expireCookie("roles");
+
+      if (localStorage.getItem("username")) {
+        router.replace("home");
+      }
     });
 
     const state = reactive({
