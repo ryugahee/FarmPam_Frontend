@@ -4,7 +4,7 @@
       <!-- 헤더 -->
       <div class="adminHeader">
         <img class="adminLogo" src="../../../public/assets/img/adminLogo.png" />
-        <div class="adminName">나무니 님</div>
+        <div class="adminName">{{ username }} 님</div>
         <button class="adminLogoutBtn">로그아웃</button>
       </div>
 
@@ -54,10 +54,6 @@
                 {{ index + 1 }}
               </a>
             </div>
-            <!-- <a href="#" class="page-link">&raquo;</a> -->
-            <!-- <a href="#" class="page-link">1</a>
-          <a href="#" class="page-link">2</a>
-          <a href="#" class="page-link">3</a> -->
           </div>
           <!-- </div> -->
         </div>
@@ -91,6 +87,7 @@ export default {
     const dayList = ref([]);
     const priceList = ref([]);
     const itemName = ref("");
+    const username = ref("");
 
     //전체 시세 조회
     const allMarketValue = (pageNum) => {
@@ -221,6 +218,8 @@ export default {
     onMounted(() => {
       console.log("전체 시세 조회 요청");
 
+      username.value = localStorage.getItem("username");
+
       console.log("페이지 요청 : ", marketValuePageNum.value);
 
       // checkAccessToken();
@@ -232,6 +231,7 @@ export default {
       dayList,
       priceList,
       itemName,
+      username,
       keyword,
       marketValuePageNum,
       marketValueTotalPage,
@@ -263,7 +263,7 @@ body {
 
 .adminSearchLens {
   position: absolute;
-  margin-left: 580px;
+  margin-left: 503px;
   margin-top: 17px;
 }
 
@@ -295,8 +295,8 @@ body {
   color: aliceblue;
 }
 .auctionReport {
-  width: 650px;
-  min-width: 650px;
+  width: 800px;
+  min-width: 800px;
   height: 500px;
   border: #404040 solid 1px;
   margin: 100px 30px;
@@ -323,10 +323,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 340px;
   /* margin-bottom: 20px; */
   /* height: 20px; */
   /* margin-left: 255px; */
-  margin-top: 400px;
+  /* margin-top: 4px; */
 }
 
 .page-link {
@@ -345,17 +346,18 @@ body {
 }
 
 .chart-container {
-  display: grid;
+  display: flex;
   /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
   /* gap: 5px; */
-  width: 650px;
-  min-width: 650px;
+  width: 800px;
+  min-width: 800px;
   height: 530px;
   border: #404040 solid 1px;
   margin: 10px 30px;
+  flex-wrap: wrap;
 }
 .chart {
-  margin-top: 40px;
+  margin-top: 60px;
   margin-left: 30px;
 }
 
@@ -363,7 +365,7 @@ body {
   position: absolute;
   border: #333 solid 1px;
   width: 180px;
-  margin-left: 400px;
+  margin-left: 320px;
   margin-top: 22px;
 }
 .auctionIng {
@@ -373,8 +375,8 @@ body {
   border: #333 solid 1px;
 }
 .memberReport {
-  width: 650px;
-  min-width: 650px;
+  width: 800px;
+  min-width: 800px;
   height: 530px;
   border: #333 solid 1px;
   margin: 10px 30px;
