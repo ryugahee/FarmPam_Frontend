@@ -314,14 +314,14 @@ body {
 
 /* 페이지네이션 스타일 */
 .paginations1 {
-  display: flex; 
-  justify-content: center; 
+  display: flex;
+  justify-content: center;
   align-items: center;
   margin-top: 200px;
 }
 .paginations2 {
-  display: flex; 
-  justify-content: center; 
+  display: flex;
+  justify-content: center;
   align-items: center;
   /* margin-bottom: 20px; */
   /* height: 20px; */

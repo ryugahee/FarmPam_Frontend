@@ -53,6 +53,7 @@
 import LOGO from "@/components/user/LogoComponent.vue";
 import SearchBar from "@/components/user/SearchBarComponent.vue";
 import NavBar from "@/components/user/NavComponent.vue";
+import router from "@/router";
 
 export default {
   name: "HomeView",
@@ -135,6 +136,9 @@ export default {
     },
   },
   mounted() {
+    if (!localStorage.getItem("username")) {
+      router.replace("login");
+    }
     setInterval(() => {
       this.currentIndex = (this.currentIndex + 1) % this.image.length;
       this.translateX = -this.currentIndex * 100;

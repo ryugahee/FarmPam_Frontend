@@ -84,7 +84,8 @@ export default {
       this.$router.push("/home");
     },
     user() {
-      this.$router.push("/user");
+      // this.$router.push("/user");
+      location.href = "http://localhost:8081/user";
     },
     auctionRegister() {
       this.$router.push("/auction/register");
