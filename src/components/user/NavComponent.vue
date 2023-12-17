@@ -192,6 +192,18 @@ export default {
   top: 0;
 }
 
+.nav-search-fix {
+  margin: 0 auto;
+  width: 390px;
+  height: 75px;
+  padding-top: 20px;
+  position: sticky;
+  top: 0px;
+  text-align: center;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
 .slide-up-enter-active,
 .slide-up-leave-active {
   transition: transform 0.3s ease-in-out;

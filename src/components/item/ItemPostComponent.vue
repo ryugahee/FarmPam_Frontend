@@ -16,8 +16,7 @@
           </div>
         </div>
         <div class="post-content">
-          <h3> {{ item.itemTitle }}</h3>
-          <h3>{{ item.weight }}kg</h3>
+          <h3> {{ item.itemTitle }} {{ item.weight }}kg</h3>
         </div>
       </router-link>
     </div>

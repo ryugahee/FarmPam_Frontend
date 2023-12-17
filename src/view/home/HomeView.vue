@@ -23,8 +23,7 @@
               </div>
             </div>
             <div class="post-content">
-              <h3> {{ item.itemTitle }}</h3>
-              <h3>{{ item.weight }}kg</h3>
+              <h3> {{ item.itemTitle }} {{ item.weight }}kg</h3>
               <p class="current-bid-price">현재 입찰가</p>
               <h3 class="price" v-if="currentInfo !== undefined && currentInfo[i] && currentInfo[i].bidPrice !== undefined"> {{ currentInfo[i].bidPrice }}원 </h3>
             </div>
