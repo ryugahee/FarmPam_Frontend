@@ -8,6 +8,7 @@
         type="text"
         class="txt-input"
         id="itemname"
+        style="width: 280px"
         v-model="state.form.realName"
       />
     </div>
@@ -20,7 +21,9 @@
         id="idInput"
         v-model="state.form.username"
       />
-      <button class="mailButton" @click="checkId">아이디 중복체크</button>
+      <button style="width: 80px" class="mailButton" @click="checkId">
+        중복체크
+      </button>
     </div>
 
     <div class="easyLoginForm">
@@ -29,6 +32,7 @@
         type="password"
         class="txt-input"
         id="itemnew"
+        style="width: 230px"
         v-model="state.form.password"
         @input="checkPasswordMatch"
       />
@@ -40,6 +44,7 @@
         type="password"
         class="txt-input"
         id="itemnew"
+        style="width: 230px"
         v-model="userPWCheck"
         @input="checkPasswordMatch"
       />
@@ -52,6 +57,7 @@
       <input
         type="email"
         class="txt-input"
+        style="width: 280px"
         id="itemname"
         v-model="state.form.email"
       />
@@ -62,14 +68,19 @@
       <input
         type="text"
         class="txt-input"
+        style="width: 280px"
         id="itempw"
         v-model="state.form.phoneNumber"
       />
 
       <div class="col">
         <div v-show="phoneState !== '인증 진행중'">
-          <button @click="sendPhoneNumber" class="phoneButton">
-            휴대폰 인증 번호 발송
+          <button
+            style="width: 100px; margin-left: 95px !important"
+            @click="sendPhoneNumber"
+            class="phoneButton"
+          >
+            인증 번호 발송
           </button>
         </div>
 
@@ -96,9 +107,16 @@
         type="text"
         class="txt-input"
         id="idInput"
+        style="width: 280px"
         v-model="state.form.nickname"
       />
-      <button @click="checkNickname" class="mailButton">닉네임 중복체크</button>
+      <button
+        style="margin-left: 85px !important"
+        @click="checkNickname"
+        class="mailButton"
+      >
+        닉네임 중복체크
+      </button>
     </div>
     <div class="colBox">
       <div class="easyLoginForm">
@@ -110,7 +128,13 @@
           v-model="state.form.mailCode"
         />
 
-        <button class="mailButton" @click="search">우편번호 찾기</button>
+        <button
+          style="width: 90px !important"
+          class="mailButton"
+          @click="search"
+        >
+          우편번호 찾기
+        </button>
       </div>
     </div>
 
@@ -120,6 +144,7 @@
         type="text"
         class="txt-input"
         id="itemnew"
+        style="width: 280px"
         v-model="state.form.streetAddress"
       />
     </div>
@@ -129,6 +154,7 @@
         type="text"
         class="txt-input"
         id="itemnew"
+        style="width: 280px"
         v-model="state.form.detailAddress"
       />
     </div>
@@ -206,17 +232,17 @@ export default {
       //   return;
       // }
 
-      if(!this.usernameCheck ){
+      if (!this.usernameCheck) {
         alert("아이디 중복을 확인하세요.");
         return;
       }
 
-      if(!this.nicknameCheck){
+      if (!this.nicknameCheck) {
         alert("닉네임 중복을 확인하세요.");
         return;
       }
 
-      if(!this.smsCodeCheck){
+      if (!this.smsCodeCheck) {
         alert("휴대폰 인증을 해주세요.");
         return;
       }
@@ -251,30 +277,30 @@ export default {
       clearInterval(this.timer);
       console.log("휴대폰 번호 인증 시작");
       instance
-      .post("/checkPhoneNumber", this.state.form.phoneNumber)
-      .then((res) => {
-        alert("인증번호 발송 성공");
-      this.phoneState = "인증 진행중";
+        .post("/checkPhoneNumber", this.state.form.phoneNumber)
+        .then((res) => {
+          alert("인증번호 발송 성공");
+          this.phoneState = "인증 진행중";
 
-      // 타이머 설정
-      let countdown = setInterval(() => {
-        if (this.minutes === 0 && this.seconds === 0) {
-          console.log("인증 필요");
-          this.phoneState = "인증 필요";
-          clearInterval(countdown); // 타이머 종료
-        } else {
-          if (this.seconds === 0) {
-            this.minutes -= 1;
-            this.seconds = 59;
-          } else {
-            this.seconds -= 1;
-          }
-        }
-      }, 1000);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          // 타이머 설정
+          let countdown = setInterval(() => {
+            if (this.minutes === 0 && this.seconds === 0) {
+              console.log("인증 필요");
+              this.phoneState = "인증 필요";
+              clearInterval(countdown); // 타이머 종료
+            } else {
+              if (this.seconds === 0) {
+                this.minutes -= 1;
+                this.seconds = 59;
+              } else {
+                this.seconds -= 1;
+              }
+            }
+          }, 1000);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     //인증번호 확인
@@ -366,5 +392,112 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/register-page.css";
+/* @import "../../../public/assets/css/register-page.css"; */
+.container {
+  width: 390px; /* 가로 크기 */
+  height: 844px; /* 세로 크기 */
+  border: #c0c0c0 1px solid;
+  margin: 0 auto;
+  display: flex;
+  justify-content: left;
+  overflow: auto;
+  /* background: antiquewhite; */
+}
+
+#idInput {
+  width: 170px;
+  margin-right: 10px;
+}
+
+.colBox {
+  display: flex;
+  flex-direction: column;
+}
+
+#mail {
+  width: 150px !important;
+  margin-right: 30px;
+}
+
+.mailButton {
+  width: 120px;
+}
+
+.advice {
+  font-size: 30px;
+  margin-top: 20px;
+  width: 300px;
+}
+
+input {
+  font-family: "Noto Sans KR", "Noto Sans Korean", "Nanum Gothic", sans-serif;
+  border: 0;
+  outline: none;
+  font-size: 10px;
+}
+input::placeholder {
+  color: #d9d9d9;
+}
+.easyLoginForm {
+  box-sizing: border-box;
+  margin: 10px auto;
+  position: relative;
+}
+.easyLoginForm label {
+  display: inline-block;
+  position: absolute;
+  top: -5px;
+  left: 14px;
+  padding: 5px;
+  background: white;
+  font-size: 14px;
+  color: #888;
+  font-weight: bold;
+}
+.easyLoginForm.ver2 label {
+  top: initial;
+  bottom: -20px;
+}
+.col {
+  display: flex; /* 부모 요소를 Flex Container로 설정 */
+  justify-content: left;
+}
+.easyLoginForm label span {
+  color: #da4841;
+  vertical-align: -1px;
+}
+
+.easyLoginForm {
+  margin-left: 30px;
+}
+.easyLoginForm input {
+  /* width: 80%; */
+  margin-left: 10px;
+  border: 1px solid #dddddd !important;
+  font-size: 1rem;
+  line-height: 1.45;
+  letter-spacing: -0.04rem;
+  border-radius: 5%;
+  padding: 10px;
+  margin-top: 12px;
+}
+
+button {
+  background: #90ee90;
+  border: transparent;
+  width: 250px;
+  height: 35px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin-left: 25px;
+  margin-top: 30px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.registerBtn {
+  margin-left: 100px;
+}
 </style>

@@ -24,7 +24,11 @@
       />
       <div class="col">
         <div v-show="phoneState !== '인증 진행중'">
-          <button @click="sendPhoneNumber" class="phoneButton">
+          <button
+            style="width: 170px; margin-left: 75px !important"
+            @click="sendPhoneNumber"
+            class="phoneButton"
+          >
             휴대폰 인증 번호 발송
           </button>
         </div>
@@ -52,6 +56,7 @@
         type="text"
         class="txt-input"
         id="itempw"
+        style="width: 250px"
         v-model="state.form.nickname"
       />
     </div>
@@ -63,10 +68,17 @@
           type="text"
           class="txt-input"
           id="mail"
+          style="height: 50px"
           v-model="state.form.mailCode"
         />
 
-        <button class="mailButton" @click="search">우편번호 찾기</button>
+        <button
+          class="mailButton"
+          @click="search"
+          style="width: 110px; margin-left: 115px !important"
+        >
+          우편번호 찾기
+        </button>
       </div>
     </div>
 
@@ -89,7 +101,20 @@
       />
     </div>
 
-    <button class="registerBtn" @click="register">회원가입 하기</button>
+    <button
+      style="
+        width: 200px;
+        width: 120px;
+        height: 40px;
+        font-size: 20px;
+        margin-left: 110px !important;
+        margin-bottom: 50px;
+      "
+      class="registerBtn"
+      @click="register"
+    >
+      회원가입 하기
+    </button>
   </div>
 </template>
 
@@ -281,5 +306,36 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/easy-login.css";
+/* @import "../../../public/assets/css/easy-login.css"; */
+.container {
+  width: 390px; /* 가로 크기 */
+  height: 844px; /* 세로 크기 */
+  border: #c0c0c0 1px solid;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+  /* background: antiquewhite; */
+}
+
+button {
+  background: #90ee90;
+  border: transparent;
+  width: 250px;
+  height: 35px;
+  font-size: 15px;
+  border-radius: 5px;
+  margin-left: 25px;
+  margin-top: 30px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 </style>
