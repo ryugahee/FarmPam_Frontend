@@ -80,14 +80,17 @@
               placeholder="입찰가 입력."
               v-if="!myBid"
             /><span class="bid-won" v-if="!myBid">원</span>
+
+            <div v-if="!myBid" class="my-FarmPay">
+              <span>내 팜페이: {{Number(farmMoney).toLocaleString() }} 원</span>
+            </div>
+
             <div class="current-price-bid-box" v-if="myBid">
               <span>시작 입찰가</span>
               <span> {{ myPrice.content }}원 </span>
             </div>
           </div>
-          <div>
 
-          </div>
         </div>
         <div class="btn-a-bid" @click="sendBidPrice" v-if="!myBid">
           <p class="bid-time">{{ formatTime(remainingTime) }}</p>
@@ -140,7 +143,7 @@ export default {
       bidPrice:"",
       bidList:[],
       receiveList: [],
-
+      farmMoney: 0,
       // 불러온 아이템 정보
       userName:"",
       items: [],
@@ -177,6 +180,9 @@ export default {
     connect() {
       this.receiveBidList();
       this.userName = localStorage.getItem("username");
+      this.$store.dispatch("findFarmMoney", this.userName).then(() => {
+        this.farmMoney = this.$store.state.user.farmMoney;
+      });
       this.myBidPrice()
 
       // this.getPublisherInfo();
@@ -478,5 +484,13 @@ export default {
   top: 0;
   background-color: rgba(0, 0, 0, 60%);
   overflow-y: scroll;
+}
+.my-FarmPay{
+  width: 320px;
+  height: 30px;
+  font-size: 20px;
+  margin: 20px auto;
+  text-align: center;
+  color: #0037ff;
 }
 </style>
