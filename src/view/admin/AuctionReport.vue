@@ -11,7 +11,13 @@
       </thead>
       <tbody>
         <tr v-for="(auction, index) in auctions" :key="index">
-          <th scope="row">{{ auction.isSoldout }}</th>
+          <th scope="row" v-if="!auction.isSoldout">
+            완료된 경매
+            <!-- {{ auction.isSoldout }} -->
+          </th>
+          <th v-else>
+            진행중 경매
+          </th>
           <td>{{ auction.city }}</td>
           <td>{{ auction.itemTitle }}</td>
           <td>{{ auction.minPrice }}</td>

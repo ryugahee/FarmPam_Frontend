@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="memberContainer">
     <div>
       <table class="table">
         <thead>
@@ -20,14 +20,14 @@
         </tbody>
       </table>
     </div>
-    <div class="paginations1">
-      <!-- <a href="#" class="page-link">&laquo;</a> -->
+    <!-- <div class="paginations1">
+     <a href="#" class="page-link">&laquo;</a> 
       <div v-for="n in memberReportTotalPage" :key="n">
         <a href="#" class="page-link">{{ n }}</a>
       </div>
 
-      <!-- <a href="#" class="page-link">&raquo;</a> -->
-    </div>
+      <a href="#" class="page-link">&raquo;</a> 
+    </div> -->
   </div>
 </template>
 
@@ -83,6 +83,9 @@ export default {
 </script>
 
 <style scoped>
+.memberContainer {
+  overflow-y: scroll;
+}
 body {
   overflow-x: scroll;
 }

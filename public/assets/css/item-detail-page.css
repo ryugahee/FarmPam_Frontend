@@ -128,6 +128,7 @@
     font-weight: bold;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid #444444;
 }
 
 .item-footer .my-price {
@@ -139,7 +140,7 @@
 }
 
 .bid-bg {
-    margin-top: 60px;
+    margin-top: 620px;
     width: 390px;
     height: 100%;
     position: fixed;
