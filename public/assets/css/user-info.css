@@ -67,7 +67,11 @@
   }
 
 
+<<<<<<< HEAD
+.input {
+=======
 input {
+>>>>>>> 1e8e7ccb95f1d0b1f9d2a8bf6e44f662f149e566
   /* border: #bbbbbb solid 1px; */
   width: 200px;
   margin-left: 50px !important;
@@ -84,7 +88,9 @@ input {
   }
 
 
-hr {
+
+.hr {
+
   border-color: #c7c7c7 !important;
   height: 1px;
 }
@@ -110,4 +116,8 @@ hr {
     height: 1px;
   }
 
+
+}
+
+}
 }
