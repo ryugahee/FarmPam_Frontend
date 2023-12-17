@@ -1,120 +1,141 @@
 <template>
   <div class="container">
-    <div class="advice">
-      <p>간편 로그인 완료를 위해</p>
-      <p>추가 정보를 입력해주세요</p>
-    </div>
-    <div class="easyLoginForm">
-      <label for="itemname"><span>* </span>이름</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="itemname"
-        v-model="state.form.realName"
-      />
-    </div>
-
-    <div class="easyLoginForm">
-      <label for="itempw"><span>* </span>전화번호</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="itempw"
-        v-model="state.form.phoneNumber"
-      />
-      <div class="col">
-        <div v-show="phoneState !== '인증 진행중'">
-          <button
-            style="width: 170px; margin-left: 75px !important"
-            @click="sendPhoneNumber"
-            class="phoneButton"
-          >
-            휴대폰 인증 번호 발송
-          </button>
-        </div>
-
-        <div class="checkIng" v-show="phoneState == '인증 진행중'">
-          <div class="phoneState">
-            <!-- {{ phoneState }} -->
-          </div>
-
-          <input id="checkCodeInput" type="number" v-model="phoneCheckNum" />
-
-          <button class="checkCodeInputBtn" @click="compareSMSNumber">
-            인증하기
-          </button>
-          <div class="phoneState">
-            {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
-          </div>
-        </div>
+    <row>
+      <div class="advice">
+        <p>간편 로그인 완료를 위해</p>
+        <p>추가 정보를 입력해주세요</p>
       </div>
-    </div>
-
-    <div class="easyLoginForm">
-      <label for="itemnew"><span>* </span>닉네임</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="itempw"
-        style="width: 250px"
-        v-model="state.form.nickname"
-      />
-    </div>
-
-    <div class="colBox">
       <div class="easyLoginForm">
-        <label for="itemnew"><span>* </span>우편번호</label>
+        <label for="itemname"><span>* </span>이름</label>
         <input
           type="text"
           class="txt-input"
-          id="mail"
-          style="height: 50px"
-          v-model="state.form.mailCode"
+          id="itemname"
+          v-model="state.form.realName"
         />
+      </div>
 
-        <button
-          class="mailButton"
-          @click="search"
-          style="width: 110px; margin-left: 115px !important"
-        >
-          우편번호 찾기
+      <div class="easyLoginForm">
+        <label for="itempw"><span>* </span>전화번호</label>
+        <input
+          type="text"
+          class="txt-input"
+          id="itempw"
+          v-model="state.form.phoneNumber"
+        />
+        <div class="col">
+          <div v-show="phoneState !== '인증 진행중'">
+            <button
+              style="width: 170px; margin-left: 75px !important"
+              @click="sendPhoneNumber"
+              class="phoneButton"
+            >
+              휴대폰 인증 번호 발송
+            </button>
+          </div>
+
+          <!-- 인증번호 -->
+          <div
+            class="phoneState"
+            style="position: absolute; margin-left: 270px; margin-top: 35px"
+            v-show="phoneState == '인증 진행중'"
+          >
+            {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
+          </div>
+
+          <div class="checkIng" v-show="phoneState == '인증 진행중'">
+            <!-- <div class="checkIng" v-show="true"> -->
+            <div class="phoneState">
+              <!-- {{ phoneState }} -->
+            </div>
+
+            <input
+              style="width: 100px; height: 20px; margin-left: 40px"
+              id="checkCodeInput"
+              type="number"
+              v-model="phoneCheckNum"
+            />
+
+            <button
+              style="width: 70px"
+              class="checkCodeInputBtn"
+              @click="compareSMSNumber"
+            >
+              인증하기
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="easyLoginForm">
+        <label for="itemnew"><span>* </span>닉네임</label>
+        <input
+          type="text"
+          class="txt-input"
+          id="itempw"
+          style="width: 200px"
+          v-model="state.form.nickname"
+        />
+        <button style="width: 110px" @click="checkNickname" class="mailButton">
+          닉네임 중복체크
         </button>
       </div>
-    </div>
 
-    <div class="easyLoginForm">
-      <label for="itemnew"><span>* </span>도로명주소</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="itemnew"
-        v-model="state.form.streetAddress"
-      />
-    </div>
-    <div class="easyLoginForm">
-      <label for="itemnew"><span>* </span>상세주소</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="itemnew"
-        v-model="state.form.detailAddress"
-      />
-    </div>
+      <div class="colBox">
+        <div class="easyLoginForm">
+          <label for="itemnew"><span>* </span>우편번호</label>
+          <input
+            type="text"
+            class="txt-input"
+            id="mail"
+            style="height: 50px"
+            v-model="state.form.mailCode"
+          />
 
-    <button
-      style="
-        width: 200px;
-        width: 120px;
-        height: 40px;
-        font-size: 20px;
-        margin-left: 110px !important;
-        margin-bottom: 50px;
-      "
-      class="registerBtn"
-      @click="register"
-    >
-      회원가입 하기
-    </button>
+          <button
+            class="mailButton"
+            @click="search"
+            style="width: 110px; margin-left: 115px !important"
+          >
+            우편번호 찾기
+          </button>
+        </div>
+      </div>
+
+      <div class="easyLoginForm">
+        <label for="itemnew"><span>* </span>도로명주소</label>
+        <input
+          type="text"
+          class="txt-input"
+          id="itemnew"
+          v-model="state.form.streetAddress"
+        />
+      </div>
+      <div class="easyLoginForm">
+        <label for="itemnew"><span>* </span>상세주소</label>
+        <input
+          type="text"
+          class="txt-input"
+          id="itemnew"
+          v-model="state.form.detailAddress"
+        />
+      </div>
+
+      <button
+        style="
+          width: 200px;
+          width: 120px;
+          height: 40px;
+          font-size: 20px;
+          margin-left: 110px !important;
+          margin-bottom: 50px;
+        "
+        class="registerBtn"
+        @click="register"
+      >
+        회원가입 하기
+      </button>
+    </row>
   </div>
 </template>
 
@@ -127,6 +148,17 @@ import router from "@/router";
 export default {
   inject: ["$http"],
   setup() {
+    const state = reactive({
+      form: {
+        realName: "",
+        phoneNumber: "",
+        nickname: "",
+        mailCode: "",
+        streetAddress: "",
+        detailAddress: "",
+      },
+    });
+
     onMounted(() => {
       const accessToken = getCookie("accessToken");
       const refreshToken = getCookie("refreshToken");
@@ -161,21 +193,31 @@ export default {
       expireCookie("username");
       expireCookie("roles");
 
-      if (localStorage.getItem("username")) {
+      if (localStorage.getItem("roles") == "ROLE_USER") {
         router.replace("home");
       }
     });
 
-    const state = reactive({
-      form: {
-        realName: "",
-        phoneNumber: "",
-        nickname: "",
-        mailCode: "",
-        streetAddress: "",
-        detailAddress: "",
-      },
-    });
+    const checkNickname = () => {
+      if (state.form.nickname.length == 0) {
+        alert("닉네임을 입력해주세요");
+        return;
+      }
+
+      instance
+        .post("/checkNickname", state.form.nickname)
+        .then((res) => {
+          console.log(res.data);
+          alert("사용 가능한 닉네임 입니다.");
+          state.form.nicknameCheck = true;
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.response.data) {
+            alert(err.response.data);
+          }
+        });
+    };
 
     const phoneState = ref("인증 필요");
     let timer = ref(null);
@@ -193,7 +235,8 @@ export default {
           .post("/additionalInfo", state.form)
           .then((res) => {
             console.log(res.data);
-            router.replace("home");
+            location.href = "http://localhost:8081/home";
+            // router.replace("home");
           })
           .catch((err) => {
             console.log(err);
@@ -221,6 +264,7 @@ export default {
         })
         .then((res) => {
           alert("휴대폰 인증에 성공하였습니다.");
+          phoneState.value = "";
         })
         .catch((err) => {
           console.log(err);
@@ -300,6 +344,7 @@ export default {
       seconds,
       phoneCheckNum,
       compareSMSNumber,
+      checkNickname,
     };
   },
 };
@@ -316,6 +361,12 @@ export default {
   justify-content: center;
   overflow: auto;
   /* background: antiquewhite; */
+}
+input {
+  height: 60px;
+}
+.easyLoginForm label {
+  height: 2px;
 }
 
 button {

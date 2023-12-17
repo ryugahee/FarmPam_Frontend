@@ -4,23 +4,20 @@
     <div class="user-info">
       <div class="img-profile">
         <div v-if="imageUrl">
-            <img
-            class="person-icon"
-            :src="imageUrl"
-            alt=""
-          />
-          </div>
-          <div v-else >
-            <img
+          <img class="person-icon" :src="imageUrl" alt="" />
+        </div>
+        <div v-else>
+          <img
             class="person-icon"
             src="../../../public/assets/img/person2.png"
             alt=""
           />
-          </div>
-          
+        </div>
       </div>
-      <div  class="user-nickname">
-        <p style="width:100px; margin-top: 15px;"> &nbsp; {{ nickname }} &nbsp;님</p>
+      <div class="user-nickname">
+        <p style="width: 100px; margin-top: 15px">
+          &nbsp; {{ nickname }} &nbsp;님
+        </p>
       </div>
       <div>
         <button class="btn-user-info" @click="goUserInfo">프로필 수정</button>
@@ -80,17 +77,15 @@ import NavComponent from "@/components/user/NavComponent.vue";
 import router from "@/router";
 import AuctionPurchaseHistoryView from "@/view/mypage/AuctionPurchaseHistoryView.vue";
 import AuctionSaleHistoryView from "@/view/mypage/AuctionSaleHistoryView.vue";
-import instance from '@/api/http';
+import instance from "@/api/http";
 
 export default {
   data() {
-
-
     return {
       username: "",
       imageUrl: "",
-      nickname: ""
-    }
+      nickname: "",
+    };
   },
   computed: {
     SalesHistory() {
@@ -112,12 +107,13 @@ export default {
   },
 
   mounted() {
-      this.getUserInfo();
+    this.getUserInfo();
   },
 
   methods: {
     goUserInfo() {
-      router.push({ path: "/user/info" });
+      // router.push({ path: "/user/info" });
+      location.href = "http://localhost:8081/user/info";
     },
     goPurchaseHistory() {
       router.push({ path: "/user/history/purchase" });
@@ -137,15 +133,14 @@ export default {
         .then((res) => {
           console.log("유저 정보", res.data);
           const data = res.data;
-         this.username = data.username;
-         this.nickname = data.nickname;
-         this.imageUrl = data.imageUrl;
-
+          this.username = data.username;
+          this.nickname = data.nickname;
+          this.imageUrl = data.imageUrl;
         })
         .catch((err) => {
           console.error("유저 정보 조회 오류:", err);
         });
-    }
+    },
   },
 };
 </script>

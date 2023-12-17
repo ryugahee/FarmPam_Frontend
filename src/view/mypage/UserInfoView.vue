@@ -74,12 +74,12 @@
 
       <hr />
 
-      <div class="flex">
+      <!-- <div class="flex">
         <div>나이</div>
         <div><input type="text" v-model="age" /></div>
       </div>
 
-      <hr />
+      <hr /> -->
 
       <div class="flex">
         <div>아이디</div>
@@ -89,17 +89,12 @@
       <hr />
 
       <div class="flex">
-        <div>비밀번호</div>
-        <div><input type="password" /></div>
-      </div>
-
-      <hr />
-      <div class="flex">
         <div>이메일</div>
         <div><input type="text" v-model="email" /></div>
       </div>
 
       <hr />
+
       <div class="flex">
         <div>전화번호</div>
         <div><input type="text" v-model="phoneNumber" /></div>
@@ -179,7 +174,6 @@ export default {
     };
 
     const getUserInfo = () => {
-
       instance
         .post("/getUserInfo")
         .then((res) => {
@@ -222,6 +216,7 @@ export default {
           },
         })
         .then((res) => {
+          alert("회원정보 수정에 성공했습니다!");
           console.log(res);
         })
         .catch((err) => {

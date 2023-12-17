@@ -7,8 +7,11 @@
       <input type="text" class="txt-input" id="itemname" />
     </div>
 
-    <button @click="sendPhoneNumber">전화번호 인증하기</button>
+    <div class="checkIng" v-show="phoneState !== '인증 진행중'">
+      <button @click="sendPhoneNumber">인증하기</button>
+    </div>
     <div class="checkIng" v-show="phoneState == '인증 진행중'">
+      <!-- <div class="checkIng" v-show="true"> -->
       <!-- <div style="width: 400px" class="checkIng" v-show="true"> -->
       <!-- <div class="phoneState">
         {{ phoneState }}
@@ -18,28 +21,29 @@
         id="checkCodeInput"
         style="
           border: rgb(179, 179, 179) solid 1px;
-          margin-left: 50px;
+          margin-left: 80px;
           width: 90px;
+          height: 30px;
         "
         type="number"
         v-model="phoneCheckNum"
       />
-      <div class="phoneState" style="position: absolute; margin-left: 170px">
-        {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
-      </div>
-      <br />
-      <button
-        style="
-          width: 70px;
 
-          margin-left: 83px !important;
-        "
+      <button
+        style="width: 70px; margin-left: 10px !important"
         class="checkCodeInputBtn"
         @click="compareSMSNumber"
       >
         인증하기
       </button>
       {{ username }}
+    </div>
+    <div
+      class="phoneState"
+      style="position: absolute; margin-left: 260px; margin-top: 256px"
+      v-show="phoneState == '인증 진행중'"
+    >
+      {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
     </div>
   </div>
 </template>

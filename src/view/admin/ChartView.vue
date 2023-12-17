@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <!-- <div v-for="(item, index) in items" :key="index"> -->
     <Line id="chart" :data="chartData" :options="options" />
     <!-- </div> -->

@@ -1,172 +1,184 @@
 <template>
   <div class="container">
-    <div class="advice" style="margin-left: 45px">회원가입</div>
+    <row>
+      <div class="advice" style="margin-left: 45px">회원가입</div>
 
-    <div class="easyLoginForm">
-      <label for="itemname"><span>* </span>이름</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="itemname"
-        style="width: 280px"
-        v-model="state.form.realName"
-      />
-    </div>
-
-    <div class="easyLoginForm">
-      <label for="itempw"><span>* </span>아이디</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="idInput"
-        v-model="state.form.username"
-      />
-      <button style="width: 80px" class="mailButton" @click="checkId">
-        중복체크
-      </button>
-    </div>
-
-    <div class="easyLoginForm">
-      <label for="itemnew"><span>* </span>비밀번호</label>
-      <input
-        type="password"
-        class="txt-input"
-        id="itemnew"
-        style="width: 230px"
-        v-model="state.form.password"
-        @input="checkPasswordMatch"
-      />
-    </div>
-
-    <div class="easyLoginForm">
-      <label for="itemnew"><span>* </span>비밀번호 확인</label>
-      <input
-        type="password"
-        class="txt-input"
-        id="itemnew"
-        style="width: 230px"
-        v-model="userPWCheck"
-        @input="checkPasswordMatch"
-      />
-    </div>
-    <span v-if="!passwordsMatch" style="margin-left: 45px"
-      >비밀번호가 일치하지 않습니다.</span
-    >
-    <div class="easyLoginForm">
-      <label for="itemname"><span>* </span>이메일</label>
-      <input
-        type="email"
-        class="txt-input"
-        style="width: 280px"
-        id="itemname"
-        v-model="state.form.email"
-      />
-    </div>
-
-    <div class="easyLoginForm">
-      <label for="itempw"><span>* </span>전화번호</label>
-      <input
-        type="text"
-        class="txt-input"
-        style="width: 280px"
-        id="itempw"
-        v-model="state.form.phoneNumber"
-      />
-
-      <div class="col">
-        <div v-show="phoneState !== '인증 진행중'">
-          <button
-            style="width: 100px; margin-left: 95px !important"
-            @click="sendPhoneNumber"
-            class="phoneButton"
-          >
-            인증 번호 발송
-          </button>
-        </div>
-
-        <div class="checkIng" v-show="phoneState == '인증 진행중'">
-          <!-- <div class="phoneState">
-            {{ phoneState }}
-          </div> -->
-
-          <input id="checkCodeInput" type="number" v-model="phoneCheckNum" />
-
-          <button class="checkCodeInputBtn" @click="compareSMSNumber">
-            인증하기
-          </button>
-          <div class="phoneState">
-            {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="easyLoginForm">
-      <label for="itemnew"><span>* </span>닉네임</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="idInput"
-        style="width: 280px"
-        v-model="state.form.nickname"
-      />
-      <button
-        style="margin-left: 85px !important"
-        @click="checkNickname"
-        class="mailButton"
-      >
-        닉네임 중복체크
-      </button>
-    </div>
-    <div class="colBox">
       <div class="easyLoginForm">
-        <label for="itemnew"><span>* </span>우편번호</label>
+        <label for="itemname"><span>* </span>이름</label>
         <input
           type="text"
           class="txt-input"
-          id="mail"
-          v-model="state.form.mailCode"
+          id="itemname"
+          style="width: 280px"
+          v-model="state.form.realName"
         />
+      </div>
 
-        <button
-          style="width: 90px !important"
-          class="mailButton"
-          @click="search"
-        >
-          우편번호 찾기
+      <div class="easyLoginForm">
+        <label for="itempw"><span>* </span>아이디</label>
+        <input
+          type="text"
+          class="txt-input"
+          id="idInput"
+          v-model="state.form.username"
+        />
+        <button style="width: 80px" class="mailButton" @click="checkId">
+          중복체크
         </button>
       </div>
-    </div>
 
-    <div class="easyLoginForm">
-      <label for="itemnew"><span>* </span>도로명주소</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="itemnew"
-        style="width: 280px"
-        v-model="state.form.streetAddress"
-      />
-    </div>
-    <div class="easyLoginForm">
-      <label for="itemnew"><span> </span>상세주소</label>
-      <input
-        type="text"
-        class="txt-input"
-        id="itemnew"
-        style="width: 280px"
-        v-model="state.form.detailAddress"
-      />
-    </div>
+      <div class="easyLoginForm">
+        <label for="itemnew"><span>* </span>비밀번호</label>
+        <input
+          type="password"
+          class="txt-input"
+          id="itemnew"
+          style="width: 230px"
+          v-model="state.form.password"
+          @input="checkPasswordMatch"
+        />
+      </div>
 
-    <!-- <div 
+      <div class="easyLoginForm">
+        <label for="itemnew"><span>* </span>비밀번호 확인</label>
+        <input
+          type="password"
+          class="txt-input"
+          id="itemnew"
+          style="width: 230px"
+          v-model="userPWCheck"
+          @input="checkPasswordMatch"
+        />
+      </div>
+      <span v-if="!passwordsMatch" style="margin-left: 45px"
+        >비밀번호가 일치하지 않습니다.</span
+      >
+      <div class="easyLoginForm">
+        <label for="itemname"><span>* </span>이메일</label>
+        <input
+          type="email"
+          class="txt-input"
+          style="width: 280px"
+          id="itemname"
+          v-model="state.form.email"
+        />
+      </div>
+
+      <div class="easyLoginForm">
+        <label for="itempw"><span>* </span>전화번호</label>
+        <input
+          type="text"
+          class="txt-input"
+          style="width: 280px"
+          id="itempw"
+          v-model="state.form.phoneNumber"
+        />
+
+        <div class="col">
+          <div v-show="phoneState !== '인증 진행중'">
+            <!-- <div v-show="false"> -->
+            <button
+              style="width: 100px; margin-left: 95px !important"
+              @click="sendPhoneNumber"
+              class="phoneButton"
+            >
+              인증 번호 발송
+            </button>
+          </div>
+
+          <div class="checkIng" v-show="phoneState == '인증 진행중'">
+            <!-- <div class="checkIng" v-show="true"> -->
+            <!-- <div class="phoneState">
+            {{ phoneState }}
+          </div> -->
+
+            <input
+              style="width: 100px"
+              id="checkCodeInput"
+              type="number"
+              v-model="phoneCheckNum"
+            />
+            &nbsp; &nbsp;
+            {{ minutes }}:{{ seconds < 10 ? "0" + seconds : seconds }}
+            <button
+              style="width: 80px"
+              class="checkCodeInputBtn"
+              @click="compareSMSNumber"
+            >
+              인증하기
+            </button>
+            <div class="phoneState"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="easyLoginForm">
+        <label for="itemnew"><span>* </span>닉네임</label>
+        <input
+          type="text"
+          class="txt-input"
+          id="idInput"
+          style="width: 280px"
+          v-model="state.form.nickname"
+        />
+        <button
+          style="margin-left: 85px !important"
+          @click="checkNickname"
+          class="mailButton"
+        >
+          닉네임 중복체크
+        </button>
+      </div>
+      <div class="colBox">
+        <div class="easyLoginForm">
+          <label for="itemnew"><span>* </span>우편번호</label>
+          <input
+            type="text"
+            class="txt-input"
+            id="mail"
+            v-model="state.form.mailCode"
+          />
+
+          <button
+            style="width: 90px !important"
+            class="mailButton"
+            @click="search"
+          >
+            우편번호 찾기
+          </button>
+        </div>
+      </div>
+
+      <div class="easyLoginForm">
+        <label for="itemnew"><span>* </span>도로명주소</label>
+        <input
+          type="text"
+          class="txt-input"
+          id="itemnew"
+          style="width: 280px"
+          v-model="state.form.streetAddress"
+        />
+      </div>
+      <div class="easyLoginForm">
+        <label for="itemnew"><span> </span>상세주소</label>
+        <input
+          type="text"
+          class="txt-input"
+          id="itemnew"
+          style="width: 280px"
+          v-model="state.form.detailAddress"
+        />
+      </div>
+
+      <!-- <div 
      
       >
         <div style="margin-left: 40px">항목을 모두 작성해주세요</div>
       </div> -->
-    <div>
-      <button class="registerBtn" @click="submit">회원가입 하기</button>
-    </div>
+      <div>
+        <button class="registerBtn" @click="submit">회원가입 하기</button>
+      </div>
+    </row>
   </div>
 </template>
 
@@ -214,6 +226,7 @@ export default {
       usernameCheck: false,
       nicknameCheck: false,
       smsCodeCheck: true,
+      countdown: null,
     };
   },
   methods: {
@@ -283,11 +296,10 @@ export default {
           this.phoneState = "인증 진행중";
 
           // 타이머 설정
-          let countdown = setInterval(() => {
+          this.countdown = setInterval(() => {
             if (this.minutes === 0 && this.seconds === 0) {
-              console.log("인증 필요");
               this.phoneState = "인증 필요";
-              clearInterval(countdown); // 타이머 종료
+              clearInterval(this.countdown); // 타이머 종료
             } else {
               if (this.seconds === 0) {
                 this.minutes -= 1;
@@ -318,6 +330,7 @@ export default {
         })
         .then((res) => {
           this.smsCodeCheck = true;
+          clearInterval(this.countdown); // 타이머 종료
           alert("휴대폰 인증에 성공하였습니다.");
         })
         .catch((err) => {
