@@ -20,7 +20,7 @@
           <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
           <p></p>
           <p class="current-bid-price">현재 입찰가</p>
-          <h3 class="price" v-if="currentInfo !== undefined"> {{ currentInfo[i] }}원 </h3>
+          <h3 class="price" v-if="currentInfo !== undefined && currentInfo[i] && currentInfo[i].bidPrice !== undefined"> {{ currentInfo[i].bidPrice }}원 </h3>
           <!--          <p style="display: none"> {{getCurrentPrice}} </p>-->
         </div>
       </router-link>
@@ -86,7 +86,7 @@ export default {
       );
     },
     receiveBidPrice() {
-      this.$http.get("/bidPost").then((res) => {
+      this.$http.get("/bid-Post").then((res) => {
         this.currentInfo = res.data;
       }).catch((err) => {
         console.log(err)

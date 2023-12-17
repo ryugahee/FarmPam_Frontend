@@ -11,8 +11,8 @@
         {{ city }}
       </div>
       <div>
-<!--        <button type="button" class="delete-btn" @click="deleteItem()">삭제</button>-->
-        <button class="detail-chat-btn" @click="createdChat">채팅하기</button>
+        <button type="button" class="delete-btn" @click="deleteItem()" v-if="myBid">삭제</button>
+        <button class="detail-chat-btn" @click="createdChat" v-if="!myBid">채팅하기</button>
       </div>
     </div>
     <div class="item-detail-img">
@@ -112,6 +112,7 @@ export default {
       myPrice:[],
       bidModal: true,
       bidStatus: true,
+      myBid: false,
       bidId: "",
       bidPrice:"",
       bidList:[],
@@ -154,6 +155,7 @@ export default {
       this.receiveBidList();
       this.userName = localStorage.getItem("username");
       this.myBidPrice()
+
       // this.getPublisherInfo();
       //소켓 연결
       const serverURL = "http://localhost:8080/bid";
@@ -166,6 +168,8 @@ export default {
           this.stompClient.subscribe("/bidList", (res) => {
             this.receiveList = JSON.parse(res.body);
             this.currentPrice = this.receiveList.at(-1);
+            this.stompClient.send("/bid-current");
+            this.myBidPrice();
           });
         },
         (error) => {
@@ -198,8 +202,12 @@ export default {
     },
 
     myBidPrice(){
-      this.$http.post(`/bid-myPrice/${this.$route.params.id}`, this.userName).then((res) =>{
-            this.myPriceList = res.data();
+      const data = {};
+      data.bidId = this.$route.params.id;
+      data.content = this.userName;
+      this.$http.post('/bid-myPrice', data).then((res) =>{
+        const data = res.data;
+            this.myPriceList = data;
             this.myPrice = this.myPriceList.at(-1);
       }).catch((err) => {
         console.log(err);
@@ -220,7 +228,7 @@ export default {
           content,
         };
         this.stompClient.send("/bid-push", JSON.stringify(msg), {});
-        this.stompClient.send("/bid-current", msg);
+
         // this.stompClient.send("/bid-myPrice", JSON.stringify(msg), {});
       }
     },
@@ -235,19 +243,19 @@ export default {
         .post("/bid-list", JSON.stringify(msg), {})
         .then((res) => {
           this.receiveList = res.data;
-          console.log("receiveData"+this.receiveList.at(0))
           this.currentPrice = this.receiveList.at(-1);
           this.publisherId = this.receiveList.at(0).userName;
-          console.log("소ㅑㄴ!1111!!!!!!"+this.publisherId);
           if(this.publisherId != null){
+            console.log("존나게 존나 여기1: "+this.userName);
+            console.log("존나게 존나 여기2: "+this.publisherId);
+            if(this.userName === this.publisherId){
+              this.myBid = true;
+            }
             const data = {};
             data.bidId = this.publisherId;
-            console.log("소ㅑㄴ!!!!!!!"+data);
             this.$http.post("/publisherInfo", data).then((res) => {
               const data = res.data;
-              console.log("sdfsdfsdfs"+data.nickName)
               this.nickName = data;
-
             })
           }
 
@@ -338,7 +346,8 @@ export default {
             });
           });
         } else {
-          console.log("자기 자신과 채팅할 수 없습니다.");
+          alert("아래의 채팅 리스트를 확인해주세요!\n" +
+              "판매자 본인과는 채팅 할 수 없어요!");
         }
       });
     },
