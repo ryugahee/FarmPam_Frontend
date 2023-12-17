@@ -30,7 +30,12 @@
       </div>
       <div class="pop-up-money-box">
         <h2>Farm머니</h2>
-        <p class="pop-up-price">{{ farmMoney.toLocaleString() }}원</p>
+        <p
+          class="pop-up-price"
+          v-if="farmMoney !== undefined && farmMoney !== null"
+        >
+          {{ Number(farmMoney).toLocaleString() }}원
+        </p>
       </div>
       <div class="pop-up-join-bid">
         <img
@@ -69,7 +74,7 @@ export default {
   },
 
   setup() {
-    const farmMoney = ref(1000);
+    const farmMoney = ref(0);
     const username = ref("");
     const imageUrl = ref("");
 
