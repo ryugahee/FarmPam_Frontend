@@ -121,6 +121,101 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/chats-page-style.css";
-@import "../../../public/assets/css/chat-preview-style.css";
+.title_header {
+  display: flex;
+  justify-content: space-between;
+  max-height: 50px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.title_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chats_container {
+  padding-bottom: 50px;
+}
+
+.chat_preview {
+  padding: 10px;
+  display: flex;
+  cursor: pointer;
+}
+
+.profile_img_div {
+  width: 80px;
+  height: 80px;
+}
+
+.profile_img {
+  max-width: inherit;
+  max-height: inherit;
+  border-radius: 50%;
+}
+
+.chat_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.chat_info_top {
+  display: flex;
+  align-items: end;
+}
+
+.username {
+  color: #000;
+
+  text-align: center;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  padding-right: 5px;
+}
+
+.chat_time {
+  color: #000;
+
+  text-align: center;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.chat_info_bottom {
+  color: #000;
+
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.wrapper_info {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.item_img_div {
+  display: flex;
+  align-items: center;
+}
+
+.item_img {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+}
+
+.router-link {
+  text-decoration: none;
+  color: inherit;
+}
 </style>
