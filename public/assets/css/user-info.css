@@ -4,7 +4,6 @@
   align-items: center;
 }
 .btn-upload {
-
   width: 45px;
   height: 20px;
   font-size: larger;
@@ -13,7 +12,6 @@
   margin-right: 10px;
   margin-top: 0px;
   margin-left: 0px;
-
 }
 .img-user-container {
   display: flex;
@@ -53,7 +51,6 @@
   margin: 20px 20px 0 20px;
 }
 
-
 .flex {
   display: flex;
   justify-content: left;
@@ -63,61 +60,47 @@
     display: flex;
     justify-content: space-between;
     margin: 20px 0 20px 0;
-
   }
 
-
-<<<<<<< HEAD
-.input {
-=======
-input {
->>>>>>> 1e8e7ccb95f1d0b1f9d2a8bf6e44f662f149e566
-  /* border: #bbbbbb solid 1px; */
-  width: 200px;
-  margin-left: 50px !important;
-}
+  input {
+    /* border: #bbbbbb solid 1px; */
+    width: 200px;
+    margin-left: 50px !important;
+  }
 
   .user-info-main dl dt {
     font-size: 22px;
     width: 100px;
 
+    .user-info-main dl dd {
+      font-size: large;
+      color: #888888;
+    }
 
-  .user-info-main dl dd {
-    font-size: large;
-    color: #888888;
+    .hr {
+      border-color: #c7c7c7 !important;
+      height: 1px;
+    }
+
+    .store-Intro {
+      width: 350px;
+      height: 120px;
+      border-radius: 5px;
+    }
+
+    .input {
+      /* border: #bbbbbb solid 1px; */
+      width: 200px;
+      /* margin-left: 50px !important; */
+    }
+
+    .flex > div:first-child {
+      width: 80px;
+    }
+
+    .hr {
+      border-color: #c7c7c7 !important;
+      height: 1px;
+    }
   }
-
-
-
-.hr {
-
-  border-color: #c7c7c7 !important;
-  height: 1px;
-}
-
-  .store-Intro {
-    width: 350px;
-    height: 120px;
-    border-radius: 5px;
-  }
-
-  .input {
-    /* border: #bbbbbb solid 1px; */
-    width: 200px;
-    /* margin-left: 50px !important; */
-  }
-
-  .flex > div:first-child {
-    width: 80px;
-  }
-
-  .hr {
-    border-color: #c7c7c7 !important;
-    height: 1px;
-  }
-
-
-}
-
-}
 }
