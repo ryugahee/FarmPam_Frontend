@@ -255,7 +255,6 @@ export default {
           },
         })
         .then((res) => {
-          // this.$router.push("/items");
           location.href = "http://localhost:8081/items";
         })
         .catch((err) => {
