@@ -62,5 +62,36 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../public/assets/css/chat-page-style.css";
+.chat-header {
+  display: flex;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 10px;
+  position: sticky;
+  top: 99px;
+  background: #ffffff;
+}
+
+.item-img-div {
+  margin-right: 10px;
+}
+
+.item-img {
+  width: 60px;
+  height: 60px;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.item-info .item-title {
+  font-size: 20px;
+}
+
+.item-info .item-price {
+  color: #e12905;
+  font-size: 20px;
+}
 </style>
