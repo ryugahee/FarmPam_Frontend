@@ -149,8 +149,8 @@ export default {
 }
 
 .profile_img {
-  max-width: inherit;
-  max-height: inherit;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
 }
 
