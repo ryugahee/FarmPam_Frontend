@@ -7,7 +7,7 @@
     <div class="detail-profile">
       <div class="detail-profile-box" @click="profile">
         <img :src="profileImg" alt="profileImg" />
-        <h3>{{ nickName }}</h3>
+        <h3>{{ nickName}}</h3>
         {{ city }}
       </div>
       <div>
@@ -92,6 +92,7 @@ import SocketJS from "sockjs-client";
 import index from "vuex";
 import HeaderComponent from "@/components/user/HeaderComponent.vue";
 import {requireRefreshToken} from "@/api/tokenApi.vue";
+import instance from "@/api/http";
 
 export default {
   name: "ItemDetailView",
@@ -103,7 +104,8 @@ export default {
   data() {
     return {
       profileImg: require("../../../public/assets/img/profile1.png"),
-      nickName: "닉네임,프사",
+      publisherId: "",
+      nickName: "",
       itemImg: "",
       currentPrice: [],
       myPriceList: [],
@@ -152,6 +154,7 @@ export default {
       this.receiveBidList();
       this.userName = localStorage.getItem("username");
       this.myBidPrice()
+      // this.getPublisherInfo();
       //소켓 연결
       const serverURL = "http://localhost:8080/bid";
       let socket = new SocketJS(serverURL);
@@ -163,8 +166,6 @@ export default {
           this.stompClient.subscribe("/bidList", (res) => {
             this.receiveList = JSON.parse(res.body);
             this.currentPrice = this.receiveList.at(-1);
-
-
           });
         },
         (error) => {
@@ -184,7 +185,6 @@ export default {
           this.tagNames = res.data.tagNames;
           this.images = res.data.itemImgDtoList;
           this.seller = res.data.userName;
-
           // 시간 출력 디자인
           this.remainingTime = res.data.time;
           this.startTimer();
@@ -200,11 +200,12 @@ export default {
     myBidPrice(){
       this.$http.post(`/bid-myPrice/${this.$route.params.id}`, this.userName).then((res) =>{
             this.myPriceList = res.data();
-            this.myPrice = this.myPrice.at(0);
+            this.myPrice = this.myPriceList.at(-1);
       }).catch((err) => {
         console.log(err);
       });
     },
+
 
 
     sendBidPrice() {
@@ -236,11 +237,36 @@ export default {
           this.receiveList = res.data;
           console.log("receiveData"+this.receiveList.at(0))
           this.currentPrice = this.receiveList.at(-1);
+          this.publisherId = this.receiveList.at(0).userName;
+          console.log("소ㅑㄴ!1111!!!!!!"+this.publisherId);
+          if(this.publisherId != null){
+            const data = {};
+            data.bidId = this.publisherId;
+            console.log("소ㅑㄴ!!!!!!!"+data);
+            this.$http.post("/publisherInfo", data).then((res) => {
+              const data = res.data;
+              console.log("sdfsdfsdfs"+data.nickName)
+              this.nickName = data;
+
+            })
+          }
+
         })
         .catch((err) => {
           console.log(err);
         });
+
+
+
     },
+    // getPublisherInfo(){
+    //   console.log("소ㅑㄴ!!!!!!!"+this.publisherId);
+    //   this.$http.post("/publisherInfo", this.publisherId).then((res) => {
+    //     const data = res.data;
+    //     this.nickName = data.nickName;
+    //
+    //   })
+    // },
 
     // 경매 삭제
     deleteItem() {
