@@ -25,7 +25,9 @@
             />
           </div>
 
-          <span> {{ username }} &nbsp; 님</span>
+
+          <span> {{ nickname }} &nbsp; 님</span>
+
         </div>
       </div>
       <div class="pop-up-money-box">
@@ -72,8 +74,17 @@ export default {
   components: {
     ItemPost,
   },
-
+  //   props: {
+  //     username: {
+  //       type: String,
+  //     },
+  //     imageUrl: {
+  // type: String
+  //     }
+  //   },
   setup() {
+
+    const nickname = ref("");
     const farmMoney = ref(0);
     const username = ref("");
     const imageUrl = ref("");
@@ -84,9 +95,10 @@ export default {
         .then((res) => {
           console.log("유저 정보", res.data);
           const data = res.data;
-          username.value = data.username;
+          nickname.value = data.nickname;
           imageUrl.value = data.imageUrl;
           farmMoney.value = data.farmMoney;
+
         })
         .catch((err) => {
           console.error("유저 정보 조회 오류:", err);
@@ -110,7 +122,9 @@ export default {
     return {
       logout,
       farmMoney,
-      username,
+
+      nickname,
+
       imageUrl,
     };
   },

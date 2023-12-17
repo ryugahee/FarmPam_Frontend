@@ -115,7 +115,8 @@ export default {
 
   methods: {
     goUserInfo() {
-      router.push({ path: "/user/info" });
+      // router.push({ path: "/user/info" });
+      location.href = "http://localhost:8081/user/info";
     },
     goPurchaseHistory() {
       router.push({ path: "/user/history/purchase" });

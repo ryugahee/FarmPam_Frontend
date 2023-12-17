@@ -79,7 +79,7 @@ const routes = [
         path: "/home",
         name: "home",
         component: HomeView,
-        meta: { requiresAuth: false },
+        meta: { requiresGuest: true },
       },
       // TODO : 식별 번호 수정 사항
       {
@@ -134,13 +134,12 @@ const routes = [
         component: ChargingView,
         meta: { requiresAuth: true },
       },
-   
+
       {
         path: "/chargingHistory",
         name: "chargingHistory",
         component: ChargingHistoryView,
       },
-
     ],
   },
   {
@@ -149,7 +148,6 @@ const routes = [
     component: PayView,
     meta: { requiresAuth: true },
     props: true,
-
   },
   {
     path: "/success",
@@ -167,13 +165,11 @@ const routes = [
     path: "/admin",
     component: Admin,
     meta: { requireAdmin: true },
-
   },
   {
     path: "/chart",
     component: Chart,
     meta: { requireAdmin: true },
-
   },
 ];
 
@@ -195,6 +191,15 @@ router.beforeEach((to, from, next) => {
       next("/login");
     }
   }
+
+  // if (to.meta.requiresGuest) {
+  //   if (userRole.includes("ROLE_GUEST")) {
+  //     next();
+  //   } else {
+  //     window.alert("이미 필요한 정보를 입력하셨어요");
+  //     next("/home");
+  //   }
+  // }
 
   if (to.meta.requireAdmin) {
     if (userRole.includes("ROLE_ADMIN")) {

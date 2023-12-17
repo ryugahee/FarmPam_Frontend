@@ -1,24 +1,25 @@
 <template>
-   <client-only>
   <div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col" class="col1">가입자 이름</th>
-          <th scope="col">아이디</th>
-          <th scope="col">주소</th>
-          <th scope="col">이메일</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(user, index) in users" :key="index">
-          <th scope="row">{{ user.realName }}</th>
-          <td>{{ user.username }}</td>
-          <td>{{ user.streetAddress }}</td>
-          <td>{{ user.email }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" class="col1">가입자 이름</th>
+            <th scope="col">아이디</th>
+            <th scope="col">주소</th>
+            <th scope="col">이메일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(user, index) in users" :key="index">
+            <th scope="row">{{ user.realName }}</th>
+            <td>{{ user.username }}</td>
+            <td>{{ user.streetAddress }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="paginations1">
       <!-- <a href="#" class="page-link">&laquo;</a> -->
       <div v-for="n in memberReportTotalPage" :key="n">
@@ -28,7 +29,6 @@
       <!-- <a href="#" class="page-link">&raquo;</a> -->
     </div>
   </div>
-</client-only>
 </template>
 
 <script>
@@ -42,31 +42,30 @@ export default {
     const memberReportTotalPage = ref(0);
     let arr = ref([]);
 
-
     const getAllUsers = (pageNum) => {
       http
         .get("/getAllUsers", {
-      params: {
-        pageNum: pageNum
-      }
-    })
+          params: {
+            pageNum: pageNum,
+          },
+        })
         .then((res) => {
+          console.log("유저 배열 : ", res.data);
           users.value = [...res.data.content];
 
           memberReportTotalPage.value = res.data.totalPages;
 
-          console.log("유저 배열 : ", res.data);
-          // generateRange(memberReportTotalPage.value);
+          generateRange(memberReportTotalPage.value);
         })
         .catch((err) => {
           console.log(err);
         });
     };
 
-   const generateRange = (totalPages) => {
+    const generateRange = (totalPages) => {
       arr = Array.from({ length: totalPages }, (_, index) => index + 1);
 
-      console.log("배열 : " , arr);
+      console.log("배열 : ", arr);
     };
 
     onMounted(() => {
@@ -77,38 +76,40 @@ export default {
       users,
       arr,
       memberReportTotalPage,
-      generateRange
+      generateRange,
     };
   },
 };
 </script>
 
 <style scoped>
-
-body{overflow-x: scroll;}
+body {
+  overflow-x: scroll;
+}
 .paginations1 {
   /* display: flex;
   justify-content: center;
   margin-top: 240px; */
-
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   /* position: absolute;
   display: flex;
   justify-content: center; */
-  margin-top: 265px;
+  /* margin-top: 355px; */
   /* height: 20px; */
-  /* margin-left: 230px;
-  margin-top: 265px; */
+  margin-left: 295px;
+  margin-top: 10px;
 }
 .table {
   margin: 0 auto; /* 좌우 여백을 auto로 설정하여 수평 가운데 정렬 */
 }
 
 /* th, td 요소 내의 텍스트를 가운데 정렬 */
-th, td {
+th,
+td {
   text-align: center;
 }
 
