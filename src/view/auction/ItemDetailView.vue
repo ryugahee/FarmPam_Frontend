@@ -42,25 +42,35 @@
 
 
       </div>
-      <div class="my-price">
+      <div class="my-price" v-if="!myBid">
         <span>내 입찰가</span>
+        <span> {{ myPrice.content }}원 </span>
+      </div>
+      <div class="my-price" v-if="myBid">
+        <span>시작 입찰가</span>
         <span> {{ myPrice.content }}원 </span>
       </div>
 
       <!--      bid modal-->
-      <div class="bid-bg" v-if="!bidModal">
+      <div class="bid-bgList" v-if="!bidModal" ref="chatBox" @click="bidModal = !bidModal">
         <div v-for="(item, index) in receiveList" :key="item.id">
-          <p class="bid-Message">
-            {{ index + 1 }} 번째 입찰 가격 {{ item.content }}
-          </p>
+          <div class="bid-container">
+            <p class="bid-Message">
+              {{ index + 1 }} 번째 입찰 가격 {{ item.content }} 원
+            </p>
+          </div>
         </div>
+      </div>
+
+
+      <div class="bid-bg" v-if="!bidModal">
         <div class="bid-btn">
-          <div class="current-price-bid-box">
+          <div class="bid-font">
             <span>현재 입찰가</span>
             <span> {{ currentPrice.content }}원 </span>
           </div>
           <div>
-            <p class="bid-text">입찰할 금액(직접입력)</p>
+            <p class="bid-text" v-if="!myBid">입찰할 금액(직접입력)</p>
           </div>
           <div>
             <input
@@ -68,18 +78,31 @@
               class="bid-input-box"
               type="text"
               placeholder="입찰가 입력."
-            /><span class="bid-won">원</span>
+              v-if="!myBid"
+            /><span class="bid-won" v-if="!myBid">원</span>
+            <div class="current-price-bid-box" v-if="myBid">
+              <span>시작 입찰가</span>
+              <span> {{ myPrice.content }}원 </span>
+            </div>
+          </div>
+          <div>
+
           </div>
         </div>
-        <div class="btn-a-bid" @click="sendBidPrice">
+        <div class="btn-a-bid" @click="sendBidPrice" v-if="!myBid">
           <p class="bid-time">{{ formatTime(remainingTime) }}</p>
           입찰하기
+        </div>
+        <div class="btn-a-bid" v-if="myBid">
+          <p class="bid-time">{{ formatTime(remainingTime) }}</p>
+          내 경매 입니다.
         </div>
       </div>
       <!--      아이템 디테일-->
       <div class="make-a-bid" v-if="bidModal" @click="bidModal = !bidModal">
         <p class="bid-time">{{ formatTime(remainingTime) }}</p>
-        <p>입찰하기</p>
+        <p v-if="!myBid">입찰하기</p>
+        <p v-if="myBid">입찰내역 보기</p>
       </div>
     </div>
   </div>
@@ -140,9 +163,9 @@ export default {
     LOGO,
   },
   inject: ["$http"],
+
   created() {
     this.connect();
-
   },
   mounted() {
     setInterval(() => {
@@ -170,6 +193,9 @@ export default {
             this.currentPrice = this.receiveList.at(-1);
             this.stompClient.send("/bid-current");
             this.myBidPrice();
+            this.$nextTick(() => {
+              this.scrollToBottom();
+            });
           });
         },
         (error) => {
@@ -227,10 +253,25 @@ export default {
           bidId: this.bidId,
           content,
         };
-        this.stompClient.send("/bid-push", JSON.stringify(msg), {});
+        console.log(this.currentPrice.content);
+        if(this.bidPrice > this.currentPrice.content){
+          try{
+            this.stompClient.send("/bid-push", JSON.stringify(msg), {});
+            alert("입찰에 성공하였습니다.");
+            this.bidPrice = "";
+          }catch(err){
+            alert("입찰에 실패하였습니다.");
+          }
+
+        }else {
+          alert("현재 입찰가보다 낮은가격은 입찰 할 수 없습니다.");
+          this.bidPrice = "";
+        }
+
 
         // this.stompClient.send("/bid-myPrice", JSON.stringify(msg), {});
       }
+
     },
     receiveBidList() {
       //입찰내역 호출
@@ -246,8 +287,6 @@ export default {
           this.currentPrice = this.receiveList.at(-1);
           this.publisherId = this.receiveList.at(0).userName;
           if(this.publisherId != null){
-            console.log("존나게 존나 여기1: "+this.userName);
-            console.log("존나게 존나 여기2: "+this.publisherId);
             if(this.userName === this.publisherId){
               this.myBid = true;
             }
@@ -391,6 +430,11 @@ export default {
       this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
       this.translateX = -this.currentIndex * 100;
     },
+
+    scrollToBottom() {
+      const chatBox = this.$refs.chatBox;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    },
   },
 
 };
@@ -400,7 +444,39 @@ export default {
 @import "../../../public/assets/css/item-detail-page.css";
 @import "../../../public/assets/css/chat-style.css";
 .bid-Message {
+  background-color: #98CB98;
+  border-radius: 5px;
   text-align: center;
-  color: #ffffff;
+  color: black;
+  width: 80%;
+  margin: 10px auto;
+  box-shadow: 5px 5px 5px black;
+
+}
+.bid-font{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  border-bottom: 1px solid #444444;
+}
+
+.bid-container{
+
+  overflow-y: scroll;
+}
+.bid-bgList{
+  margin-top: 100px;
+  margin-bottom: 224px;
+  padding-bottom: 30px;
+  width: 390px;
+  height: 520px;
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 60%);
+  overflow-y: scroll;
 }
 </style>
