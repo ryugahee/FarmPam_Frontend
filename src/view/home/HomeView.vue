@@ -21,7 +21,7 @@
           <img class="farmer-profile-image" :src="fpBox.fpImg" alt="userProfile"/>
           <div class="farmer">
             <span class="farmer-nickname"> {{ fpBox.nickname }} </span>
-            <img class="medal" :src="fpBox.medal" alt=""/>
+            <img class="medal" src="../../../public/assets/img/goldmedal.png" alt=""/>
           </div>
         </div>
       </div>

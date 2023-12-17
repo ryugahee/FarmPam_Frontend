@@ -17,7 +17,7 @@
         </div>
         <div class="post-content">
           <h5> {{ item.itemTitle }} {{ item.weight }}kg</h5>
-          <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
+          <img src="../../../public/assets/img/users.png" class="users-img" alt="users-img"/>
           <p></p>
           <p class="current-bid-price">현재 입찰가</p>
           <h3 class="price" v-if="currentInfo !== undefined"> {{ currentInfo[i] }}원 </h3>
