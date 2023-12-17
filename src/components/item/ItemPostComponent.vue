@@ -17,12 +17,13 @@
         </div>
         <div class="post-content">
           <h5> {{ item.itemTitle }} {{ item.weight }}kg</h5>
-          <img src="../../../public/assets/img/users.png" class="users-img" alt=""/>
-          <p></p>
           <p class="current-bid-price">현재 입찰가</p>
-          <h3 class="price" v-if="currentInfo !== undefined"> {{ currentInfo[i] }}원 </h3>
-          <!--          <p style="display: none"> {{getCurrentPrice}} </p>-->
+          <h3 class="price" v-if="currentInfo !== undefined && currentInfo[i] && currentInfo[i].bidPrice !== undefined"> {{ currentInfo[i].bidPrice }}원 </h3>
+<!--          <h3 class="price" v-if="currentInfo !== undefined && currentInfo.find(info => info.bidId === item.id) && currentInfo.find(info => info.bidId === item.id).bidPrice !== undefined">-->
+<!--            {{ currentInfo.find(info => info.bidId === item.id).bidPrice }}원-->
+<!--          </h3>-->
         </div>
+        {{currentInfo[i]}}
       </router-link>
     </div>
 
