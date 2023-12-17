@@ -14,7 +14,6 @@
                   v-if="chatPreviewInfo(index).toNickNameThumbnailUrl"
                   class="profile_img"
                   :src="chatPreviewInfo(index).toNickNameThumbnailUrl"
-                  alt="엑박"
                 />
                 <img
                   v-else

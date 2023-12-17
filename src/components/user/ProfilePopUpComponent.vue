@@ -81,6 +81,7 @@ export default {
           const data = res.data;
           username.value = data.username;
           imageUrl.value = data.imageUrl;
+          farmMoney.value = data.farmMoney;
         })
         .catch((err) => {
           console.error("유저 정보 조회 오류:", err);

@@ -27,7 +27,7 @@ const store = createStore({
         mobilePhone: "01000000000",
         farmMoney: 0,
       },
-      chatIds: [0],
+      chatIds: [],
       chatPreviewInfos: [
         {
           toNickName: "",
