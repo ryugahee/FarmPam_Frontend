@@ -39,16 +39,6 @@
           {{ Number(farmMoney).toLocaleString() }}원
         </p>
       </div>
-      <div class="pop-up-join-bid">
-        <img
-          class="pop-up-join-bid-img"
-          src="../../../public/assets/img/concierge.png"
-          alt=""
-        />
-        <span>참여 중인 경매</span>
-        <ItemPost v-for="post in 1" :key="post" />
-      </div>
-      <div></div>
     </div>
     <div class="menu-box">
       <img

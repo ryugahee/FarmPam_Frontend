@@ -246,7 +246,7 @@ export default {
 }
 
 .post-content .price {
-  margin-top: 10px;
+  margin-top: 25px;
   float: right;
   color: #E12905;
 }
